@@ -1,4 +1,4 @@
-package com.example.poornesh.bmshostel;
+package com.psps.projects.bmshostel;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

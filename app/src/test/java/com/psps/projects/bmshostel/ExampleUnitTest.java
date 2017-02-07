@@ -1,4 +1,4 @@
-package com.example.poornesh.bmshostel;
+package com.psps.projects.bmshostel;
 
 import org.junit.Test;
 

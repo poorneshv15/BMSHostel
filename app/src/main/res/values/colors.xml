@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#276FC3</color>
+    <color name="colorPrimary">#276fc3</color>
     <color name="colorPrimaryDark">#0D59BA</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white1">#f5f5f5</color>
     <color name="white2">#c6dcd5d5</color>
-    <color name="dark_grey">#2F2E3C</color>
+    <color name="dark_grey">#535359</color>
+
+
+    <color name="bg_color">#eeeeee</color>
+    <!-- material style color -->
+    <color name="textColorError">#FFD50000</color>
 </resources>

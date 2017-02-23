@@ -8,12 +8,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name="com.psps.projects.bmshostel.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".WardenHomeActivity"
+            android:label="@string/title_activity_warden_home"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+
         </activity>
     </application>
 

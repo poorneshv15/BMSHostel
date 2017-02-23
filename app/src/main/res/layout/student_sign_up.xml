@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sNameTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/ErrorAppearance">
+
+            <EditText
+                android:id="@+id/sNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/sNameInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sMobileTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:counterEnabled="true"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/sMobileEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/sMobileInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fNameTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:counterEnabled="true"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/fNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/fNameInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fMobileTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:counterEnabled="true"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/fMobileEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/fMobileInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/gNameTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:counterEnabled="true"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/gNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/gNameInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/gMobileTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:counterEnabled="true"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/gMobileEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/gMobileInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>

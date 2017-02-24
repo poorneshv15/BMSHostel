@@ -91,7 +91,7 @@
     </style>
 
 
-    <style name="AppBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBar" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#00000000</item>
         <item name="colorPrimaryDark">#00000000</item>
     </style>

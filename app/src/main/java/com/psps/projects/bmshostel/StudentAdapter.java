@@ -12,52 +12,47 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Poornesh on 22-02-2017.
+ * Created by Poornesh on 21-02-2017.
  */
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.View_Holder> {
 
-
-    List<StudentData> studentDataList;
-
-    public StudentAdapter(List<StudentData> studentDataList) {
-        Log.d("STUDENTADAPTER : ","created");
-        this.studentDataList = studentDataList;
-    }
-
-    public static class StudentViewHolder extends RecyclerView.ViewHolder{
-
-        ImageView studentProfilePic;
-        TextView nameTv,roomTv,yearTv;
-        public StudentViewHolder(View itemView) {
+    public static class View_Holder extends RecyclerView.ViewHolder{
+        TextView name,branch,year,room;
+        ImageView dp;
+        public View_Holder(View itemView) {
             super(itemView);
-            Log.d("STUDENTVIEWHOLDER : ","creating");
-            studentProfilePic=(ImageView)itemView.findViewById(R.id.studentProfileIv);
-            nameTv=(TextView)itemView.findViewById(R.id.studentNameTv);
-            roomTv=(TextView)itemView.findViewById(R.id.roomNoTv);
-            yearTv=(TextView)itemView.findViewById(R.id.studentYearTv);
-            Log.d("STUDENTVIEWHOLDER : ","created");
+            name =(TextView) itemView.findViewById(R.id.nameTv);
+            branch=(TextView) itemView.findViewById(R.id.branchTv);
+            year=(TextView) itemView.findViewById(R.id.yearTv);
+            room=(TextView) itemView.findViewById(R.id.roomTv);
         }
     }
-    @Override
-    public StudentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_card,parent,false);
-        Log.d("ONCREATEVIEWHOLDER : ","created");
-        return new StudentViewHolder(v);
+    List<Student> studentList;
+    Context context;
+
+    StudentAdapter(List<Student> studentList, Context context){
+        this.studentList=studentList;
+        this.context=context;
     }
 
     @Override
-    public void onBindViewHolder(StudentViewHolder holder, int position) {
-        holder.nameTv.setText(studentDataList.get(position).name);
-        holder.yearTv.setText(studentDataList.get(position).year);
-        holder.roomTv.setText(studentDataList.get(position).rooomNo);
-        holder.studentProfilePic.setImageResource(R.drawable.bms_logo);
-        Log.d("ONBINDVIEWHOLDER : ","created");
+    public View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_card,parent,false);
+        return new View_Holder(v);
+    }
 
+    @Override
+    public void onBindViewHolder(View_Holder holder, int position) {
+        holder.name.setText(studentList.get(position).name);
+        holder.branch.setText((CharSequence) studentList.get(position).branch);
+        holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).year));
+        Log.d("STUDENTADAPTER : ","Year "+studentList.get(position).year);
+        holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).roomNo));
     }
 
     @Override
     public int getItemCount() {
-        return studentDataList.size();
+        return studentList.size();
     }
 }

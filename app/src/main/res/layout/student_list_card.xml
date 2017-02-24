@@ -2,69 +2,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/background_light">
 
-    <TextView
-        android:text="Yama"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:textSize="@dimen/student_name_size"
-        android:id="@+id/studentNameTv"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/studentProfileIv"
-        android:layout_marginTop="18dp"
-        android:textColor="@color/dark_grey" />
-
-    <TextView
-        android:text="Room no.: 001"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/studentProfileIv"
-        android:layout_alignStart="@+id/studentNameTv"
-        android:layout_marginBottom="11dp"
-        android:id="@+id/roomNoTv" />
-
     <ImageView
-        android:layout_width="80dp"
+        android:layout_width="70dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:id="@+id/studentProfileIv"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginStart="8dp" />
 
-    <TextView
-        android:text="2nd year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:id="@+id/studentYearTv"
-        android:layout_alignBaseline="@+id/roomNoTv"
-        android:layout_alignBottom="@+id/roomNoTv"
-        android:layout_toEndOf="@+id/roomNoTv" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
         android:background="@drawable/dotmenu"
-        android:layout_marginTop="7dp"
+        android:visibility="visible"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="22dp"
-        android:visibility="visible" />
+        android:layout_alignParentEnd="true" />
     <View
         android:id="@+id/SplitLine_hor1"
         android:layout_width="match_parent"
-        android:layout_height= "0.1dp"
+        android:layout_height= "0.5dp"
         android:background="#d2cccc"
         android:layout_toRightOf="@id/studentProfileIv"
         android:layout_alignBottom="@id/studentProfileIv"
         android:layout_alignRight="@id/imageButton"/>
+
+
+    <TextView
+        android:text="Yama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:id="@+id/nameTv"
+        android:textColor="@color/textColor"
+        android:layout_alignBottom="@+id/imageButton"
+        android:layout_toEndOf="@+id/studentProfileIv"
+        android:layout_marginBottom="9dp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="Room no.: 001"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomTv"
+        android:layout_below="@+id/nameTv"
+        android:layout_toEndOf="@+id/studentProfileIv" />
+
+    <TextView
+        android:text="2nd year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/yearTv"
+        android:layout_marginEnd="40dp"
+        android:layout_below="@+id/imageButton"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/branchTv"
+        android:layout_alignBaseline="@+id/yearTv"
+        android:layout_alignBottom="@+id/yearTv"
+        android:layout_toStartOf="@id/yearTv"
+        android:layout_marginEnd="40dp"
+        />
 
 
 </RelativeLayout>

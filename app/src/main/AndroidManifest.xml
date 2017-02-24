@@ -15,11 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WardenHomeActivity"
-            android:label="@string/title_activity_warden_home"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
+        <activity android:name=".WardenHomeActivity">
 
         </activity>
     </application>

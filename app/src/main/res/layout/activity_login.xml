@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded"
                 android:text="@string/sign_in"
+                android:onClick="signIn"
                 android:textColor="@color/white1"/>
             <Button
                 android:layout_width="match_parent"

@@ -48,6 +48,8 @@
             <item>8</item>
 
         </string-array>
+        <string name="roomNo">Room No :%4d</string>
+
 
 
 

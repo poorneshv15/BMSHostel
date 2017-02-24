@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,11 @@ import java.util.List;
  */
 public class StudentListFragment extends Fragment {
 
-
-    StudentAdapter studentAdapter;
-    LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
+    StudentAdapter studentAdapter;
+    List<Student> studentList;
 
-    public StudentListFragment()  {
+    public StudentListFragment() {
         // Required empty public constructor
     }
 
@@ -33,17 +31,17 @@ public class StudentListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("STUDENTLISTFRAGMENT : ","onCreateView");
-        recyclerView=(RecyclerView)getView().findViewById(R.id.studentDataRv);
-        linearLayoutManager=new LinearLayoutManager(getContext());
-        List<StudentData> dummyData= new ArrayList<>();
-        dummyData.add(new StudentData("Pratik",2,1));
-        dummyData.add(new StudentData("Poornesh",4,5));
-        dummyData.add(new StudentData("shashikant",6,8));
-        recyclerView.setLayoutManager(linearLayoutManager);
+        View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
+        studentList=new ArrayList<>();
+        studentList.add(new Student("Pratik","CSE",1,2));
+        studentList.add(new Student("Poornesh","ECE",2,32));
+        studentList.add(new Student("Pooja","BT",3,32));
+        studentList.add(new Student("Shashikant","EEE",4,3));
+        studentAdapter=new StudentAdapter(studentList,rootView.getContext());
+        recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
-        Log.d("STUDENTLISTFRAGMENT : ","oncreatedView");
-        return inflater.inflate(R.layout.fragment_student_list, container, false);
+        return rootView;
     }
 
 }

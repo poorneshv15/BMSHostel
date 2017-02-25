@@ -24,4 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View v){
         startActivity(new Intent(MainActivity.this,WardenHomeActivity.class));
     }
+    public void signUp(View v){
+        startActivity(new Intent(MainActivity.this,Signup_ResetpassActivity.class));
+    }
 }

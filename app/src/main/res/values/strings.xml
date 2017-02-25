@@ -17,40 +17,38 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-        <string name="sNameInput">Name</string>
-        <string name="sMobileInput">Phone Number</string>
-        <string name="sAddressInput">Address</string>
-        <string name="roomNoInput">Room Number</string>
-        <string name="semInput">Sem</string>
-        <string name="emailInput">Email Id </string>
-        <string name="dobInput">DATE OF BIRTH</string>
-        <string name="sGemdetInput">Gender</string>
-        <string name="male">Male</string>
-        <string name="female">Female</string>
-        <string name="fNameInput">Father\'s Name</string>
-        <string name="fMobileInput">Father\'s Phone Number</string>
+    <string name="sNameInput">Name</string>
+    <string name="sMobileInput">Phone Number</string>
+    <string name="sAddressInput">Address</string>
+    <string name="roomNoInput">Room Number</string>
+    <string name="semInput">Sem</string>
+    <string name="emailInput">Email Id </string>
+    <string name="dobInput">DATE OF BIRTH</string>
+    <string name="sGemdetInput">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="fNameInput">Father\'s Name</string>
+    <string name="fMobileInput">Father\'s Phone Number</string>
 
-        <string name="mNameInput">Mother\'s Name</string>
-
-
-        <string name="gNameInput">Guardian\'s Name</string>
-        <string name="gMobileInput">Guardian\'s Phone Number</string>
-        <string name="gAdressInput">Guardian\'s Address</string>
-
-        <string-array name="sem">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-            <item>4</item>
-            <item>5</item>
-            <item>6</item>
-            <item>7</item>
-            <item>8</item>
-
-        </string-array>
-        <string name="roomNo">Room No :%4d</string>
+    <string name="mNameInput">Mother\'s Name</string>
 
 
+    <string name="gNameInput">Guardian\'s Name</string>
+    <string name="gMobileInput">Guardian\'s Phone Number</string>
+    <string name="gAdressInput">Guardian\'s Address</string>
+
+    <string-array name="sem">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+
+    </string-array>
+    <string name="roomNo">Room No :%4d</string>
 
 
 </resources>

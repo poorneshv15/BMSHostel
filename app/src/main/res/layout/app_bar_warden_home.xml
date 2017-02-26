@@ -10,7 +10,7 @@
 
 
 
-    <include  layout="@layout/content_warden_home" />
+    <include        layout="@layout/content_warden_home" />
     <!-- Must be last for right layering display-->
     <FrameLayout
         android:id="@+id/toolbar_container"

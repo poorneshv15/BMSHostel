@@ -2,7 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HosteliteSignupActivity">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
@@ -22,6 +26,34 @@
                 android:hint="@string/sNameInput"/>
 
         </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sUsnTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/ErrorAppearance">
+
+            <EditText
+                android:id="@+id/sUsnEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/usn"/>
+
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Semester"/>
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/editTextHeight2"
+                android:entries="@array/sem"/>
+        </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/sMobileTIL"
@@ -37,6 +69,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/sMobileInput"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sAddressTIL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:counterTextAppearance="@style/CounterAppearance"
+            app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
+            app:errorEnabled="true">
+
+
+            <EditText
+                android:inputType="textMultiLine"
+                android:id="@+id/sAddressEt"
+                android:hint="@string/sAddressInput"
+                android:lines="4"
+                android:minLines="3"
+                android:maxLines="10"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:scrollbars="vertical"
+                />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -73,6 +129,13 @@
                 android:hint="@string/fMobileInput"/>
 
         </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="Same as above"/>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/gNameTIL"
             android:layout_width="match_parent"
@@ -93,7 +156,6 @@
             android:id="@+id/gMobileTIL"
             android:layout_width="match_parent"
             android:layout_height="@dimen/editTextHeight"
-            app:counterEnabled="true"
             app:counterTextAppearance="@style/CounterAppearance"
             app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
             app:errorEnabled="true">
@@ -105,23 +167,32 @@
                 android:hint="@string/gMobileInput"/>
 
         </android.support.design.widget.TextInputLayout>
-
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/MobileTIL"
+            android:id="@+id/gAddressTIL"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/editTextHeight"
-            app:counterEnabled="true"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             app:counterTextAppearance="@style/CounterAppearance"
             app:counterOverflowTextAppearance="@style/CounterOverflowAppearance"
             app:errorEnabled="true">
 
-        <Spinner
-            android:id="@+id/MobileEt"
-            android:layout_width="match_parent"
-            android:entries="@array/sem"
-            android:layout_height="match_parent"
-            android:hint="@string/semInput"/>
+
+            <EditText
+                android:inputType="textMultiLine"
+                android:id="@+id/gAddressEt"
+                android:hint="@string/sAddressInput"
+                android:lines="4"
+                android:minLines="3"
+                android:maxLines="10"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:scrollbars="vertical"
+                />
+
         </android.support.design.widget.TextInputLayout>
+
+
+
 
     </LinearLayout>
 </ScrollView>

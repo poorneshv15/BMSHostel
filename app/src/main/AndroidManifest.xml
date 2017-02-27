@@ -27,7 +27,12 @@
         <activity
             android:name=".StudentSignUpActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-        <activity android:name=".StudentHomeActivity"></activity>
+        <activity android:name=".StudentHomeActivity" />
+        <activity
+            android:name=".AddHosteliteActivity"
+            android:label="@string/title_activity_add_hostelite"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HosteliteSignupActivity"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.psps.projects.bmshostel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -109,7 +110,7 @@ public class WardenHomeActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_addStud) {
-
+            startActivity(new Intent(WardenHomeActivity.this,AddHosteliteActivity.class));
         } else if (id == R.id.nav_editStud) {
 
         } else if (id == R.id.nav_delStud) {

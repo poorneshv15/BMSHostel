@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "300969745957",
+    "firebase_url": "https://bmsce-c500d.firebaseio.com",
+    "project_id": "bmsce-c500d",
+    "storage_bucket": "bmsce-c500d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300969745957:android:2b2ec6f471273dd0",
+        "android_client_info": {
+          "package_name": "com.psps.projects.bmshostel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300969745957-66oa5kkuupoq25ild6c9e9n4lp5fho5l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.psps.projects.bmshostel",
+            "certificate_hash": "76a8c3659646fb1cd8cfbb96932cbbf9ff4f9932"
+          }
+        },
+        {
+          "client_id": "300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJHJBZ8vGDYBZMOaaJMOtHrK8AxtK62rU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

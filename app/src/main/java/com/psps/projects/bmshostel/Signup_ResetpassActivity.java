@@ -17,6 +17,6 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
 
     public void signUp(View v){
         Log.d("Signup_ResetpassActivit","signUp");
-        startActivity(new Intent(Signup_ResetpassActivity.this,StudentSignUpActivity.class));
+        startActivity(new Intent(Signup_ResetpassActivity.this,HosteliteSignupActivity.class));
     }
 }

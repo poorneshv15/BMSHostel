@@ -8,6 +8,6 @@ public class HosteliteSignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hostelite_sign_up);
+        setContentView(R.layout.hostelite_profile);
     }
 }

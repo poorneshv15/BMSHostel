@@ -52,6 +52,7 @@
     <string name="roomNo">Room No :%4d</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_add_hostelite">AddHosteliteActivity</string>
-
+    <string name="auth_failed">Authentication failed</string>
+    <string name="my_web_client_id">300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com</string>
 
 </resources>

@@ -11,6 +11,9 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="editTextHeight">60dp</dimen>
     <dimen name="editTextHeight2">40dp</dimen>
+    <dimen name="editTextHeight3">25dp</dimen>
     <dimen name="editTextHeight2x">100dp</dimen>
     <dimen name="bottom_nav_bar_height">56dp</dimen>
+    <dimen name="student_profile_textSize">20sp</dimen>
+    <dimen name="card_padding">10dp</dimen>
 </resources>

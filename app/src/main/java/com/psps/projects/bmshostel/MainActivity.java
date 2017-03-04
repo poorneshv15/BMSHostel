@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  implements
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
         // [END config_signin]
@@ -128,11 +128,15 @@ public class MainActivity extends AppCompatActivity  implements
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if(task.isSuccessful()){
+                            startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
+                        }
+                        else {
                             Log.w("LOGIN ACTIVITY", "signInWithCredential", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
+
                         // ...
                     }
                 });

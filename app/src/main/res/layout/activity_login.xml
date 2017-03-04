@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/forgotPassTv"
                 android:text="@string/forgot_password"
+                android:onClick="resetPassword"
                 android:gravity="end"
                 android:textColor="@color/white1"/>
             <Space

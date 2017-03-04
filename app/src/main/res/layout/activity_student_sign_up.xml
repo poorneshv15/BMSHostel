@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".StudentSignUpActivity">
     <LinearLayout
     android:id="@+id/activity_student_sign_up"
     android:layout_width="match_parent"
@@ -16,11 +17,13 @@
     tools:context="com.psps.projects.bmshostel.StudentSignUpActivity">
 
     <TextView
+        android:id="@+id/emailTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:gravity="center_horizontal"
         android:text="meshashi00@gmail.com"/>
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/sNameTIL"
@@ -37,6 +40,21 @@
             android:hint="@string/sNameInput"/>
 
     </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sUsnTIL"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/ErrorAppearance">
+
+            <EditText
+                android:id="@+id/sUsnEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/usn"/>
+
+        </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/sPassTIL"
         android:layout_width="match_parent"
@@ -46,18 +64,21 @@
         app:errorTextAppearance="@style/ErrorAppearance">
 
         <EditText
-            android:id="@+id/sPAssEt"
+            android:id="@+id/sPasswordEt"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/password_hint"/>
+            android:hint="@string/password_hint" />
 
     </android.support.design.widget.TextInputLayout>
     <Button
+        android:id="@+id/signupBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded"
         android:text="@string/sign_up"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:onClick="signUp"
         android:textColor="@color/white1"/>
 </LinearLayout>
 </ScrollView>

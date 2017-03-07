@@ -1,12 +1,13 @@
 package com.psps.projects.bmshostel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,16 +22,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity  implements
         GoogleApiClient.OnConnectionFailedListener{
 
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     EditText emailEt,passwordEt;
-    Button signInBtn,googleSignIn;
     private GoogleApiClient mGoogleApiClient;
-    static int RC_SIGN_IN=11;
+    int RC_SIGN_IN=11;
+    final String TAG="MAIN ACTIVITY";
+    ProgressDialog loading;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +48,7 @@ public class MainActivity extends AppCompatActivity  implements
 
         emailEt=(EditText)findViewById(R.id.emailEt);
         passwordEt=(EditText)findViewById(R.id.passwordEt);
-        signInBtn=(Button)findViewById(R.id.signInBtn);
-        googleSignIn=(Button)findViewById(R.id.googleSignInBtn);
-
+        loading=new ProgressDialog(this);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
@@ -54,7 +61,60 @@ public class MainActivity extends AppCompatActivity  implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mAuth = FirebaseAuth.getInstance();
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user=mAuth.getCurrentUser();
+                if(user!=null){
+                    DatabaseReference checkwarden= FirebaseDatabase.getInstance().getReference("wardens");
+                    checkwarden.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
+                            //Check if the user is warden or not
+                            if(dataSnapshot.exists()){
+                                Log.d(TAG," The user is warden");
+                                SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                preferences.edit().putBoolean("student",false).apply();
+                                startActivity(new Intent(MainActivity.this,WardenHomeActivity.class));
+                                finish();
+                            }
+                            else{
+                                Log.d(TAG," The user is student");
+                                if(user.isEmailVerified()){
+                                    SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                    preferences.edit().putBoolean("student",true).apply();
+                                    startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
+                                    finish();
+                                }
+                                else
+                                    Toast.makeText(MainActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
+                            }
 
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w(TAG, "Failed to read value.", databaseError.toException());
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     public void signInWithPassword(View v){
@@ -76,16 +136,6 @@ public class MainActivity extends AppCompatActivity  implements
                                     Log.w("LOGIN ACTIVITY", "signInWithEmail:failed", task.getException());
                                     Toast.makeText(MainActivity.this, R.string.auth_failed,
                                             Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    if( mAuth.getCurrentUser().isEmailVerified())
-                                    {
-                                        startActivity(new Intent(MainActivity.this,WardenHomeActivity.class));
-                                    }
-                                    else{
-                                        Toast.makeText(MainActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
-                                    }
-
                                 }
 
                                 // ...
@@ -129,7 +179,7 @@ public class MainActivity extends AppCompatActivity  implements
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if(task.isSuccessful()){
-                            startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
+                            //startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
                         }
                         else {
                             Log.w("LOGIN ACTIVITY", "signInWithCredential", task.getException());

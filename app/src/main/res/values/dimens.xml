@@ -16,4 +16,5 @@
     <dimen name="bottom_nav_bar_height">56dp</dimen>
     <dimen name="student_profile_textSize">20sp</dimen>
     <dimen name="card_padding">10dp</dimen>
+    <dimen name="profilePic">150dp</dimen>
 </resources>

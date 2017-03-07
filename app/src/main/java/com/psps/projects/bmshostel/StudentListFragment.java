@@ -1,13 +1,20 @@
 package com.psps.projects.bmshostel;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +23,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StudentListFragment extends Fragment {
+public class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener,LoaderManager.LoaderCallbacks<Cursor>{
 
     RecyclerView recyclerView;
     StudentAdapter studentAdapter;
     List<Student> studentList;
+    MaterialSearchView materialSearchView;
 
     public StudentListFragment() {
         // Required empty public constructor
@@ -41,7 +49,40 @@ public class StudentListFragment extends Fragment {
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
+        materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
+        getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }

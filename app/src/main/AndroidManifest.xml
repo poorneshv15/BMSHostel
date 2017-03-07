@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.psps.projects.bmshostel">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <application
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,9 +13,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".WardenHomeActivity"
             android:theme="@style/MyThemeDayNightNoActionBar" />
@@ -24,7 +23,7 @@
         <activity
             android:name=".StudentSignUpActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-        <activity android:name=".StudentHomeActivity" >
+        <activity android:name=".StudentHomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +34,8 @@
             android:name=".AddHosteliteActivity"
             android:label="@string/title_activity_add_hostelite"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HosteliteSignupActivity"/>
+        <activity android:name=".HosteliteSignupActivity" />
+        <activity android:name=".WardenProfileActivity"></activity>
     </application>
 
 </manifest>

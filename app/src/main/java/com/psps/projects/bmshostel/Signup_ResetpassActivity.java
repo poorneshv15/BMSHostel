@@ -16,8 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ProviderQueryResult;
 
-import java.util.List;
-
 public class Signup_ResetpassActivity extends AppCompatActivity {
 
     public static final String RESET_OR_CREATE ="RESET",TITLE="TITLE";
@@ -46,6 +44,8 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("RESET PASSWORD", "Email sent.");
+                                        startActivity(new Intent(Signup_ResetpassActivity.this,LoginActivity.class));
+                                        finish();
                                     }
                                     else{
 
@@ -85,19 +85,6 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
 
     }
 
-    boolean emailExistsOrNot(String email){
-        mAuth.fetchProvidersForEmail(email).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
-            @Override
-            public void onComplete(@NonNull Task<ProviderQueryResult> task) {
-                if(task.isSuccessful()){
-
-                    ///////// getProviders() will return size 1. if email ID is available.
-                    List<String> providers=task.getResult().getProviders();
-                }
-            }
-        });
-        return false;
-    }
 
     public void signUp(View v){
         Log.d("Signup_ResetpassActivit","signUp");

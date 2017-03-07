@@ -4,19 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:id="@+id/nav_profile"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/colorPrimary"
     android:gravity="bottom"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    style="@style/Base.ThemeOverlay.AppCompat.Dark"
     android:weightSum="1">
 
-    <ImageView
-        android:id="@+id/wardenIv"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:layout_height="80dp"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/shashi_goa"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/wardenNameTv"
@@ -25,7 +25,8 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/nav_header_vertical_spacing"
         android:text="Android Studio"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
 
 </LinearLayout>

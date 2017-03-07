@@ -1,14 +1,15 @@
 package com.psps.projects.bmshostel;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -30,8 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity  implements
-        GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends AppCompatActivity  implements
+        GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity  implements
     private GoogleApiClient mGoogleApiClient;
     int RC_SIGN_IN=11;
     final String TAG="MAIN ACTIVITY";
-    ProgressDialog loading;
+    ProgressBar progressBar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +49,34 @@ public class MainActivity extends AppCompatActivity  implements
 
         emailEt=(EditText)findViewById(R.id.emailEt);
         passwordEt=(EditText)findViewById(R.id.passwordEt);
-        loading=new ProgressDialog(this);
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_signin]
+        progressBar=(ProgressBar)findViewById(R.id.progress);
+        findViewById(R.id.forgotPassTv).setOnClickListener(this);
+        findViewById(R.id.createAccTv).setOnClickListener(this);
+        findViewById(R.id.signInBtn).setOnClickListener(this);
+        findViewById(R.id.googleSignInBtn).setOnClickListener(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this/* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+
+        new GoogleInit().execute();
+        // Configure Google Sign In
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user=mAuth.getCurrentUser();
+                final FirebaseUser user=firebaseAuth.getCurrentUser();
                 if(user!=null){
                     DatabaseReference checkwarden= FirebaseDatabase.getInstance().getReference("wardens");
                     checkwarden.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            progressBar.setVisibility(View.VISIBLE);
                             Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
                             //Check if the user is warden or not
                             if(dataSnapshot.exists()){
                                 Log.d(TAG," The user is warden");
                                 SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
                                 preferences.edit().putBoolean("student",false).apply();
-                                startActivity(new Intent(MainActivity.this,WardenHomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this,WardenHomeActivity.class));
                                 finish();
                             }
                             else{
@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity  implements
                                 if(user.isEmailVerified()){
                                     SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
                                     preferences.edit().putBoolean("student",true).apply();
-                                    startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
+                                    startActivity(new Intent(LoginActivity.this,StudentHomeActivity.class));
                                     finish();
                                 }
                                 else
-                                    Toast.makeText(MainActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
                             }
-
+                            progressBar.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity  implements
                         }
                     });
                 }
+
             }
         };
     }
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity  implements
             email=emailEt.getText().toString();
             password=passwordEt.getText().toString();
             if(!(email.isEmpty() && password.isEmpty()))
+                progressBar.setVisibility(View.VISIBLE);
                 mAuth.signInWithEmailAndPassword(email,password )
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -134,8 +136,9 @@ public class MainActivity extends AppCompatActivity  implements
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
                                     Log.w("LOGIN ACTIVITY", "signInWithEmail:failed", task.getException());
-                                    Toast.makeText(MainActivity.this, R.string.auth_failed,
+                                    Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                             Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
                                 }
 
                                 // ...
@@ -145,25 +148,7 @@ public class MainActivity extends AppCompatActivity  implements
 
     }
 
-    public void resetPassword(View v){
-        Intent intent =new Intent(MainActivity.this,Signup_ResetpassActivity.class);
-        intent.putExtra(Signup_ResetpassActivity.RESET_OR_CREATE,true);
-        intent.putExtra(Signup_ResetpassActivity.TITLE,"RESET PASSWORD");
-        startActivity(intent);
-    }
 
-    public void signUp(View v){
-        Intent intent =new Intent(MainActivity.this,Signup_ResetpassActivity.class);
-        intent.putExtra(Signup_ResetpassActivity.RESET_OR_CREATE,false);
-        intent.putExtra(Signup_ResetpassActivity.TITLE,"SIGN UP");
-        startActivity(intent);
-    }
-
-    public void SignInWithGoogle(View v){
-        Log.d("LOGIN ACTIVITY", "signInWithGoogle");
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("LOGIN ACTIVITY", "firebaseAuthWithGoogle:" + acct.getId());
@@ -174,20 +159,11 @@ public class MainActivity extends AppCompatActivity  implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("LOGIN ACTIVITY", "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if(task.isSuccessful()){
-                            //startActivity(new Intent(MainActivity.this,StudentHomeActivity.class));
-                        }
-                        else {
+                        if(!task.isSuccessful()) {
                             Log.w("LOGIN ACTIVITY", "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
     }
@@ -214,5 +190,54 @@ public class MainActivity extends AppCompatActivity  implements
                 // ...
             }
         }
+    }
+
+    private class GoogleInit extends AsyncTask  {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestEmail()
+                    .build();
+            // [END config_signin]
+            mGoogleApiClient = new GoogleApiClient.Builder(LoginActivity.this)
+                    .enableAutoManage(LoginActivity.this /* FragmentActivity */, LoginActivity.this/* OnConnectionFailedListener */)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+            return null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.forgotPassTv:
+                Intent resetIntent =new Intent(LoginActivity.this,Signup_ResetpassActivity.class);
+                resetIntent.putExtra(Signup_ResetpassActivity.RESET_OR_CREATE,true);
+                resetIntent.putExtra(Signup_ResetpassActivity.TITLE,"RESET PASSWORD");
+                startActivity(resetIntent);
+                break;
+            case R.id.createAccTv:
+                Intent createAccIntent =new Intent(LoginActivity.this,Signup_ResetpassActivity.class);
+                createAccIntent.putExtra(Signup_ResetpassActivity.RESET_OR_CREATE,false);
+                createAccIntent.putExtra(Signup_ResetpassActivity.TITLE,"SIGN UP");
+                startActivity(createAccIntent);
+                break;
+            case R.id.signInBtn:
+                //validate();
+                signInWithPassword(v);
+                break;
+            case R.id.googleSignInBtn:
+                Log.d("LOGIN ACTIVITY", "signInWithGoogle");
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                break;
+        }
+    }
+
+    private void validate() {
+
     }
 }

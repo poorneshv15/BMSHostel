@@ -42,6 +42,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
         Intent intent=getIntent();
         email=intent.getStringExtra(StudentSignUpActivity.EMAIL);
         emailTv.setText(email);
+        boolean signout=false;
         mAuth=FirebaseAuth.getInstance();
         mAuthStateListener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -68,10 +69,10 @@ public class StudentSignUpActivity extends AppCompatActivity {
                     newStudent student=new newStudent(usn);
                     myRef.child(uid).setValue(student);
                     user.sendEmailVerification();
-                    mAuth.signOut();
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                        Log.d(TAG, "onAuthStateChanged:signed_out");
+
                 }
                 // ...
             }
@@ -128,6 +129,14 @@ public class StudentSignUpActivity extends AppCompatActivity {
                                         Log.w(TAG, "signInWithEmail:failed", task.getException());
                                         Toast.makeText(StudentSignUpActivity.this, R.string.auth_failed,
                                                 Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+
+                                        mAuth.signOut();
+                                        Toast.makeText(StudentSignUpActivity.this, "Account created", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(StudentSignUpActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(StudentSignUpActivity.this,LoginActivity.class));
+                                        finish();
                                     }
                                 }
                             });

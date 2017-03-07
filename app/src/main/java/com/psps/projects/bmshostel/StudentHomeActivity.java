@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +27,7 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-        if(!preferences.getBoolean("student",false)){
+        if(preferences.getBoolean("warden",false)){
             startActivity(new Intent(StudentHomeActivity.this,WardenHomeActivity.class));
             finish();
         }
@@ -60,8 +59,8 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(user==null){
-                    startActivity(new Intent(StudentHomeActivity.this,MainActivity.class));
+                if(firebaseAuth.getCurrentUser()==null){
+                    startActivity(new Intent(StudentHomeActivity.this,LoginActivity.class));
                     finish();
                 }
                 else {
@@ -91,7 +90,6 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     @Override
     public void signOut() {
         Log.d("STUDENT HOME : ","SIGNOUT");
-        user=null;
         mAuth.signOut();
     }
 }

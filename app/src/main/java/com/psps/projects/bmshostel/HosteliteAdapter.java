@@ -15,7 +15,7 @@ import java.util.List;
  * Created by ${Shashikant} on 21-02-2017.
  */
 
-class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.View_Holder> {
+class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder> {
 
     static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
@@ -36,7 +36,7 @@ class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.View_Holder> {
     private List<Student> studentList;
     private Context context;
 
-    StudentAdapter(List<Student> studentList, Context context){
+    HosteliteAdapter(List<Student> studentList, Context context){
         this.studentList=studentList;
         this.context=context;
     }

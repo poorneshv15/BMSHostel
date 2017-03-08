@@ -32,10 +32,9 @@
         </activity>
         <activity
             android:name=".AddHosteliteActivity"
-            android:label="@string/title_activity_add_hostelite"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_add_hostelite" />
         <activity android:name=".HosteliteSignupActivity" />
-        <activity android:name=".WardenProfileActivity"></activity>
+        <activity android:name=".WardenProfileActivity"/>
     </application>
 
 </manifest>

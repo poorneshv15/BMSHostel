@@ -1,59 +1,14 @@
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="100dp"
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/addStudentRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="@dimen/editTextHeight"
-        android:gravity="center"
-        android:id="@+id/vertical_line"
-        android:background="#51b0b0b3"
-        android:layout_marginTop="28dp"
-        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/editTextHeight2x"
-        android:id="@+id/slNoTv"
-        android:gravity="center"
-        android:paddingEnd="@dimen/card_padding"
-        android:text="23"
-        android:textSize="@dimen/student_profile_textSize"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
-
-    <EditText
-            android:id="@+id/sEmailInputEt"
-        android:inputType="textEmailAddress"
-            android:layout_width="match_parent"
-        android:layout_height="@dimen/editTextHeight2"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:drawableStart="@drawable/ic_hostel_black_24dp"
-        android:textSize="@dimen/student_profile_textSize"
-            android:hint="@string/emailInput"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/slNoTv" />
-
-    <EditText
-            android:id="@+id/sRoomNoEt"
-        android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/editTextHeight2"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:drawableStart="@drawable/ic_email_black_24dp"
-        android:textSize="@dimen/student_profile_textSize"
-        android:hint="@string/roomNoInput"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/slNoTv" />
-
-</RelativeLayout>
+</LinearLayout>

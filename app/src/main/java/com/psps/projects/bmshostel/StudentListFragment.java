@@ -26,7 +26,7 @@ import java.util.List;
 public class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener,LoaderManager.LoaderCallbacks<Cursor>{
 
     RecyclerView recyclerView;
-    StudentAdapter studentAdapter;
+    HosteliteAdapter studentAdapter;
     List<Student> studentList;
     MaterialSearchView materialSearchView;
 
@@ -45,7 +45,7 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
         studentList.add(new Student("is","ECE",4,32));
         studentList.add(new Student("Handsome","BT",3,2));
         studentList.add(new Student("Boy","EEE",4,3));
-        studentAdapter=new StudentAdapter(studentList,rootView.getContext());
+        studentAdapter=new HosteliteAdapter(studentList,rootView.getContext());
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);

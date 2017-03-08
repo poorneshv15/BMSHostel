@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@color/bg_color"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:id="@+id/circleImageView2" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sEmailEt"
+        android:hint="@string/username_hint"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/ic_email_black_24dp"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@+id/circleImageView2" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="insert"
+        android:id="@+id/textView"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimary"
+        android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/sRoomNoEt" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sRoomNoEt"
+        android:hint="@string/roomNoInput"
+        android:inputType="number"
+        android:drawableStart="@drawable/ic_hostel_room"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:layout_alignBottom="@+id/circleImageView2"
+        android:layout_toStartOf="@id/textView"
+        android:layout_toEndOf="@+id/circleImageView2" />
+
+
+
+</RelativeLayout>

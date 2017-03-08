@@ -12,24 +12,29 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Poornesh on 21-02-2017.
+ * Created by ${Shashikant} on 21-02-2017.
  */
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.View_Holder> {
+class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.View_Holder> {
 
-    public static class View_Holder extends RecyclerView.ViewHolder{
+    static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
         ImageView dp;
-        public View_Holder(View itemView) {
+        View_Holder(View itemView) {
             super(itemView);
             name =(TextView) itemView.findViewById(R.id.nameTv);
             branch=(TextView) itemView.findViewById(R.id.branchTv);
             year=(TextView) itemView.findViewById(R.id.yearTv);
             room=(TextView) itemView.findViewById(R.id.roomTv);
         }
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
-    List<Student> studentList;
-    Context context;
+    private List<Student> studentList;
+    private Context context;
 
     StudentAdapter(List<Student> studentList, Context context){
         this.studentList=studentList;

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +20,7 @@ import com.google.firebase.auth.ProviderQueryResult;
 public class Signup_ResetpassActivity extends AppCompatActivity {
 
     public static final String RESET_OR_CREATE ="RESET",TITLE="TITLE";
-
+    ProgressBar progressBar;
     FirebaseAuth mAuth;
     //FALSE=CREATE , TRUE=RESET
     @Override
@@ -33,9 +34,11 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
         Log.d("Signup_ResetpassActivit","onCreate");
         final ImageButton goIb=(ImageButton)findViewById(R.id.goIb);
         final EditText emailEt=(EditText)findViewById(R.id.emailInput);
+        progressBar=(ProgressBar)findViewById(R.id.progress);
         goIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 final String email=emailEt.getText().toString();
                 if(re_or_cr){
                     mAuth.sendPasswordResetEmail(email)
@@ -48,7 +51,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else{
-
+                                        progressBar.setVisibility(View.GONE);
                                         Toast.makeText(Signup_ResetpassActivity.this, "FAILED : "+((FirebaseAuthException) task.getException()).getErrorCode(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -63,6 +66,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                 ///////// getProviders() will return size 1. if email ID is available.
                                 try{
                                     if(task.getResult().getProviders().size()!=0){
+                                        progressBar.setVisibility(View.GONE);
                                         Toast.makeText(Signup_ResetpassActivity.this, "ACCOUNT EXISTS ON EMAIL "+email, Toast.LENGTH_SHORT).show();
                                     }
                                     else {

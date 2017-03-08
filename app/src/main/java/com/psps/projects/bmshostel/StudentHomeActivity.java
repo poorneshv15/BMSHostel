@@ -27,11 +27,14 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-        if(preferences.getBoolean("warden",false)){
+        if(!preferences.getBoolean("student",false)){
+            Log.d("USER TYPE","STUDENT false");
             startActivity(new Intent(StudentHomeActivity.this,WardenHomeActivity.class));
             finish();
         }
         setContentView(R.layout.activity_student_home);
+
+
         Log.d("STUDENT HOME", " After setContent view");
         fragmentManager=getSupportFragmentManager();
         bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottom_nav_view);

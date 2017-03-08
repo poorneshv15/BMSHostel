@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity  implements
                             progressBar.setVisibility(View.VISIBLE);
                             Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
                             //Check if the user is warden or not
+                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
                             if(dataSnapshot.exists()){
                                 Log.d(TAG," The user is warden");
-                                SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
                                 preferences.edit().putBoolean("student",false).apply();
                                 startActivity(new Intent(LoginActivity.this,WardenHomeActivity.class));
                                 finish();
@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity  implements
                             else{
                                 Log.d(TAG," The user is student");
                                 if(user.isEmailVerified()){
-                                    SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
                                     preferences.edit().putBoolean("student",true).apply();
                                     startActivity(new Intent(LoginActivity.this,StudentHomeActivity.class));
                                     finish();

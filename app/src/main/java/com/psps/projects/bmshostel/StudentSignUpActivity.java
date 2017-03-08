@@ -1,5 +1,6 @@
 package com.psps.projects.bmshostel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ public class StudentSignUpActivity extends AppCompatActivity {
     final  static String EMAIL="EMAIL";
     final String TAG="StudentSignUpActivity";
     FirebaseAuth mAuth;
+    boolean signout=false;
+    ProgressDialog progressDialog;
     FirebaseAuth.AuthStateListener mAuthStateListener;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -42,7 +45,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
         Intent intent=getIntent();
         email=intent.getStringExtra(StudentSignUpActivity.EMAIL);
         emailTv.setText(email);
-        boolean signout=false;
+
         mAuth=FirebaseAuth.getInstance();
         mAuthStateListener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -71,6 +74,8 @@ public class StudentSignUpActivity extends AppCompatActivity {
                     user.sendEmailVerification();
                 } else {
                     // User is signed out
+                    if(signout)
+                        progressDialog.setMessage("Account Created");
                         Log.d(TAG, "onAuthStateChanged:signed_out");
 
                 }
@@ -102,6 +107,9 @@ public class StudentSignUpActivity extends AppCompatActivity {
     }
 
     public void signUp(View v){
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Creating Account...");
+        progressDialog.show();
         final String password= passwordEt.getText().toString();
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -131,7 +139,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                     else{
-
+                                        signout=true;
                                         mAuth.signOut();
                                         Toast.makeText(StudentSignUpActivity.this, "Account created", Toast.LENGTH_SHORT).show();
                                         Toast.makeText(StudentSignUpActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();

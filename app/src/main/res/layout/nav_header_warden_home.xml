@@ -6,6 +6,7 @@
     android:id="@+id/nav_profile"
     android:background="@color/colorPrimary"
     android:gravity="bottom"
+    android:paddingTop="24dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     style="@style/Base.ThemeOverlay.AppCompat.Dark"
@@ -25,7 +26,8 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/nav_header_vertical_spacing"
         android:text="Android Studio"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white1"
         android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
 

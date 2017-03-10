@@ -1,8 +1,11 @@
 package com.psps.projects.bmshostel;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ProviderQueryResult;
+
 import net.cachapa.expandablelayout.ExpandableLayout;
+
+import static com.psps.projects.bmshostel.WardenHomeActivity.mAuth;
 
 /**
  * Created by Shashikant on 08-03-2017.
@@ -21,7 +30,8 @@ import net.cachapa.expandablelayout.ExpandableLayout;
  class AddHosteliteAdapter extends RecyclerView.Adapter<AddHosteliteAdapter.View_Holder>{
 
     private int no_of_stds;
-
+    private Handler handler=new Handler();
+    Context context;
      AddHosteliteAdapter(int no_of_stds) {
         this.no_of_stds = no_of_stds;
     }
@@ -29,7 +39,8 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 
     @Override
     public View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.add_hostelite,parent,false);
+        context=parent.getContext();
+        View v=LayoutInflater.from(context).inflate(R.layout.add_hostelite,parent,false);
         return new View_Holder(v);
     }
 
@@ -72,15 +83,19 @@ import net.cachapa.expandablelayout.ExpandableLayout;
             rootView=itemView.findViewById(R.id.addStudentRoot);
 
             s_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                boolean validate=false;
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    boolean validate=false;
+                    if(validate){
+                        Toast.makeText(v.getContext(), "Validating email", Toast.LENGTH_SHORT).show();
+                        validate=false;
+                        if(!s_email.getText().toString().equals(""))
+                            new Thread(new Validation()).start();
+                    }
                     if(hasFocus){
                         validate=true;
                     }
-                    if(validate){
-                        Toast.makeText(v.getContext(), "Validating email", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
             });
             s_room_no.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -113,6 +128,29 @@ import net.cachapa.expandablelayout.ExpandableLayout;
                 }
             });
         }
+         private class Validation implements Runnable {
+             @Override
+             public void run() {
+                 mAuth.fetchProvidersForEmail(s_email.getText().toString()).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
+                     @Override
+                     public void onComplete(@NonNull Task<ProviderQueryResult> task) {
+                         if(task.isSuccessful()){
+                             ///////// getProviders() will return size 1. if email ID is available.
+                             try{
+                                 if(task.getResult().getProviders().size()!=0){
+                                     Toast.makeText(context, "ACCOUNT EXISTS ON EMAIL ", Toast.LENGTH_SHORT).show();
+                                 }
+                             }
+                             catch(NullPointerException e){
+                                 Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                             }
+                         }
+                     }
+                 });
+             }
+         }
 
      }
+
+
 }

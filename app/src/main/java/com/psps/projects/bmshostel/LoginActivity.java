@@ -1,5 +1,6 @@
 package com.psps.projects.bmshostel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity  implements
     private GoogleApiClient mGoogleApiClient;
     int RC_SIGN_IN=11;
     final String TAG="MAIN ACTIVITY";
-    ProgressBar progressBar;
+    ProgressDialog progressDailog;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +49,11 @@ public class LoginActivity extends AppCompatActivity  implements
 
         emailEt=(EditText)findViewById(R.id.emailEt);
         passwordEt=(EditText)findViewById(R.id.passwordEt);
-        progressBar=(ProgressBar)findViewById(R.id.progress);
         findViewById(R.id.forgotPassTv).setOnClickListener(this);
         findViewById(R.id.createAccTv).setOnClickListener(this);
         findViewById(R.id.signInBtn).setOnClickListener(this);
         findViewById(R.id.googleSignInBtn).setOnClickListener(this);
+        progressDailog=new ProgressDialog(this);
 
 
         new GoogleInit().execute();
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity  implements
                     checkwarden.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            progressBar.setVisibility(View.VISIBLE);
+                            progressDailog.setMessage("Signing in...");
                             Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
                             //Check if the user is warden or not
                             SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity  implements
                                 preferences.edit().putBoolean("student",false).apply();
                                 startActivity(new Intent(LoginActivity.this,WardenHomeActivity.class));
                                 finish();
+                                return;
                             }
                             else{
                                 Log.d(TAG," The user is student");
@@ -85,16 +86,18 @@ public class LoginActivity extends AppCompatActivity  implements
                                     preferences.edit().putBoolean("student",true).apply();
                                     startActivity(new Intent(LoginActivity.this,StudentHomeActivity.class));
                                     finish();
+                                    return;
                                 }
                                 else
                                     Toast.makeText(LoginActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
                             }
-                            progressBar.setVisibility(View.GONE);
+                            progressDailog.dismiss();
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             Log.w(TAG, "Failed to read value.", databaseError.toException());
+                            progressDailog.dismiss();
                         }
                     });
                 }
@@ -123,7 +126,8 @@ public class LoginActivity extends AppCompatActivity  implements
             email=emailEt.getText().toString();
             password=passwordEt.getText().toString();
             if(!(email.isEmpty() && password.isEmpty()))
-                progressBar.setVisibility(View.VISIBLE);
+                progressDailog.setMessage("Signing in...");
+                progressDailog.show();
                 mAuth.signInWithEmailAndPassword(email,password )
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -137,7 +141,7 @@ public class LoginActivity extends AppCompatActivity  implements
                                     Log.w("LOGIN ACTIVITY", "signInWithEmail:failed", task.getException());
                                     Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                             Toast.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.GONE);
+                                    progressDailog.dismiss();
                                 }
 
                                 // ...
@@ -162,6 +166,7 @@ public class LoginActivity extends AppCompatActivity  implements
                             Log.w("LOGIN ACTIVITY", "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            progressDailog.dismiss();
                         }
                     }
                 });
@@ -170,7 +175,7 @@ public class LoginActivity extends AppCompatActivity  implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        progressDailog.dismiss();
     }
 
     @Override
@@ -185,6 +190,8 @@ public class LoginActivity extends AppCompatActivity  implements
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
+                progressDailog.dismiss();
+                Toast.makeText(this, "Sign in Failed", Toast.LENGTH_SHORT).show();
                 // Google Sign In failed, update UI appropriately
                 // ...
             }
@@ -230,13 +237,11 @@ public class LoginActivity extends AppCompatActivity  implements
                 break;
             case R.id.googleSignInBtn:
                 Log.d("LOGIN ACTIVITY", "signInWithGoogle");
+                progressDailog.setMessage("Loading...");
+                progressDailog.show();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
         }
-    }
-
-    private void validate() {
-
     }
 }

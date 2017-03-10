@@ -30,7 +30,6 @@ public class StudentSignUpActivity extends AppCompatActivity {
     final  static String EMAIL="EMAIL";
     final String TAG="StudentSignUpActivity";
     FirebaseAuth mAuth;
-    boolean signout=false;
     ProgressDialog progressDialog;
     FirebaseAuth.AuthStateListener mAuthStateListener;
     // Write a message to the database
@@ -47,55 +46,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
         emailTv.setText(email);
 
         mAuth=FirebaseAuth.getInstance();
-        mAuthStateListener=new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                String name=nameEt.getText().toString(),usn=usnEt.getText().toString();
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null && !name.isEmpty()) {
-                    // User is signed in
-                    String uid=user.getUid();
-                    UserProfileChangeRequest request=new UserProfileChangeRequest
-                            .Builder()
-                            .setDisplayName(name)
-                            .build();
-                    user.updateProfile(request)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "User Name updated.");
-                                    }
-                                }
-                            });
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + uid);
-                    newStudent student=new newStudent(usn);
-                    myRef.child(uid).setValue(student);
-                    user.sendEmailVerification();
-                } else {
-                    // User is signed out
-                    if(signout)
-                        progressDialog.setMessage("Account Created");
-                        Log.d(TAG, "onAuthStateChanged:signed_out");
 
-                }
-                // ...
-            }
-        };
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthStateListener != null) {
-            mAuth.removeAuthStateListener(mAuthStateListener);
-        }
     }
 
     protected void initialize_views(){
@@ -125,29 +76,28 @@ public class StudentSignUpActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(StudentSignUpActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                            FirebaseUser user=task.getResult().getUser();
+                            UserProfileChangeRequest request=new UserProfileChangeRequest
+                                    .Builder()
+                                    .setDisplayName(nameEt.getText().toString())
+                                    .build();
+                            user.updateProfile(request)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User Name updated.");
+                                            }
+                                        }
+                                    });
+                            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                            newStudent student=new newStudent(usnEt.getText().toString());
+                            myRef.child(user.getUid()).setValue(student);
+                            user.sendEmailVerification();
+                            mAuth.signOut();
+                            startActivity(new Intent(StudentSignUpActivity.this,LoginActivity.class));
+                            finish();
 
-                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                    // the auth state listener will be notified and logic to handle the
-                                    // signed in user can be handled in the listener.
-                                    if (!task.isSuccessful()) {
-                                        Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                        Toast.makeText(StudentSignUpActivity.this, R.string.auth_failed,
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        signout=true;
-                                        mAuth.signOut();
-                                        Toast.makeText(StudentSignUpActivity.this, "Account created", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(StudentSignUpActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(StudentSignUpActivity.this,LoginActivity.class));
-                                        finish();
-                                    }
-                                }
-                            });
                         }
 
                         // ...

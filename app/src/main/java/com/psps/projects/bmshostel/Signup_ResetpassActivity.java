@@ -1,7 +1,9 @@
 package com.psps.projects.bmshostel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +22,7 @@ import com.google.firebase.auth.ProviderQueryResult;
 public class Signup_ResetpassActivity extends AppCompatActivity {
 
     public static final String RESET_OR_CREATE ="RESET",TITLE="TITLE";
-    ProgressBar progressBar;
+    ProgressDialog progressDailog;
     FirebaseAuth mAuth;
     //FALSE=CREATE , TRUE=RESET
     @Override
@@ -34,11 +36,12 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
         Log.d("Signup_ResetpassActivit","onCreate");
         final ImageButton goIb=(ImageButton)findViewById(R.id.goIb);
         final EditText emailEt=(EditText)findViewById(R.id.emailInput);
-        progressBar=(ProgressBar)findViewById(R.id.progress);
+        progressDailog=new ProgressDialog(this);
         goIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                progressDailog.setMessage("Verifying Email...");
+                progressDailog.show();
                 final String email=emailEt.getText().toString();
                 if(re_or_cr){
                     mAuth.sendPasswordResetEmail(email)
@@ -51,7 +54,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                         finish();
                                     }
                                     else{
-                                        progressBar.setVisibility(View.GONE);
+                                        progressDailog.dismiss();
                                         Toast.makeText(Signup_ResetpassActivity.this, "FAILED : "+((FirebaseAuthException) task.getException()).getErrorCode(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -66,7 +69,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                 ///////// getProviders() will return size 1. if email ID is available.
                                 try{
                                     if(task.getResult().getProviders().size()!=0){
-                                        progressBar.setVisibility(View.GONE);
+                                        progressDailog.dismiss();
                                         Toast.makeText(Signup_ResetpassActivity.this, "ACCOUNT EXISTS ON EMAIL "+email, Toast.LENGTH_SHORT).show();
                                     }
                                     else {

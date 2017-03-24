@@ -1,0 +1,22 @@
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/roomIv"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_crop_portrait_black_24dp"
+        android:contentDescription="Student profile"/>
+
+    <TextView
+        android:id="@+id/roomTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:labelFor="@id/roomIv"
+        android:textColor="#000000"
+        android:text="1" />
+</FrameLayout>

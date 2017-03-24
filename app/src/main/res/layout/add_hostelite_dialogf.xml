@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        >
+
+        <TextView
+            android:id="@+id/roomNoTv"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight2"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:background="#38276fc3"
+            android:textSize="@dimen/student_profile_textSize"
+            android:drawableStart="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:text="Room Number"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sEmailEt"
+            android:hint="@string/username_hint"
+            android:inputType="textEmailAddress"
+            android:drawableStart="@drawable/ic_email_black_24dp"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@+id/slNoTv" />
+        <Button
+            android:id="@+id/addHosteliteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD"/>
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="less"
+            android:textOff="more"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/expandBtn"
+            android:layout_gravity="end"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+            android:background="@color/transparent"/>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            xmlns:app="http://schemas.android.com/tools"
+            android:id="@+id/expandLayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:el_expanded="true"
+            app:el_parallax="1"
+            android:layout_below="@id/sRoomNoEt">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="1">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sUsnEt"
+                    android:hint="@string/usn"
+                    android:inputType="number"
+                    android:drawableStart="@drawable/ic_hostel_room"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sMobileEt"
+                    android:hint="@string/sMobileInput"
+                    android:inputType="number"
+                    android:drawableStart="@drawable/ic_mobile"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    />
+                <EditText
+                    android:id="@+id/fNameEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fNameInput"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_guardian2"
+                    android:textSize="@dimen/student_profile_textSize" />
+                <EditText
+                    android:id="@+id/fMobileEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fMobileInput"
+                    android:textIsSelectable="true"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_mobile"
+                    android:textSize="@dimen/student_profile_textSize" />
+
+                <EditText
+                    android:id="@+id/fAddressEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_address2"
+                    android:hint="@string/sAddressInput"
+                    android:textSize="@dimen/student_profile_textSize" />
+                <EditText
+                    android:id="@+id/gNameEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/gNameInput"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_guardian2"
+                    android:textSize="@dimen/student_profile_textSize" />
+                <EditText
+                    android:id="@+id/gMobileEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/gMobileInput"
+                    android:textIsSelectable="true"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_mobile"
+                    android:textSize="@dimen/student_profile_textSize" />
+
+                <EditText
+                    android:id="@+id/gAddressEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_address2"
+                    android:hint="@string/sAddressInput"
+                    android:textSize="@dimen/student_profile_textSize" />
+            </LinearLayout>
+
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+

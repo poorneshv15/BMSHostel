@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,6 +92,12 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        bottomNavigationView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
@@ -119,9 +126,11 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
                 startActivity(intent);
                 break;
             case R.id.delete_student:
+                bottomNavigationView.setVisibility(View.GONE);
                 fragment=new DeleteHosteliteFragment();
                 final FragmentTransaction ft=fragmentManager.beginTransaction();
                 ft.replace(R.id.body_container,fragment).commit();
+                ft.addToBackStack(null);
                 break;
             case R.id.action_search:
 

@@ -41,10 +41,10 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
         studentList=new ArrayList<>();
-        studentList.add(new Student("Rajath","CSE",6,2));
-        studentList.add(new Student("is","ECE",4,32));
-        studentList.add(new Student("Handsome","BT",3,2));
-        studentList.add(new Student("Boy","EEE",4,3));
+        studentList.add(new Student("Poornesh","CSE",6,2));
+        studentList.add(new Student("Pratik","CSE",4,32));
+        studentList.add(new Student("Shashikant","CSE",3,2));
+        studentList.add(new Student("Kudva","BIO",4,3));
         studentAdapter=new HosteliteAdapter(studentList,rootView.getContext());
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

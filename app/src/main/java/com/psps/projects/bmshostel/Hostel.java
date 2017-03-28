@@ -23,5 +23,5 @@ public class Hostel {
             this.currentCapacity[i]=0;
         //this.currentCapacity = currentCapacity;
     }
-    public static Hostel IH=new Hostel("IH",5,25,125,2);
+    public static Hostel IH=new Hostel("ih",5,25,125,2);
 }

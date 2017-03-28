@@ -13,6 +13,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     RecyclerView studentsRv;
     RoomAdapter roomAdapter;
     GridView gridview;
+    FragmentManager fm;
+    static FirebaseAuth mAuth=FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +36,17 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         studentsRv.setLayoutManager(new LinearLayoutManager(this));
         studentsRv.setAdapter(new AddHosteliteAdapter(150));*/
         int floors=Hostel.IH.floors;
-
+        fm = getSupportFragmentManager();
         SegmentedGroup floorsSg=(SegmentedGroup)findViewById(R.id.floorSg);
         floorsSg.setOnCheckedChangeListener(this);
         floorsSg.setOnClickListener(this);
+        String[] floorsArray = getResources().getStringArray(R.array.floors);
         for(int i=0;i<floors;i++){
             RadioButton radioButton = (RadioButton) this.getLayoutInflater().inflate(R.layout.radio_button_item,null);
             //radioButton.setLayoutParams(params);
             radioButton.setOnClickListener(this);
             radioButton.setId(i);
-            radioButton.setText("Button " + (floorsSg.getChildCount() + 1));
+            radioButton.setText(floorsArray[i]);
             radioButton.setGravity(View.TEXT_ALIGNMENT_CENTER);
             floorsSg.addView(radioButton);
             floorsSg.updateBackground();
@@ -55,8 +61,7 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
                 int roomNumber=roomAdapter.assignBaseRoom+position;
                 Toast.makeText(AddHosteliteActivity.this, "" +roomNumber ,
                         Toast.LENGTH_SHORT).show();
-                FragmentManager fm = getSupportFragmentManager();
-                AddHosteliteDialogF addHosteliteDialogF = AddHosteliteDialogF.newInstance(roomNumber);
+                AddHosteliteDialogF addHosteliteDialogF = AddHosteliteDialogF.newInstance(roomNumber,Hostel.IH.hostelName);
                 addHosteliteDialogF.show(fm, "fragment_edit_name");
 
 

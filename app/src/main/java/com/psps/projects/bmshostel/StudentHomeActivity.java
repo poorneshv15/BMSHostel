@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -67,7 +68,12 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
                     finish();
                 }
                 else {
-                    getSupportActionBar().setTitle(user.getDisplayName());
+                    try{
+                        getSupportActionBar().setTitle(user.getDisplayName());
+                    }catch (NullPointerException e){
+                        Toast.makeText(StudentHomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
             }

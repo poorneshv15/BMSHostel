@@ -6,6 +6,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnWidth="90dp"
+        android:numColumns="5"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        android:stretchMode="columnWidth"
+        android:layout_weight="1"
+        android:gravity="center"
+        />
     <HorizontalScrollView
         android:id="@+id/floorsContainerHsv"
         android:layout_width="match_parent"
@@ -13,29 +27,17 @@
         android:background="#ff33b5e5"
         android:scrollbars="horizontal">
 
-            <info.hoang8f.android.segmented.SegmentedGroup
-                android:id="@+id/floorSg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:orientation="horizontal"
-                segmentedgroup:sc_tint_color="@android:color/white"
-                segmentedgroup:sc_checked_text_color="#ff33b5e5">
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/floorSg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            segmentedgroup:sc_tint_color="@android:color/white"
+            segmentedgroup:sc_checked_text_color="#ff33b5e5">
 
-            </info.hoang8f.android.segmented.SegmentedGroup>
+        </info.hoang8f.android.segmented.SegmentedGroup>
     </HorizontalScrollView>
-
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:numColumns="5"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
 
 </LinearLayout>

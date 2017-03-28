@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -92,24 +93,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         emailEt=(EditText)view.findViewById(R.id.sEmailEt);
         // Get field from view
         roomNoTv = (TextView) view.findViewById(R.id.roomNoTv);
-        roomNoTv.setText(Integer.toString(roomNumber));
-        ToggleButton expand=(ToggleButton)view.findViewById(R.id.expandBtn);
-        final ExpandableLayout expandableLayout=(ExpandableLayout)view.findViewById(R.id.expandLayout);
-        expand.setOnClickListener(new View.OnClickListener() {
-            boolean expand=false;
-            @Override
-            public void onClick(View v) {
-
-                if(!expand){
-                    expand=true;
-                    expandableLayout.expand();
-                }
-                else{
-                    expand=false;
-                    expandableLayout.collapse();
-                }
-            }
-        });
+        roomNoTv.setText(String.format(Locale.US,"%d",roomNumber));
         loadPb = (ProgressBar) view.findViewById(R.id.loadPb);
         addHosteliteButton=(Button)view.findViewById(R.id.addHosteliteBtn);
 
@@ -209,6 +193,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         super.onResume();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -220,7 +205,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     public static boolean isValidEmail(String enteredEmail){
         Pattern pattern = Pattern.compile("^.+@.+\\..+$");
         Matcher matcher = pattern.matcher(enteredEmail);
-        return ((!enteredEmail.isEmpty()) && (enteredEmail!=null) && (matcher.matches()));
+        return ((!enteredEmail.isEmpty())  && (matcher.matches()));
     }
 
     @Override
@@ -242,7 +227,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 Log.d("ADDHOSTELITE BUTTON","clicked");
                 addHosteliteButton.setEnabled(false);
                 addHosteliteButton.setClickable(false);
-                new addHostelite().execute(studentDataSS.child("name").toString(),emailEt.getText().toString(), String.format(Locale.US, "%d", roomNumber),studentDataSS.getKey());
+                //new addHostelite().execute(studentDataSS.child("name").toString(),emailEt.getText().toString(), String.format(Locale.US, "%d", roomNumber),studentDataSS.getKey());
                 break;
             case R.id.roomNoTv:
 

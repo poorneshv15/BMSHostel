@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener{
+public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick{
 
     public static String USER_TYPE="USER_TYPE";
     FirebaseAuth mAuth;
@@ -29,8 +30,9 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
-
-
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("BMSCE");
         Log.d("STUDENT HOME", " After setContent view");
         fragmentManager=getSupportFragmentManager();
         bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottom_nav_view);
@@ -108,5 +110,14 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     public void signOut() {
         Log.d("STUDENT HOME : ","SIGNOUT");
         mAuth.signOut();
+    }
+
+    @Override
+    public void onMenuClick(int id) {
+        switch (id){
+            case R.id.add_student:
+                Intent intent =new Intent(this,AddHosteliteActivity.class);
+                startActivity(intent);
+        }
     }
 }

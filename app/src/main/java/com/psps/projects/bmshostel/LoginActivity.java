@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity  implements
                             }
                             else{
                                 Log.d(TAG," The user is student");
-                                if(user.isEmailVerified()){
+                                if(true){
                                     new AsyncTask<String,String,String>(){
 
                                         @Override

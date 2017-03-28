@@ -1,6 +1,9 @@
 package com.psps.projects.bmshostel;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +14,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -34,6 +40,17 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
         // Required empty public constructor
     }
 
+    interface menuItemClick{
+        void onMenuClick(int id);
+    }
+    private menuItemClick menuSelected;
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.menuSelected=(menuItemClick)context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +67,7 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
         materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -84,5 +102,17 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.hostel_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        menuSelected.onMenuClick(item.getItemId());
+        return super.onOptionsItemSelected(item);
     }
 }

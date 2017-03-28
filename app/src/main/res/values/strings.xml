@@ -24,6 +24,10 @@
 
     <string name="gNameInput">Guardian\'s Name</string>
     <string name="gMobileInput">Guardian\'s Phone Number</string>
+    <string name="add_student">Add Students</string>
+    <string name="del_student">Delete Students</string>
+    <string name="edit_student">Edit Details</string>
+
 
     <string-array name="floors">
         <item>G</item>

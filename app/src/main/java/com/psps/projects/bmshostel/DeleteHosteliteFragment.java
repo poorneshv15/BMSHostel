@@ -61,7 +61,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
-        materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
+        setHasOptionsMenu(true);
         return rootView;
     }
 

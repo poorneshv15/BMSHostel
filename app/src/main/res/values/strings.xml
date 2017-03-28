@@ -7,13 +7,9 @@
     <string name="no_account">Create a new Account</string>
     <string name="sign_up">Sign up</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="title_activity_warden_home_page">WardenHomePageActivity</string>
     <string name="web_client_id">300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_warden_home">WardenHomeActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,22 +17,13 @@
     <string name="sNameInput">Name</string>
     <string name="sMobileInput">Phone Number</string>
     <string name="sAddressInput">Address</string>
-    <string name="roomNoInput">Room Number</string>
-    <string name="semInput">Sem</string>
     <string name="emailInput">Email Id </string>
-    <string name="dobInput">DATE OF BIRTH</string>
-    <string name="sGemdetInput">Gender</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
     <string name="fNameInput">Father\'s Name</string>
     <string name="fMobileInput">Father\'s Phone Number</string>
-
-    <string name="mNameInput">Mother\'s Name</string>
 
 
     <string name="gNameInput">Guardian\'s Name</string>
     <string name="gMobileInput">Guardian\'s Phone Number</string>
-    <string name="gAdressInput">Guardian\'s Address</string>
 
     <string-array name="floors">
         <item>G</item>
@@ -48,21 +35,8 @@
         <item>6</item>
         <item>7</item>
     </string-array>
-    <string-array name="sem">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-
-    </string-array>
     <string name="roomNo">Room No :%4d</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_add_hostelite">AddHosteliteActivity</string>
     <string name="auth_failed">Authentication failed</string>
-    <string name="my_web_client_id">300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com</string>
 
 </resources>

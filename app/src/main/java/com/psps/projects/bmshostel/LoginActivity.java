@@ -1,5 +1,7 @@
 package com.psps.projects.bmshostel;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -72,19 +74,43 @@ public class LoginActivity extends AppCompatActivity  implements
                             progressDailog.setMessage("Signing in...");
                             Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
                             //Check if the user is warden or not
-                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+
                             if(dataSnapshot.exists()){
+                                new AsyncTask<String,String,String>(){
+
+                                    @Override
+                                    protected String doInBackground(String... params) {
+                                        SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                        preferences.edit().putString(StudentHomeActivity.USER_TYPE,params[0]).apply();
+                                        return null;
+                                    }
+
+                                }.execute("WARDEN");
                                 Log.d(TAG," The user is warden");
-                                preferences.edit().putBoolean("student",false).apply();
-                                startActivity(new Intent(LoginActivity.this,WardenHomeActivity.class));
+
+                                Intent intent=new Intent(LoginActivity.this,StudentHomeActivity.class);
+                                //intent.putExtra(StudentHomeActivity.USER_TYPE,"WARDEN");
+                                startActivity(intent);
                                 finish();
                                 return;
                             }
                             else{
                                 Log.d(TAG," The user is student");
                                 if(user.isEmailVerified()){
-                                    preferences.edit().putBoolean("student",true).apply();
-                                    startActivity(new Intent(LoginActivity.this,StudentHomeActivity.class));
+                                    new AsyncTask<String,String,String>(){
+
+                                        @Override
+                                        protected String doInBackground(String... params) {
+                                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                            preferences.edit().putString(StudentHomeActivity.USER_TYPE,params[0]).apply();
+                                            return null;
+                                        }
+
+                                    }.execute("STUDENT");
+                                    //preferences.edit().putBoolean("student",true).apply();
+                                    Intent intent=new Intent(LoginActivity.this,StudentHomeActivity.class);
+                                    //intent.putExtra(StudentHomeActivity.USER_TYPE,"STUDENT");
+                                    startActivity(intent);
                                     finish();
                                     return;
                                 }

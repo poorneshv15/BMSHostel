@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener{
 
+    public static String USER_TYPE="USER_TYPE";
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
@@ -27,30 +28,37 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-        if(!preferences.getBoolean("student",false)){
-            Log.d("USER TYPE","STUDENT false");
-            startActivity(new Intent(StudentHomeActivity.this,WardenHomeActivity.class));
-            finish();
-        }
         setContentView(R.layout.activity_student_home);
 
 
         Log.d("STUDENT HOME", " After setContent view");
         fragmentManager=getSupportFragmentManager();
         bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottom_nav_view);
+
+        if(getSharedPreferences("user",MODE_PRIVATE).getString(USER_TYPE,"STUDENT").equals("WARDEN")){
+            //Add Hostel Fragment
+            bottomNavigationView.inflateMenu(R.menu.warden_navigation_menu);
+        }
+        else{
+            bottomNavigationView.inflateMenu(R.menu.student_navigation_menu);
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.nav_profile:
-                        fragment=new MyProfileFragment();
-                        break;
+
                     case R.id.nav_tt:
                         fragment=new EventsFragment();
                         break;
                     case R.id.nav_syllabus:
                         fragment=new SyllabusFragment();
+                        break;
+                    case R.id.nav_hostel:
+                        fragment=new StudentListFragment();
+                        break;
+                    case R.id.nav_profile:
+                        fragment=new MyProfileFragment();
+                        break;
                 }
                 final FragmentTransaction ft=fragmentManager.beginTransaction();
                 ft.replace(R.id.body_container,fragment).commit();

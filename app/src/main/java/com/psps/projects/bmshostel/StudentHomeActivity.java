@@ -79,7 +79,7 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
                 }
                 else {
                     try{
-                        getSupportActionBar().setTitle(user.getDisplayName());
+                        toolbar.setTitle(user.getDisplayName());
                     }catch (NullPointerException e){
                         Toast.makeText(StudentHomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }

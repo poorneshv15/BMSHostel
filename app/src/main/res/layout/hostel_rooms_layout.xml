@@ -26,7 +26,6 @@
         android:layout_height="80dp"
         android:background="#ff33b5e5"
         android:scrollbars="horizontal">
-
         <info.hoang8f.android.segmented.SegmentedGroup
             android:id="@+id/floorSg"
             android:layout_width="wrap_content"

@@ -4,29 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
 public class AddHosteliteActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
 
-    RecyclerView studentsRv;
     RoomAdapter roomAdapter;
     GridView gridview;
     FragmentManager fm;
     static FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    static String hostelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +33,7 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         studentsRv.setLayoutManager(new LinearLayoutManager(this));
         studentsRv.setAdapter(new AddHosteliteAdapter(150));*/
         int floors=Hostel.IH.floors;
+        hostelName=Hostel.IH.hostelName;
         fm = getSupportFragmentManager();
         SegmentedGroup floorsSg=(SegmentedGroup)findViewById(R.id.floorSg);
         floorsSg.setOnCheckedChangeListener(this);

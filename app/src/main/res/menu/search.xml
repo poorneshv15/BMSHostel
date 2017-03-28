@@ -7,4 +7,5 @@
         android:orderInCategory="100"
         android:title="@string/abc_search_hint"
         app:showAsAction="always" />
+
 </menu>

@@ -1,7 +1,6 @@
 package com.psps.projects.bmshostel;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick{
+public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
     public static String USER_TYPE="USER_TYPE";
     FirebaseAuth mAuth;
@@ -118,6 +117,27 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
             case R.id.add_student:
                 Intent intent =new Intent(this,AddHosteliteActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.delete_student:
+                fragment=new DeleteHosteliteFragment();
+                final FragmentTransaction ft=fragmentManager.beginTransaction();
+                ft.replace(R.id.body_container,fragment).commit();
+                break;
+            case R.id.action_search:
+
+
+
+
+        }
+    }
+
+    @Override
+    public void onMenuOfDHFClick(int id) {
+        switch (id) {
+
+            case R.id.action_search:
+
+
         }
     }
 }

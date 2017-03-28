@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="60dp"
+        android:src="@color/dark_grey"
+        android:id="@+id/studentProfileIv"
+        android:layout_height="50dp"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="2dp" />
+
+    <View
+        android:id="@+id/SplitLine_hor1"
+        android:layout_width="match_parent"
+        android:layout_height= "0.5dp"
+        android:background="#d2cccc"
+        android:layout_toRightOf="@id/studentProfileIv"
+        android:layout_alignBottom="@id/studentProfileIv"/>
+
+
+
+    <TextView
+        android:text="Yama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:id="@+id/nameTv"
+        android:textColor="@color/textColor"
+        android:layout_marginTop="7dp"
+        android:layout_toEndOf="@+id/studentProfileIv"
+        android:layout_marginBottom="9dp"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="Room no.: 001"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/roomTv"
+        android:layout_below="@+id/nameTv"
+        android:layout_toEndOf="@+id/studentProfileIv" />
+
+    <TextView
+        android:text="2nd year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/yearTv"
+        android:layout_marginLeft="195dp"
+        android:layout_marginTop="35dp"
+
+        />
+
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/branchTv"
+        android:layout_marginLeft="270dp"
+        android:layout_marginTop="35dp"
+
+        />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/nameTv"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

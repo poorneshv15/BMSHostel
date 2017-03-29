@@ -1,4 +1,4 @@
-package FirebaseClasses;
+package firebaseclasses;
 
 import com.google.firebase.database.Exclude;
 

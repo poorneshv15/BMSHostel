@@ -1,4 +1,4 @@
-package FirebaseClasses;
+package firebaseclasses;
 
 import com.google.firebase.database.Exclude;
 
@@ -69,7 +69,8 @@ public class Hostelite {
         result.put("guardianAddress", guardianAddress);
         result.put("guardianMobile", guardianMobile);
         result.put("hostelite", hostelite);
-        result.put("hostel/"+hostel+"/"+roomNo, true);
+        result.put("roomNo",hostel+"/"+roomNo);
+        //result.put("hostel/"+hostel+"/"+roomNo, true);
 
         return result;
     }

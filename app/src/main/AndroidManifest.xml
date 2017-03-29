@@ -45,6 +45,8 @@
         </activity>
         <activity android:name=".HosteliteSignupActivity" />
         <activity android:name=".WardenProfileActivity"/>
+        <service android:name="firebaseclasses.AddHostelitesService"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package FirebaseClasses;
+package firebaseclasses;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
@@ -18,11 +17,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.psps.projects.bmshostel.R;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -40,10 +43,9 @@ public class AddHostelitesService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
-     * @param name Used to name the worker thread, important only for debugging.
      */
-    public AddHostelitesService(String name) {
-        super(name);
+    public AddHostelitesService() {
+        super(AddHostelitesService.class.getName());
     }
 
     @Override
@@ -93,21 +95,39 @@ public class AddHostelitesService extends IntentService {
         final String gAddress=intent.getStringExtra("gAddress");
         final String gMobile=intent.getStringExtra("gMobile");
         final String hostel=intent.getStringExtra("hostel");
+        Log.d(TAG,"HostelPath:"+hostel+"/"+roomNo+"/hostelites");
 
         if( accoountExists){
+            FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-            String uid=details.getString("uid");
-            Hostelite hostelite=new Hostelite(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
-            Map<String,Object> hosteliteValue=hostelite.toMap();
-            HosteliteUid hosteliteUid=new HosteliteUid(uid);
-            Map<String,Object> uidValue=hosteliteUid.toMap();
-            Map<String, Object> childUpdates = new HashMap<>();
-            childUpdates.put("/users/"+uid,hosteliteValue);
-            childUpdates.put("/hostel/"+ hostel+"/"+roomNo+"/hostelites", uidValue);
-            //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
-            Log.d("onHandleIntent","2"+"UID="+uid);
-            mRef.updateChildren(childUpdates);
-            Log.d("onHandleIntent","3");
+                    for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                        Log.d("GET DATA", "PARENT: " + childDataSnapshot.getKey());
+                        Log.d("GET DATA", "" + childDataSnapshot.child("name").getValue());
+                        String uid=childDataSnapshot.getKey();
+                        Hostelite hostelite=new Hostelite(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
+                        Map<String,Object> hosteliteValue=hostelite.toMap();
+                        HosteliteUid hosteliteUid=new HosteliteUid(uid);
+                        Map<String,Object> uidValue=hosteliteUid.toMap();
+                        Map<String, Object> childUpdates = new HashMap<>();
+
+                        String hostelites="hostelites";
+                        childUpdates.put("/users/"+uid,hosteliteValue);
+                        childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/"+hostelites, uidValue);
+                        Log.d("GET DATA", "PARENT: " +childUpdates.toString());
+                        //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
+                        Log.d("onHandleIntent","2"+"UID="+uid);
+                        mRef.updateChildren(childUpdates);
+                        Log.d("onHandleIntent","3");
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError)
+                {
+                    Log.d("QUERY", "onCancelled ");
+                }
+            });
 
         }
         else{
@@ -128,8 +148,7 @@ public class AddHostelitesService extends IntentService {
                     Map<String,Object> uidValue=hosteliteUid.toMap();
                     Map<String, Object> childUpdates = new HashMap<>();
                     childUpdates.put("/users/"+uid,hosteliteValue);
-                    childUpdates.put("/hostel/"+ hostel+"/"+roomNo+"/hostelites", uidValue);
-                    //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
+                    childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/hostelites", uidValue);
                     Log.d("onHandleIntent","2"+"UID="+uid);
                     mRef.updateChildren(childUpdates);
                     Log.d("onHandleIntent","3");

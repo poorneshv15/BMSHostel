@@ -1,13 +1,14 @@
 package com.psps.projects.bmshostel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -15,10 +16,12 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 
+import firebaseclasses.AddHostelitesService;
 import info.hoang8f.android.segmented.SegmentedGroup;
 
-public class AddHosteliteActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
+public class AddHosteliteActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,View.OnClickListener,AddHosteliteDialogF.AddStudent{
 
+    String TAG="AddHosteliteActivity";
     RoomAdapter roomAdapter;
     GridView gridview;
     FragmentManager fm;
@@ -59,7 +62,7 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
                 int roomNumber=roomAdapter.assignBaseRoom+position;
                 Toast.makeText(AddHosteliteActivity.this, "" +roomNumber ,
                         Toast.LENGTH_SHORT).show();
-                AddHosteliteDialogF addHosteliteDialogF = AddHosteliteDialogF.newInstance(roomNumber,Hostel.IH.hostelName);
+                AddHosteliteDialogF addHosteliteDialogF = AddHosteliteDialogF.newInstance(roomNumber);
                 addHosteliteDialogF.show(fm, "fragment_edit_name");
 
 
@@ -75,12 +78,19 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         Toast.makeText(this, ""+checkedId, Toast.LENGTH_SHORT).show();
         roomAdapter=new RoomAdapter(AddHosteliteActivity.this,Hostel.IH,checkedId);
         gridview.setAdapter(roomAdapter);
-
     }
 
     @Override
     public void onClick(View v) {
         RadioButton r=(RadioButton)v;
         r.setChecked(true);
+    }
+
+    @Override
+    public void addStudent(Bundle bundle) {
+        Log.d(TAG,"addStudent");
+        Intent intent=new Intent(this, AddHostelitesService.class);
+        intent.putExtras(bundle);
+        startService(intent);
     }
 }

@@ -1,8 +1,8 @@
 package com.psps.projects.bmshostel;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,13 +12,10 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -28,11 +25,6 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ProviderQueryResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.Locale;
@@ -49,11 +41,11 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     static int roomNumber;
     static boolean accountExists;
     EditText emailEt;
+    EditText[] userDetails=new EditText[9];
     TextView roomNoTv;
     ProgressBar loadPb;
     Button addHosteliteButton;
     FetchProviders accountExistsTask;
-    DataSnapshot studentDataSS;
     public AddHosteliteDialogF() {
 
         // Empty constructor is required for DialogFragment
@@ -61,7 +53,24 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         // Use `newInstance` instead as shown below
     }
 
-    public  static AddHosteliteDialogF newInstance(int roomNo,String hostelName) {
+    interface AddStudent{
+        void addStudent(Bundle bundle);
+    }
+    static AddStudent addStudentListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        addStudentListener=(AddStudent)context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        addStudentListener=null;
+    }
+
+    public  static AddHosteliteDialogF newInstance(int roomNo) {
         AddHosteliteDialogF frag = new AddHosteliteDialogF();
         AddHosteliteDialogF.roomNumber=roomNo;
         return frag;
@@ -83,7 +92,15 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         roomNoTv.setText(String.format(Locale.US,"%d",roomNumber));
         loadPb = (ProgressBar) view.findViewById(R.id.loadPb);
         addHosteliteButton=(Button)view.findViewById(R.id.addHosteliteBtn);
-
+        userDetails[0]=(EditText)view.findViewById(R.id.sNameEt);
+        userDetails[1]=(EditText)view.findViewById(R.id.sUsnEt);
+        userDetails[2]=(EditText)view.findViewById(R.id.sMobileEt);
+        userDetails[3]=(EditText)view.findViewById(R.id.fNameEt);
+        userDetails[4]=(EditText)view.findViewById(R.id.fMobileEt);
+        userDetails[5]=(EditText)view.findViewById(R.id.fAddressEt);
+        userDetails[6]=(EditText)view.findViewById(R.id.gNameEt);
+        userDetails[7]=(EditText)view.findViewById(R.id.gMobileEt);
+        userDetails[8]=(EditText)view.findViewById(R.id.gAddressEt);
         emailEt.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -101,6 +118,8 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
                 }
                 else {
+                    addHosteliteButton.setText("Invalid Email!!");
+                    addHosteliteButton.setEnabled(false);
                     loadPb.setVisibility(View.INVISIBLE);
                 }
             }
@@ -155,14 +174,22 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 roomNoTv.setText(String.format(Locale.US, "%d", roomNumber));
                 break;
             case R.id.addHosteliteBtn:
-                /*if(studentDataSS==null){
-                    new AddHosteliteTask().execute(emailEt.getText().toString(), String.format(Locale.US, "%d", roomNumber));
-                    return;
-                }*/
                 Log.d("ADDHOSTELITE BUTTON","clicked");
-                addHosteliteButton.setEnabled(false);
-                addHosteliteButton.setClickable(false);
-                //new AddHosteliteTask().execute(studentDataSS.child("name").toString(),emailEt.getText().toString(), String.format(Locale.US, "%d", roomNumber),studentDataSS.getKey());
+                Bundle bundle=new Bundle();
+                bundle.putString("name",userDetails[0].getText().toString());
+                bundle.putString("email",emailEt.getText().toString());
+                bundle.putString("usn",userDetails[1].getText().toString());
+                bundle.putString("mobile",userDetails[2].getText().toString());
+                bundle.putString("fName",userDetails[3].getText().toString());
+                bundle.putString("fMobile",userDetails[4].getText().toString());
+                bundle.putString("fAddress",userDetails[5].getText().toString());
+                bundle.putString("gName",userDetails[6].getText().toString());
+                bundle.putString("gMobile",userDetails[7].getText().toString());
+                bundle.putString("gAddress",userDetails[8].getText().toString());
+                bundle.putString("hostel",AddHosteliteActivity.hostelName);
+                bundle.putBoolean("accountExists",accountExists);
+                bundle.putInt("roomNo",roomNumber);
+                addStudentListener.addStudent(bundle);
                 break;
             case R.id.roomNoTv:
 
@@ -175,61 +202,14 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 }
         }
     }
-    public void getStudentData(CharSequence email){
 
-        ValueEventListener valueEventListener = new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                Log.d("QUERY", "onDataChange "+dataSnapshot);
-                for(DataSnapshot userSS:dataSnapshot.getChildren())
-                    studentDataSS =userSS;
-               // messageHandler.sendEmptyMessage(0);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.d("QUERY", "onCancelled ");
-            }
-        };
-        Query query = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email.toString());
-        query.addListenerForSingleValueEvent(valueEventListener);
-        Log.d("QUERY", "end ");/*
-
-        FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Log.d("GET DATA", "PARENT: " + childDataSnapshot.getKey());
-                    Log.d("GET DATA", "" + childDataSnapshot.child("name").getValue());
-                    studentDataSS = childDataSnapshot;
-                    //messageHandler.sendEmptyMessage(0);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.d("QUERY", "onCancelled ");
-            }
-        });*/
-    }
-/*
-    private Handler messageHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            addHosteliteButton.setEnabled(true);
-            Log.d("Handler", "addHosteliteButton true ");
-        }
-    };
-*/
     private class FetchProviders extends AsyncTask<String,Boolean,Boolean>{
 
 
         @Override
         protected void onPreExecute() {
+            addHosteliteButton.setEnabled(false);
+            addHosteliteButton.setText("Please wait...");
             loadPb.setVisibility(View.VISIBLE);
 
         }
@@ -245,10 +225,14 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     protected void onProgressUpdate(Boolean... values) {
         if(values[0]){
             loadPb.setBackgroundColor(Color.GREEN);
+            accountExists=true;
         }
         else {
             loadPb.setBackgroundColor(Color.YELLOW);
+            accountExists=false;
         }
+        addHosteliteButton.setEnabled(true);
+        addHosteliteButton.setText("ADD");
     }
 
     @Override

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_horizontal_margin">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,6 +42,14 @@
             android:background="@color/colorPrimary" />
 
     </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editTextHeight"
+        android:id="@+id/sNameEt"
+        android:hint="@string/sNameInput"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/ic_account_circle_black_24dp"
+        android:drawablePadding="@dimen/activity_horizontal_margin" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -63,95 +72,110 @@
             android:visibility="visible"
             android:background="@color/transparent"/>
     </LinearLayout>
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sUsnEt"
-        android:hint="@string/usn"
-        android:inputType="textCapCharacters"
-        android:drawableStart="@drawable/ic_hostel_room"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sMobileEt"
-        android:hint="@string/sMobileInput"
-        android:inputType="number"
-        android:drawableStart="@drawable/ic_mobile"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        />
-    <EditText
-        android:id="@+id/fNameEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/fNameInput"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/ic_guardian2"
-        android:textSize="@dimen/student_profile_textSize" />
-    <EditText
-        android:id="@+id/fMobileEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/fMobileInput"
-        android:inputType="number"
-        android:textIsSelectable="true"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/ic_mobile"
-        android:textSize="@dimen/student_profile_textSize" />
+        android:layout_height="250dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sUsnEt"
+            android:hint="@string/usn"
+            android:inputType="textCapCharacters"
+            android:drawableStart="@drawable/ic_hostel_room"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sMobileEt"
+            android:hint="@string/sMobileInput"
+            android:inputType="number"
+            android:drawableStart="@drawable/ic_mobile"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            />
+        <EditText
+            android:id="@+id/fNameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/fNameInput"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_guardian2"
+            android:textSize="@dimen/student_profile_textSize" />
+        <EditText
+            android:id="@+id/fMobileEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fMobileInput"
+            android:inputType="number"
+            android:textIsSelectable="true"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_mobile"
+            android:textSize="@dimen/student_profile_textSize" />
 
-    <EditText
-        android:id="@+id/fAddressEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:inputType="text|textPostalAddress"
-        android:lines="4"
-        android:drawableStart="@drawable/ic_address2"
-        android:hint="@string/sAddressInput"
-        android:textSize="@dimen/student_profile_textSize" />
-    <EditText
-        android:id="@+id/gNameEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/gNameInput"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/ic_guardian2"
-        android:textSize="@dimen/student_profile_textSize" />
-    <EditText
-        android:id="@+id/gMobileEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/gMobileInput"
-        android:inputType="number"
-        android:textIsSelectable="true"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/ic_mobile"
-        android:textSize="@dimen/student_profile_textSize" />
+        <EditText
+            android:id="@+id/fAddressEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:inputType="text|textPostalAddress"
+            android:lines="4"
+            android:drawableStart="@drawable/ic_address2"
+            android:hint="@string/sAddressInput"
+            android:textSize="@dimen/student_profile_textSize" />
+        <EditText
+            android:id="@+id/gNameEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/gNameInput"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_guardian2"
+            android:textSize="@dimen/student_profile_textSize" />
+        <EditText
+            android:id="@+id/gMobileEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gMobileInput"
+            android:inputType="number"
+            android:textIsSelectable="true"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_mobile"
+            android:textSize="@dimen/student_profile_textSize" />
 
-    <EditText
-        android:id="@+id/gAddressEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="4"
-        android:maxHeight="@dimen/editTextHeight3"
-        android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/ic_address2"
-        android:hint="@string/sAddressInput"
-        android:textSize="@dimen/student_profile_textSize" />
+        <EditText
+            android:id="@+id/gAddressEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:maxHeight="@dimen/editTextHeight3"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_address2"
+            android:hint="@string/sAddressInput"
+            android:textSize="@dimen/student_profile_textSize" />
 
 
 
-    <Button
-        android:id="@+id/addHosteliteBtn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/editTextHeight2"
-        android:text="ADD"
-        android:enabled="true"
-        android:textColor="@color/white1"
-        android:background="@color/colorPrimary" />
+        <Button
+            android:id="@+id/addHosteliteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight2"
+            android:text="ADD"
+            android:enabled="true"
+            android:textColor="@color/white1"
+            android:background="@color/colorPrimary" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
-
-</ScrollView>
+        <android.support.design.widget.FloatingActionButton
+            android:adjustViewBounds="true"
+            android:isScrollContainer="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"/>
+    </FrameLayout>

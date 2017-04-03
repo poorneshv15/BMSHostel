@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.psps.projects.bmshostel.StudentHomeActivity">
+    tools:context="com.psps.projects.bmshostel.HomeActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

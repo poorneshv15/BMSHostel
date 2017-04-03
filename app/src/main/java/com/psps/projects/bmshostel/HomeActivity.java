@@ -17,10 +17,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
+public class HomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
     public static String USER_TYPE="USER_TYPE";
     FirebaseAuth mAuth;
@@ -41,14 +39,14 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
-                    startActivity(new Intent(StudentHomeActivity.this,LoginActivity.class));
+                    startActivity(new Intent(HomeActivity.this,LoginActivity.class));
                     finish();
                 }
                 else {
                     try{
                         toolbar.setTitle(user.getDisplayName());
                     }catch (NullPointerException e){
-                        Toast.makeText(StudentHomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 }

@@ -1,7 +1,5 @@
 package com.psps.projects.bmshostel;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -81,15 +79,15 @@ public class LoginActivity extends AppCompatActivity  implements
                                     @Override
                                     protected String doInBackground(String... params) {
                                         SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-                                        preferences.edit().putString(StudentHomeActivity.USER_TYPE,params[0]).apply();
+                                        preferences.edit().putString(HomeActivity.USER_TYPE,params[0]).apply();
                                         return null;
                                     }
 
                                 }.execute("WARDEN");
                                 Log.d(TAG," The user is warden");
 
-                                Intent intent=new Intent(LoginActivity.this,StudentHomeActivity.class);
-                                //intent.putExtra(StudentHomeActivity.USER_TYPE,"WARDEN");
+                                Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                                //intent.putExtra(HomeActivity.USER_TYPE,"WARDEN");
                                 startActivity(intent);
                                 finish();
                                 return;
@@ -102,14 +100,14 @@ public class LoginActivity extends AppCompatActivity  implements
                                         @Override
                                         protected String doInBackground(String... params) {
                                             SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-                                            preferences.edit().putString(StudentHomeActivity.USER_TYPE,params[0]).apply();
+                                            preferences.edit().putString(HomeActivity.USER_TYPE,params[0]).apply();
                                             return null;
                                         }
 
                                     }.execute("STUDENT");
                                     //preferences.edit().putBoolean("student",true).apply();
-                                    Intent intent=new Intent(LoginActivity.this,StudentHomeActivity.class);
-                                    //intent.putExtra(StudentHomeActivity.USER_TYPE,"STUDENT");
+                                    Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                                    //intent.putExtra(HomeActivity.USER_TYPE,"STUDENT");
                                     startActivity(intent);
                                     finish();
                                     return;

@@ -25,15 +25,12 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-            android:name=".WardenHomeActivity"
-            android:theme="@style/MyThemeDayNightNoActionBar" />
-        <activity
             android:name=".Signup_ResetpassActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".StudentSignUpActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-        <activity android:name=".StudentHomeActivity">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -20,16 +20,12 @@ import android.view.ViewGroup;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
 
 
-public  class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener,LoaderManager.LoaderCallbacks<Cursor>{
+public  class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener{
 
     RecyclerView recyclerView;
     HosteliteAdapter studentAdapter;
@@ -81,33 +77,12 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         super.onActivityCreated(savedInstanceState);
         // Prepare the loader.  Either re-connect with an existing one,
         // or start a new one.
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         inflater.inflate(R.menu.hostel_menu,menu);
         super.onCreateOptionsMenu(menu,inflater);
-
-
-
-
-
     }
 
 //    protected abstract MenuInflater getLayoutInflater();

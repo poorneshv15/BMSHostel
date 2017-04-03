@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.psps.projects.bmshostel.realmpackage.Hostelite;
+import com.psps.projects.bmshostel.realmpackage.RealmHelper;
 
 
 import java.util.ArrayList;
@@ -123,42 +124,8 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
                 "com.psps.projects.bmshostel.STUDENT ADDED";
         @Override
         public void onReceive(Context context, Intent intent) {
-            final Bundle hostelite=intent.getExtras();
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm bgRealm) {
-                    Hostelite user = bgRealm.createObject(Hostelite.class);
-                    user.setName(hostelite.getString("name"));
-                    user.setEmail(hostelite.getString("email"));
-                    user.setUsn(hostelite.getString("usn"));
-                    user.setMobile(hostelite.getString("mobile"));
-                    user.setFatherName(hostelite.getString("fName"));
-                    user.setFatherMobile(hostelite.getString("fMobile"));
-                    user.setFatherAddress(hostelite.getString("fAddress"));
-                    user.setGuardianName(hostelite.getString("gName"));
-                    user.setGuardianMobile(hostelite.getString("gMobile"));
-                    user.setGuardianAddress(hostelite.getString("gAddress"));
-                    user.setHostel(hostelite.getString("hostel"));
-                    user.setRoomNo(hostelite.getInt("roomNo"));
-                    user.setSem(6);
-                    user.setBranch("CSE");
-                    user.setHostelite(true);
+            RealmHelper.addHostelite(realm,intent.getExtras());
 
-                }
-            }, new Realm.Transaction.OnSuccess() {
-                @Override
-                public void onSuccess() {
-                    // Transaction was a success.
-                    Log.d(TAG,"Success");
-                    Toast.makeText(AddHosteliteActivity.this, "Student Added", Toast.LENGTH_SHORT).show();
-                }
-            }, new Realm.Transaction.OnError() {
-                @Override
-                public void onError(Throwable error) {
-                    // Transaction failed and was automatically canceled.
-                    Log.e(TAG,error.getMessage());
-                }
-            });
         }
     }
 }

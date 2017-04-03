@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StudentHomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
     public static String USER_TYPE="USER_TYPE";
@@ -31,6 +34,27 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mAuth=FirebaseAuth.getInstance();
+        user=mAuth.getCurrentUser();
+        mAuthListener=new FirebaseAuth.AuthStateListener(){
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser()==null){
+                    startActivity(new Intent(StudentHomeActivity.this,LoginActivity.class));
+                    finish();
+                }
+                else {
+                    try{
+                        toolbar.setTitle(user.getDisplayName());
+                    }catch (NullPointerException e){
+                        Toast.makeText(StudentHomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+        };
         setSupportActionBar(toolbar);
         toolbar.setTitle("BMSCE");
         Log.d("STUDENT HOME", " After setContent view");
@@ -67,27 +91,7 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
                 return true;
             }
         });
-        mAuth=FirebaseAuth.getInstance();
-        user=mAuth.getCurrentUser();
-        mAuthListener=new FirebaseAuth.AuthStateListener(){
 
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser()==null){
-                    startActivity(new Intent(StudentHomeActivity.this,LoginActivity.class));
-                    finish();
-                }
-                else {
-                    try{
-                        toolbar.setTitle(user.getDisplayName());
-                    }catch (NullPointerException e){
-                        Toast.makeText(StudentHomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-
-            }
-        };
 
     }
 
@@ -122,7 +126,9 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
     public void onMenuClick(int id) {
         switch (id){
             case R.id.add_student:
+                int[] roomNumbers={1,2,3,4,5,6,7,8,9};
                 Intent intent =new Intent(this,AddHosteliteActivity.class);
+                intent.putExtra("roomNumbers",roomNumbers);
                 startActivity(intent);
                 break;
             case R.id.delete_student:
@@ -145,6 +151,11 @@ public class StudentHomeActivity extends AppCompatActivity implements MyProfileF
         switch (id) {
 
             case R.id.action_search:
+                break;
+            case R.id.action_done:
+                //Deleete Selected Students...............
+                break;
+
 
 
         }

@@ -22,23 +22,27 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.psps.projects.bmshostel.AddHosteliteActivity;
 import com.psps.projects.bmshostel.R;
+import com.psps.projects.bmshostel.realmpackage.Hostelite;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import io.realm.Realm;
 
 /**
  * Created by Poornesh on 29-03-2017.
  */
 
 public class AddHostelitesService extends IntentService {
-    String TAG="ADD_HOSTELITE_SERVICE";
-    public static final int STATUS_RUNNING = 0;
-    public static final int STATUS_FINISHED = 1;
-    public static final int STATUS_ERROR = 2;
+
+    String TAG="Add Hostelite service";
     NotificationManager notificationManager;
     Notification myNotification;
+    Hostelite hostelite;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -48,15 +52,19 @@ public class AddHostelitesService extends IntentService {
         super(AddHostelitesService.class.getName());
     }
 
+
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
+
         notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+
+
         //send update
         Intent intentUpdate = new Intent();
         intentUpdate.setAction(Intent.ACTION_DEFAULT);
@@ -96,6 +104,7 @@ public class AddHostelitesService extends IntentService {
         final String gMobile=intent.getStringExtra("gMobile");
         final String hostel=intent.getStringExtra("hostel");
         Log.d(TAG,"HostelPath:"+hostel+"/"+roomNo+"/hostelites");
+        hostelite= Hostelite.create(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
 
         if( accoountExists){
             FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,7 +115,7 @@ public class AddHostelitesService extends IntentService {
                         Log.d("GET DATA", "PARENT: " + childDataSnapshot.getKey());
                         Log.d("GET DATA", "" + childDataSnapshot.child("name").getValue());
                         String uid=childDataSnapshot.getKey();
-                        Hostelite hostelite=new Hostelite(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
+
                         Map<String,Object> hosteliteValue=hostelite.toMap();
                         HosteliteUid hosteliteUid=new HosteliteUid(uid);
                         Map<String,Object> uidValue=hosteliteUid.toMap();
@@ -119,6 +128,7 @@ public class AddHostelitesService extends IntentService {
                         //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
                         Log.d("onHandleIntent","2"+"UID="+uid);
                         mRef.updateChildren(childUpdates);
+                        sendBroadCast(details);
                         Log.d("onHandleIntent","3");
                     }
                 }
@@ -142,7 +152,6 @@ public class AddHostelitesService extends IntentService {
                             .build();
                     user.updateProfile(profileChangeRequest);
                     user.sendEmailVerification();
-                    Hostelite hostelite=new Hostelite(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
                     Map<String,Object> hosteliteValue=hostelite.toMap();
                     HosteliteUid hosteliteUid=new HosteliteUid(uid);
                     Map<String,Object> uidValue=hosteliteUid.toMap();
@@ -151,13 +160,29 @@ public class AddHostelitesService extends IntentService {
                     childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/hostelites", uidValue);
                     Log.d("onHandleIntent","2"+"UID="+uid);
                     mRef.updateChildren(childUpdates);
+                    sendBroadCast(details);
                     Log.d("onHandleIntent","3");
                 }
             });
+
             notificationManager.cancel(7);
         }
 
+
+
         Log.d(TAG, "Service Stopping!");
         this.stopSelf();
+
+
     }
+
+    private void sendBroadCast(Bundle details){
+        //ADD TO LOCAL DATABASE
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(AddHosteliteActivity.ResponseReceiver.ACTION_RESP);
+        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        broadcastIntent.putExtras(details);
+        sendBroadcast(broadcastIntent);
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.psps.projects.bmshostel;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,15 +27,26 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener,LoaderManager.LoaderCallbacks<Cursor>{
+
+
+public  class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener,LoaderManager.LoaderCallbacks<Cursor>{
 
     RecyclerView recyclerView;
     HosteliteAdapter studentAdapter;
-    List<Student> studentList;
     MaterialSearchView materialSearchView;
 
     public StudentListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
     interface menuItemClick{
@@ -56,13 +65,9 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);//Make sure you have this line of code.
         View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
-        studentList=new ArrayList<>();
-        studentList.add(new Student("Poornesh","CSE",6,2));
-        studentList.add(new Student("Pratik","CSE",4,32));
-        studentList.add(new Student("Shashikant","CSE",3,2));
-        studentList.add(new Student("Kudva","BIO",4,3));
-        studentAdapter=new HosteliteAdapter(studentList,rootView.getContext());
+        studentAdapter=new HosteliteAdapter(rootView.getContext());
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
@@ -95,20 +100,17 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        inflater.inflate(R.menu.hostel_menu,menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
+
+
+
+
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.hostel_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    protected abstract MenuInflater getLayoutInflater();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

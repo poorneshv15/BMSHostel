@@ -12,7 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.psps.projects.bmshostel.realmpackage.Hostelite;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by ${Shashikant} on 21-02-2017.
@@ -38,11 +43,12 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
         }
     }
-    private List<Student> studentList;
+    private ArrayList<Hostelite> studentList;
     private Context context;
 
-    DeleteHosteliteAdapter(List<Student> studentList, Context context){
-        this.studentList=studentList;
+    DeleteHosteliteAdapter( Context context){
+
+        this.studentList= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         this.context=context;
     }
 
@@ -54,11 +60,11 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
     @Override
     public void onBindViewHolder(final View_Holder holder, int position) {
-        holder.name.setText(studentList.get(position).name);
-        holder.branch.setText((CharSequence) studentList.get(position).branch);
-        holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).year));
-        Log.d("STUDENTADAPTER : ","Year "+studentList.get(position).year);
-        holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).roomNo));
+        holder.name.setText(studentList.get(position).getName());
+        holder.branch.setText((CharSequence) studentList.get(position).getBranch());
+        holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).getSem()));
+        Log.d("STUDENTADAPTER : ","Year "+studentList.get(position).getSem());
+        holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).getRoomNo()));
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b)

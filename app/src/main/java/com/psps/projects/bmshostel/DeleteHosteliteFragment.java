@@ -17,11 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +25,6 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
 
     RecyclerView recyclerView;
     DeleteHosteliteAdapter studentAdapter;
-    List<Student> studentList;
-    MaterialSearchView materialSearchView;
 
     public DeleteHosteliteFragment() {
         // Required empty public constructor
@@ -52,12 +45,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
-        studentList=new ArrayList<>();
-        studentList.add(new Student("Poornesh","CSE",6,2));
-        studentList.add(new Student("Pratik","CSE",4,32));
-        studentList.add(new Student("Shashikant","CSE",3,2));
-        studentList.add(new Student("Kudva","BIO",4,3));
-        studentAdapter=new DeleteHosteliteAdapter(studentList,rootView.getContext());
+        studentAdapter=new DeleteHosteliteAdapter(rootView.getContext());
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
@@ -75,7 +63,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.delete_fragment_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override

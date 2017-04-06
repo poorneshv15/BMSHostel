@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_horizontal_margin">
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="60dp">
 
 
         <ImageButton
             android:id="@+id/leftArrow"
-            android:layout_width="@dimen/editTextHeight2"
-            android:layout_height="@dimen/editTextHeight2"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
             android:background="@color/colorPrimary" />
         <TextView
             android:id="@+id/roomNoTv"
             android:gravity="center"
             android:layout_width="0dp"
-            android:layout_height="@dimen/editTextHeight2"
+            android:layout_height="60dp"
             android:background="@color/colorPrimary"
             android:textSize="@dimen/student_profile_textSize"
             android:text="Room Number"
@@ -36,8 +33,8 @@
             />
         <ImageButton
             android:id="@+id/rightArrow"
-            android:layout_width="@dimen/editTextHeight2"
-            android:layout_height="@dimen/editTextHeight2"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:background="@color/colorPrimary" />
 
@@ -50,35 +47,36 @@
         android:inputType="textEmailAddress"
         android:drawableStart="@drawable/ic_account_circle_black_24dp"
         android:drawablePadding="@dimen/activity_horizontal_margin" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="@dimen/editTextHeight"
-            android:layout_weight="1"
-            android:id="@+id/sEmailEt"
-            android:hint="@string/username_hint"
-            android:inputType="textEmailAddress"
-            android:drawableStart="@drawable/ic_email_black_24dp"
-            android:drawablePadding="@dimen/activity_horizontal_margin" />
-        <ProgressBar
-            android:id="@+id/loadPb"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="12dp"
-            android:visibility="visible"
-            android:background="@color/transparent"/>
-    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="200dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/editTextHeight"
+                    android:layout_weight="1"
+                    android:id="@+id/sEmailEt"
+                    android:hint="@string/username_hint"
+                    android:inputType="textEmailAddress"
+                    android:drawableStart="@drawable/ic_email_black_24dp"
+                    android:drawablePadding="@dimen/activity_horizontal_margin" />
+                <ProgressBar
+                    android:id="@+id/loadPb"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="12dp"
+                    android:visibility="visible"
+                    android:background="@color/transparent"/>
+            </LinearLayout>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -160,22 +158,16 @@
 
 
 
-        <Button
-            android:id="@+id/addHosteliteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/editTextHeight2"
-            android:text="ADD"
-            android:enabled="true"
-            android:textColor="@color/white1"
-            android:background="@color/colorPrimary" />
+
         </LinearLayout>
     </ScrollView>
+    <Button
+        android:id="@+id/addHosteliteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editTextHeight2"
+        android:text="ADD"
+        android:enabled="true"
+        android:textColor="@color/white1"
+        android:background="@color/colorPrimary" />
 
 </LinearLayout>
-        <android.support.design.widget.FloatingActionButton
-            android:adjustViewBounds="true"
-            android:isScrollContainer="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"/>
-    </FrameLayout>

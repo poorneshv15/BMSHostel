@@ -24,14 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.psps.projects.bmshostel.AddHosteliteActivity;
 import com.psps.projects.bmshostel.R;
-import com.psps.projects.bmshostel.realmpackage.Hostelite;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import io.realm.Realm;
 
 /**
  * Created by Poornesh on 29-03-2017.
@@ -120,18 +116,17 @@ public class AddHostelitesService extends IntentService {
                         HosteliteUid hosteliteUid=new HosteliteUid(uid);
                         Map<String,Object> uidValue=hosteliteUid.toMap();
                         Map<String, Object> childUpdates = new HashMap<>();
-
-                        String hostelites="hostelites";
-                        childUpdates.put("/users/"+uid,hosteliteValue);
-                        childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/"+hostelites, uidValue);
-                        Log.d("GET DATA", "PARENT: " +childUpdates.toString());
+                        childUpdates.put("/users/" + uid, hosteliteValue);
+                        childUpdates.put("/hostel/" + hostel + "/" + String.format(Locale.US, "%d", roomNo) + "/hostelites/"+uid, uidValue);
+                        Log.d("GET DATA", "PARENT: " + childUpdates.toString());
                         //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
-                        Log.d("onHandleIntent","2"+"UID="+uid);
+                        Log.d("onHandleIntent", "2" + "UID=" + uid);
                         mRef.updateChildren(childUpdates);
-                        sendBroadCast(details);
-                        Log.d("onHandleIntent","3");
+                        Log.d("onHandleIntent", "3");
+
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError)
                 {
@@ -157,32 +152,29 @@ public class AddHostelitesService extends IntentService {
                     Map<String,Object> uidValue=hosteliteUid.toMap();
                     Map<String, Object> childUpdates = new HashMap<>();
                     childUpdates.put("/users/"+uid,hosteliteValue);
-                    childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/hostelites", uidValue);
+                    childUpdates.put("/hostel/"+ hostel+"/"+String.format(Locale.US,"%d",roomNo)+"/hostelites/"+uid, uidValue);
                     Log.d("onHandleIntent","2"+"UID="+uid);
                     mRef.updateChildren(childUpdates);
-                    sendBroadCast(details);
                     Log.d("onHandleIntent","3");
+
                 }
             });
+
 
             notificationManager.cancel(7);
         }
 
 
-
-        Log.d(TAG, "Service Stopping!");
-        this.stopSelf();
-
-
-    }
-
-    private void sendBroadCast(Bundle details){
         //ADD TO LOCAL DATABASE
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(AddHosteliteActivity.ResponseReceiver.ACTION_RESP);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtras(details);
         sendBroadcast(broadcastIntent);
+        Log.d(TAG, "Service Stopping!");
+        this.stopSelf();
+
+
     }
 
 }

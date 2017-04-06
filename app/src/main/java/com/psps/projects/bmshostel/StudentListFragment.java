@@ -2,12 +2,10 @@ package com.psps.projects.bmshostel;
 
 
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -45,6 +43,9 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         return false;
     }
 
+
+
+
     interface menuItemClick{
         void onMenuClick(int id);
     }
@@ -55,6 +56,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
     public void onAttach(Context context) {
         super.onAttach(context);
         this.menuSelected=(menuItemClick)context;
+
     }
 
     @Override
@@ -67,6 +69,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
+
         materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
         setHasOptionsMenu(true);
         return rootView;

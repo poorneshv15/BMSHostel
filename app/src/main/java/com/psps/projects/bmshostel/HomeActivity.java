@@ -75,6 +75,9 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                         fragment=new EventsFragment();
                         break;
                     case R.id.nav_syllabus:
+                        Intent startup=new Intent(HomeActivity.this,WardenStartup.class);
+                        startup.putExtra("uid","TtReZ5GWNverdjEcnsRHfMub2n42");
+                        startService(startup);
                         fragment=new SyllabusFragment();
                         break;
                     case R.id.nav_hostel:
@@ -157,5 +160,8 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
 
 
         }
+    }
+    public void showProfileOf(String email) {
+
     }
 }

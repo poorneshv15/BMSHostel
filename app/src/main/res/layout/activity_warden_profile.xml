@@ -40,7 +40,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/sEmailTv"
+                android:id="@+id/sRoomNoTv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/editTextHeight3"
                 android:layout_marginTop="10dp"
@@ -52,7 +52,7 @@
             <TextView
                 android:id="@+id/sMobileTv"
                 android:layout_width="match_parent"
-                android:layout_below="@id/sEmailTv"
+                android:layout_below="@id/sRoomNoTv"
                 android:layout_height="@dimen/editTextHeight3"
                 android:layout_marginTop="10dp"
                 android:drawablePadding="@dimen/activity_horizontal_margin"

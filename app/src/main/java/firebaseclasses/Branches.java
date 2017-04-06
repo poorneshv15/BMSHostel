@@ -1,6 +1,7 @@
 package firebaseclasses;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 /**
  * Created by Poornesh on 03-04-2017.
@@ -9,7 +10,13 @@ import android.support.annotation.NonNull;
 public  class Branches {
     @NonNull
     public static String getBranch(String USN){
-        String branch=USN.trim().substring(5,7);
+        String branch="BBBBBBBBBB";
+        try{
+            branch=USN.trim().substring(5,7);
+        }catch (StringIndexOutOfBoundsException e){
+            Log.d("INCORRECT","USN");
+        }
+
         switch (branch){
             case "CS":
                 return "CSE";

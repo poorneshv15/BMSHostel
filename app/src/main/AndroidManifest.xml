@@ -42,9 +42,14 @@
             android:name=".AddHosteliteActivity"
             android:label="@string/title_activity_add_hostelite"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".HosteliteProfile"
+            android:label="@string/title_activity_add_hostelite"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".HosteliteSignupActivity" />
-        <activity android:name=".WardenProfileActivity"/>
+        <service android:name=".WardenStartup"
+            android:exported="false"/>
         <service android:name="firebaseclasses.AddHostelitesService"
             android:exported="false"/>
     </application>

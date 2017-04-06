@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +28,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ProviderQueryResult;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +43,7 @@ import java.util.regex.Pattern;
 
 public class AddHosteliteDialogF extends DialogFragment implements View.OnClickListener{
 
+    List<String> emailsAdded=new ArrayList<>();
     static int roomNumber;
     static boolean accountExists;
     EditText emailEt;
@@ -46,6 +52,8 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     ProgressBar loadPb;
     Button addHosteliteButton;
     FetchProviders accountExistsTask;
+    ListIterator<Integer> roomsIterator;
+    int currentIndex;
     public AddHosteliteDialogF() {
 
         // Empty constructor is required for DialogFragment
@@ -89,7 +97,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         emailEt=(EditText)view.findViewById(R.id.sEmailEt);
         // Get field from view
         roomNoTv = (TextView) view.findViewById(R.id.roomNoTv);
-        roomNoTv.setText(String.format(Locale.US,"%d",roomNumber));
+        roomNoTv.setText(String.format(Locale.US,"%d",roomsIterator.next()));
         loadPb = (ProgressBar) view.findViewById(R.id.loadPb);
         addHosteliteButton=(Button)view.findViewById(R.id.addHosteliteBtn);
         userDetails[0]=(EditText)view.findViewById(R.id.sNameEt);
@@ -150,6 +158,8 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        roomsIterator=AddHosteliteActivity.rooms.listIterator(currentIndex=AddHosteliteActivity.rooms.indexOf(roomNumber));
+        Log.d("ADD H F ","Room Number"+roomNumber+" index"+AddHosteliteActivity.rooms.indexOf(roomNumber));
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -164,20 +174,35 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        Log.d("ADD DAILOG FRAGMENT","Button CLICKED");
         switch (v.getId()) {
             case R.id.rightArrow:
-                roomNumber += 1;
-                roomNoTv.setText(String.format(Locale.US, "%d", roomNumber));
+                if(roomsIterator.hasNext() && AddHosteliteActivity.currentCapacity[roomsIterator.nextIndex()]<AddHosteliteActivity.maxCapacityPerRoom){
+                    roomNoTv.setText(String.format(Locale.US, "%d",roomsIterator.next()));
+                    currentIndex=roomsIterator.nextIndex();
+                    Log.d("ADD DAILOG FRAGMENT","Right"+currentIndex+roomsIterator.hasNext()+roomNoTv.getText().toString());
+                }
+
                 break;
             case R.id.leftArrow:
-                roomNumber -= 1;
-                roomNoTv.setText(String.format(Locale.US, "%d", roomNumber));
+                if(roomsIterator.hasPrevious() && AddHosteliteActivity.currentCapacity[roomsIterator.previousIndex()]<AddHosteliteActivity.maxCapacityPerRoom){
+                    roomNoTv.setText(String.format(Locale.US, "%d", roomsIterator.previous()));
+                    currentIndex=roomsIterator.previousIndex();
+                    Log.d("ADD DAILOG FRAGMENT","Left"+currentIndex+roomsIterator.hasPrevious()+roomNoTv.getText().toString());
+                }
+
                 break;
             case R.id.addHosteliteBtn:
+                String email=emailEt.getText().toString();
+                if(emailsAdded.contains(email)){
+                    Toast.makeText(getContext(), "Either Adding or Already added\n plz try After some time", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                emailsAdded.add(email);
                 Log.d("ADDHOSTELITE BUTTON","clicked");
                 Bundle bundle=new Bundle();
                 bundle.putString("name",userDetails[0].getText().toString());
-                bundle.putString("email",emailEt.getText().toString());
+                bundle.putString("email",email);
                 bundle.putString("usn",userDetails[1].getText().toString());
                 bundle.putString("mobile",userDetails[2].getText().toString());
                 bundle.putString("fName",userDetails[3].getText().toString());
@@ -196,11 +221,17 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 break;
             case R.id.loadPb:
                 if (accountExists) {
-
                     loadPb.setBackground(ContextCompat.getDrawable(v.getContext(),R.drawable.ic_info_outline_black_24dp));
 
                 }
         }
+    }
+
+    public void clearAllEditTexts(){
+        for(int i=0;i<9;i++){
+            userDetails[i].setText(null);
+        }
+        emailEt.setText(null);
     }
 
     private class FetchProviders extends AsyncTask<String,Boolean,Boolean>{

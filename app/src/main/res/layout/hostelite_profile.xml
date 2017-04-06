@@ -27,6 +27,7 @@
             android:orientation="vertical"
             android:layout_gravity="bottom"/>
         <TextView
+            android:id="@+id/nameTv"
             android:layout_width="match_parent"
             android:layout_height="@dimen/editTextHeight"
             android:labelFor="@id/sProfileIv"
@@ -37,6 +38,7 @@
             android:textSize="40sp"
             android:text="Shashikant"/>
         <TextView
+            android:id="@+id/branchSemTv"
             android:layout_width="match_parent"
             android:layout_height="@dimen/editTextHeight2"
             android:labelFor="@id/sProfileIv"
@@ -66,7 +68,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
                 <TextView
-                    android:id="@+id/sEmailTv"
+                    android:id="@+id/sRoomNoTv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
                     android:layout_marginTop="10dp"
@@ -75,10 +77,10 @@
                     android:textSize="@dimen/student_profile_textSize"
                     android:text="3001"/>
                 <TextView
-                    android:id="@+id/sEmailInputEt"
+                    android:id="@+id/sUsn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
-                    android:layout_below="@id/sEmailTv"
+                    android:layout_below="@id/sRoomNoTv"
                     android:layout_marginTop="10dp"
                     android:textIsSelectable="true"
                     android:drawablePadding="@dimen/activity_horizontal_margin"
@@ -88,7 +90,7 @@
                 <TextView
                     android:id="@+id/sMobileTv"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/sEmailInputEt"
+                    android:layout_below="@id/sUsn"
                     android:layout_height="@dimen/editTextHeight3"
                     android:layout_marginTop="10dp"
                     android:drawablePadding="@dimen/activity_horizontal_margin"

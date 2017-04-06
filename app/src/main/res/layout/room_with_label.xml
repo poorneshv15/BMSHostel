@@ -7,7 +7,7 @@
         android:id="@+id/roomIv"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_crop_portrait_black_24dp"
+        android:src="@drawable/empty_room"
         android:contentDescription="Student profile"/>
 
     <TextView

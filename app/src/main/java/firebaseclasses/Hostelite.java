@@ -1,13 +1,11 @@
-package com.psps.projects.bmshostel.realmpackage;
+package firebaseclasses;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import firebaseclasses.Branches;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Poornesh on 03-04-2017.
@@ -24,11 +22,15 @@ public class Hostelite extends RealmObject {
     String guardianName;
     String guardianAddress;
     String guardianMobile;
-    String hostel;
+    String hostelName;
     boolean hostelite;
     int roomNo;
     String branch;
     int sem;
+
+    public Hostelite(){
+        //Empty Constructor
+    }
 
     public String getBranch() {
         return branch;
@@ -59,7 +61,7 @@ public class Hostelite extends RealmObject {
         hostelite.guardianName = guardianName;
         hostelite.guardianAddress = guardianAddress;
         hostelite.guardianMobile = guardianMobile;
-        hostelite.hostel = hostel;
+        hostelite.hostelName = hostel;
         hostelite.hostelite = true;
         hostelite.roomNo=roomNo;
         hostelite.branch= Branches.getBranch(usn);
@@ -82,8 +84,11 @@ public class Hostelite extends RealmObject {
         result.put("guardianAddress", guardianAddress);
         result.put("guardianMobile", guardianMobile);
         result.put("hostelite", hostelite);
-        result.put("roomNo",hostel+"/"+roomNo);
-        //result.put("hostel/"+hostel+"/"+roomNo, true);
+        result.put("roomNo",roomNo);
+        result.put("hostelName",hostelName);
+        result.put("sem",sem);
+        result.put("branch",branch);
+        //result.put("hostelName/"+hostelName+"/"+roomNo, true);
 
         return result;
     }
@@ -171,12 +176,12 @@ public class Hostelite extends RealmObject {
         this.guardianMobile = guardianMobile;
     }
 
-    public String getHostel() {
-        return hostel;
+    public String getHostelName() {
+        return hostelName;
     }
 
-    public void setHostel(String hostel) {
-        this.hostel = hostel;
+    public void setHostelName(String hostelName) {
+        this.hostelName = hostelName;
     }
 
     public boolean isHostelite() {
@@ -208,9 +213,11 @@ public class Hostelite extends RealmObject {
                 ", guardianName='" + guardianName + '\'' +
                 ", guardianAddress='" + guardianAddress + '\'' +
                 ", guardianMobile='" + guardianMobile + '\'' +
-                ", hostel='" + hostel + '\'' +
+                ", hostelName='" + hostelName + '\'' +
                 ", hostelite=" + hostelite +
                 ", roomNo=" + roomNo +
                 '}';
     }
+
+
 }

@@ -17,11 +17,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.psps.projects.bmshostel.realmpackage.Hostelite;
-import com.psps.projects.bmshostel.realmpackage.RealmHelper;
+import firebaseclasses.Hostelite;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import firebaseclasses.AddHostelitesService;
@@ -31,7 +31,7 @@ import io.realm.Realm;
 public class AddHosteliteActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener,View.OnClickListener,AddHosteliteDialogF.AddStudent{
 
     String TAG="AddHosteliteActivity";
-    List<Integer> rooms=new ArrayList<>();
+    static List<Integer> rooms;
     RoomAdapter roomAdapter;
     GridView gridview;
     FragmentManager fm;
@@ -39,6 +39,8 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     static FirebaseAuth mAuth=FirebaseAuth.getInstance();
     static String hostelName;
     private ResponseReceiver receiver;
+    static int[] currentCapacity;
+    static int maxCapacityPerRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,16 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         studentsRv.setLayoutManager(new LinearLayoutManager(this));
         studentsRv.setAdapter(new AddHosteliteAdapter(150));*/
         realm=Realm.getDefaultInstance();
-        int floors=Hostel.IH.floors;
-        hostelName=Hostel.IH.hostelName;
+        Hostel hostel=realm.where(Hostel.class).findFirst();
+
+        maxCapacityPerRoom=hostel.getMaxCapacityOfRoom();
+        int floors=hostel.getFloors();
+        hostelName=hostel.getHostelName();
+        final int[] roomsUnderControl=hostel.getRoomsUnderCotrol();
+        rooms=new ArrayList<Integer>() {{ for (int i : roomsUnderControl) add(i); }};
+        currentCapacity=hostel.getCurrentCapacity();
+        for(int i:roomsUnderControl)
+            Log.d("ADD HOSTELITE","Rooms"+i);
         fm = getSupportFragmentManager();
         SegmentedGroup floorsSg=(SegmentedGroup)findViewById(R.id.floorSg);
         floorsSg.setOnCheckedChangeListener(this);
@@ -65,9 +75,6 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
             floorsSg.addView(radioButton);
             floorsSg.updateBackground();
         }
-        rooms.add(1);
-        rooms.add(2);
-        rooms.add(3);
         gridview= (GridView) findViewById(R.id.gridview);
         roomAdapter=new RoomAdapter(this,Hostel.IH,0,rooms);
         gridview.setAdapter(roomAdapter);
@@ -78,6 +85,8 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
                     int roomNumber=roomAdapter.assignBaseRoom+position;
                     Toast.makeText(AddHosteliteActivity.this, "" +roomNumber ,
                             Toast.LENGTH_SHORT).show();
+                    if(AddHosteliteActivity.currentCapacity[rooms.indexOf(roomNumber)]==maxCapacityPerRoom)
+                        return;
                     AddHosteliteDialogF addHosteliteDialogF = AddHosteliteDialogF.newInstance(roomNumber);
                     addHosteliteDialogF.show(fm, "fragment_edit_name");
 
@@ -117,14 +126,57 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         Intent intent=new Intent(this, AddHostelitesService.class);
         intent.putExtras(bundle);
         startService(intent);
+
+
     }
 
     public class ResponseReceiver extends BroadcastReceiver{
         public static final String ACTION_RESP =
                 "com.psps.projects.bmshostel.STUDENT ADDED";
+        Bundle hostelite;
         @Override
         public void onReceive(Context context, Intent intent) {
-            RealmHelper.addHostelite(realm,intent.getExtras());
+            hostelite=intent.getExtras();
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm bgRealm) {
+                    Hostelite user = bgRealm.createObject(Hostelite.class);
+                    user.setName(hostelite.getString("name"));
+                    user.setEmail(hostelite.getString("email"));
+                    user.setUsn(hostelite.getString("usn"));
+                    user.setMobile(hostelite.getString("mobile"));
+                    user.setFatherName(hostelite.getString("fName"));
+                    user.setFatherMobile(hostelite.getString("fMobile"));
+                    user.setFatherAddress(hostelite.getString("fAddress"));
+                    user.setGuardianName(hostelite.getString("gName"));
+                    user.setGuardianMobile(hostelite.getString("gMobile"));
+                    user.setGuardianAddress(hostelite.getString("gAddress"));
+                    user.setHostelName(hostelite.getString("hostel"));
+                    user.setRoomNo(hostelite.getInt("roomNo"));
+                    user.setSem(6);
+                    user.setBranch("CSE");
+                    user.setHostelite(true);
+                    currentCapacity[rooms.indexOf(hostelite.getInt("roomNo"))]++;
+                    bgRealm.where(Hostel.class).findFirst().setCurrentCapacity(currentCapacity);
+
+                }
+            }, new Realm.Transaction.OnSuccess() {
+                @Override
+                public void onSuccess() {
+                    // Transaction was a success.
+
+                    Log.d("REALM ADD HOSTELITE ","Success");
+                    Log.d("CURRENT CAPACITY["+hostelite.getInt("roomNo")+"]"," = " +currentCapacity[rooms.indexOf(hostelite.getInt("roomNo"))]);
+                    //Toast.makeText(AddHosteliteActivity.this, "Student Added", Toast.LENGTH_SHORT).show();
+                }
+            }, new Realm.Transaction.OnError() {
+                @Override
+                public void onError(Throwable error) {
+                    // Transaction failed and was automatically canceled.
+                    Log.e("REALM ADD HOSTELITE ",error.getMessage());
+                }
+            });
+
 
         }
     }

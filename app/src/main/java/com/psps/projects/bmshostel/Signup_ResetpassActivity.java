@@ -31,7 +31,12 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup__resetpass);
         Intent intent =getIntent();
         final boolean re_or_cr=intent.getBooleanExtra(RESET_OR_CREATE,false);
-        getSupportActionBar().setTitle(intent.getStringExtra(TITLE));
+        try{
+            getSupportActionBar().setTitle(intent.getStringExtra(TITLE));
+        }catch (NullPointerException e){
+            Log.e("SET TITLE",e.getMessage());
+        }
+
         mAuth=FirebaseAuth.getInstance();
         Log.d("Signup_ResetpassActivit","onCreate");
         final ImageButton goIb=(ImageButton)findViewById(R.id.goIb);

@@ -1,6 +1,7 @@
 package com.psps.projects.bmshostel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,29 +11,27 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.psps.projects.bmshostel.realmpackage.Hostelite;
+import firebaseclasses.Hostelite;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by ${Shashikant} on 21-02-2017.
  */
 
 class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder> implements Filterable {
-    Realm realm;
+
+
 
     @Override
     public Filter getFilter() {
         return null;
     }
 
-    static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
         ImageView dp;
         View_Holder(View itemView) {
@@ -41,19 +40,23 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
             branch=(TextView) itemView.findViewById(R.id.branchTv);
             year=(TextView) itemView.findViewById(R.id.yearTv);
             room=(TextView) itemView.findViewById(R.id.roomTv);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
+            Log.d("HOSTELITE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition());
+            Intent hosteliteProfileIntent=new Intent(context,HosteliteProfile.class);
+            hosteliteProfileIntent.putExtra("email",studentList.get(getLayoutPosition()).getEmail());
+            context.startActivity(hosteliteProfileIntent);
+            //Toast.makeText(v.getContext(), getLayoutPosition(), Toast.LENGTH_SHORT).show();
         }
     }
     private ArrayList<Hostelite> studentList;
     private Context context;
 
     HosteliteAdapter( Context context){
-        realm=Realm.getDefaultInstance();
-        this.studentList= new ArrayList(realm.where(Hostelite.class).findAll());
+        this.studentList= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         this.context=context;
     }
 
@@ -79,4 +82,6 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
             return 0;
         return studentList.size();
     }
+
+
 }

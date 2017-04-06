@@ -85,7 +85,9 @@ public class LoginActivity extends AppCompatActivity  implements
 
                                 }.execute("WARDEN");
                                 Log.d(TAG," The user is warden");
-
+                                Intent startup=new Intent(LoginActivity.this,WardenStartup.class);
+                                startup.putExtra("uid",user.getUid());
+                                startService(startup);
                                 Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
                                 //intent.putExtra(HomeActivity.USER_TYPE,"WARDEN");
                                 startActivity(intent);

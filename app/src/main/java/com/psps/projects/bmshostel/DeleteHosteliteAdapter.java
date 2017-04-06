@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.psps.projects.bmshostel.realmpackage.Hostelite;
+import firebaseclasses.Hostelite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ import io.realm.Realm;
 
 class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter.View_Holder> {
 
+    List<String> emails;
     static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
         CheckBox cb;
@@ -59,9 +60,9 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
     }
 
     @Override
-    public void onBindViewHolder(final View_Holder holder, int position) {
+    public void onBindViewHolder(final View_Holder holder, final int position) {
         holder.name.setText(studentList.get(position).getName());
-        holder.branch.setText((CharSequence) studentList.get(position).getBranch());
+        holder.branch.setText( studentList.get(position).getBranch());
         holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).getSem()));
         Log.d("STUDENTADAPTER : ","Year "+studentList.get(position).getSem());
         holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).getRoomNo()));
@@ -72,11 +73,11 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
             {
                 if(b)
                 {
-
+                    emails.add(studentList.get(position).getEmail());
                 }
                 else
                 {
-
+                    emails.remove(studentList.get(position).getEmail());
                 }
 
             }

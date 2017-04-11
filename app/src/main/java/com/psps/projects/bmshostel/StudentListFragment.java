@@ -70,7 +70,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
 
-        materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
+        //materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
         setHasOptionsMenu(true);
         return rootView;
     }

@@ -45,6 +45,14 @@ public class WardenStartup extends IntentService {
         final FirebaseDatabase mDatabase=FirebaseDatabase.getInstance();
 
 
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(Hostelite.class);
+                realm.delete(Hostel.class);
+
+            }
+        });
         mDatabase.getReference("/wardens/"+intent.getStringExtra("uid")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -66,7 +74,6 @@ public class WardenStartup extends IntentService {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            realm.delete(Hostel.class);
                             Hostel hostel=realm.createObject(Hostel.class);
                             hostel.setHostelName(hostelName);
                             hostel.setRoomsUnderCotrol(roomsUnderControl);

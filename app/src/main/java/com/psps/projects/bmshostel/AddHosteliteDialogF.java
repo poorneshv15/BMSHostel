@@ -193,28 +193,20 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
                 break;
             case R.id.addHosteliteBtn:
-                String email=emailEt.getText().toString();
-                if(emailsAdded.contains(email)){
-                    Toast.makeText(getContext(), "Either Adding or Already added\n plz try After some time", Toast.LENGTH_SHORT).show();
-                    return;
+                if(validate()){
+                    String email=emailEt.getText().toString();
+                    if(emailsAdded.contains(email)){
+                        Toast.makeText(getContext(), "Either Adding or Already added\n plz try After some time", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else if(!accountExists){
+                        emailEt.setError("Account does Not Exist!");
+                        return;
+                    }
+
+                    addStudentListener.addStudent(putIntoBundle(email));
                 }
-                emailsAdded.add(email);
-                Log.d("ADDHOSTELITE BUTTON","clicked");
-                Bundle bundle=new Bundle();
-                bundle.putString("name",userDetails[0].getText().toString());
-                bundle.putString("email",email);
-                bundle.putString("usn",userDetails[1].getText().toString());
-                bundle.putString("mobile",userDetails[2].getText().toString());
-                bundle.putString("fName",userDetails[3].getText().toString());
-                bundle.putString("fMobile",userDetails[4].getText().toString());
-                bundle.putString("fAddress",userDetails[5].getText().toString());
-                bundle.putString("gName",userDetails[6].getText().toString());
-                bundle.putString("gMobile",userDetails[7].getText().toString());
-                bundle.putString("gAddress",userDetails[8].getText().toString());
-                bundle.putString("hostel",AddHosteliteActivity.hostelName);
-                bundle.putBoolean("accountExists",accountExists);
-                bundle.putInt("roomNo",roomNumber);
-                addStudentListener.addStudent(bundle);
+
                 break;
             case R.id.roomNoTv:
 
@@ -225,6 +217,91 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
                 }
         }
+    }
+
+    private Bundle putIntoBundle(String email) {
+        emailsAdded.add(email);
+        Log.d("ADDHOSTELITE BUTTON","clicked");
+        Bundle bundle=new Bundle();
+        bundle.putString("name",userDetails[0].getText().toString());
+        bundle.putString("email",email);
+        bundle.putString("usn",userDetails[1].getText().toString());
+        bundle.putString("mobile",userDetails[2].getText().toString());
+        bundle.putString("fName",userDetails[3].getText().toString());
+        bundle.putString("fMobile",userDetails[4].getText().toString());
+        bundle.putString("fAddress",userDetails[5].getText().toString());
+        bundle.putString("gName",userDetails[6].getText().toString());
+        bundle.putString("gMobile",userDetails[7].getText().toString());
+        bundle.putString("gAddress",userDetails[8].getText().toString());
+        bundle.putString("hostel",AddHosteliteActivity.hostelName);
+        bundle.putBoolean("accountExists",accountExists);
+        bundle.putInt("roomNo",roomNumber);
+        return bundle;
+    }
+
+    private boolean validate() {
+        if(userDetails[0].getText().toString().trim().length()<3){
+            userDetails[0].setError("Minimum 3 characters!");
+            userDetails[0].requestFocus();
+            return false;
+        }
+        userDetails[0].setError(null);
+        if(!isValidEmail(emailEt.getText().toString().trim())){
+            emailEt.setError("Invalid Email!");
+            emailEt.requestFocus();
+            return false;
+        }
+        emailEt.setError(null);
+        if(  (userDetails[1].getText().toString().trim().length()!=10 )  )
+        {
+            //our failure of checking to start with 1BM....
+            userDetails[1].setError("Invalid USN!");
+            userDetails[1].requestFocus();
+            return false;
+        }
+        userDetails[1].setError(null);
+        if(  (userDetails[2].getText().toString().trim().length()!=10 )  )
+        {
+
+            userDetails[2].setError("Invalid No");
+            userDetails[2].requestFocus();
+            return false;
+        }
+        userDetails[2].setError(null);
+        if(userDetails[3].getText().toString().trim().length()<3){
+            userDetails[3].setError("Minimum 3 characters!");
+            userDetails[3].requestFocus();
+            return false;
+        }
+        userDetails[3].setError(null);
+        if(  (userDetails[4].getText().toString().trim().length()!=10 )  )
+        {
+
+            userDetails[4].setError("Invalid No");
+            userDetails[4].requestFocus();
+            return false;
+        }
+        userDetails[4].setError(null);
+        if (userDetails[6].getText().toString().trim().length()>0||userDetails[7].getText().toString().trim().length()>0 )
+        {
+            if(userDetails[6].getText().toString().trim().length()<3){
+                userDetails[6].setError("Minimum 3 characters!");
+                userDetails[6].requestFocus();
+                return false;
+            }
+            userDetails[6].setError(null);
+            if(  (userDetails[7].getText().toString().trim().length()!=10 )  )
+            {
+
+                userDetails[7].setError("Invalid No");
+                userDetails[7].requestFocus();
+                return false;
+            }
+            userDetails[7].setError(null);
+        }
+
+
+        return true;
     }
 
     public void clearAllEditTexts(){

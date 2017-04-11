@@ -40,6 +40,7 @@ public class AddHostelitesService extends IntentService {
     Notification myNotification;
     Hostelite hostelite;
 
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -57,10 +58,41 @@ public class AddHostelitesService extends IntentService {
         notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
+     DatabaseReference mRef;
+     Bundle details;
+    boolean accoountExists;
+     int roomNo;
+     String name ;
+     String email;
+     String usn;
+     String mobile;
+     String fName;
+     String fMobile;
+     String fAddress;
+     String gName;
+     String gAddress;
+     String gMobile;
+     String hostel;
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
 
+        mRef=FirebaseDatabase.getInstance().getReference();
+        details=intent.getExtras();
+        accoountExists=details.getBoolean("accountExists",false);
+        roomNo=details.getInt("roomNo");
+        name = intent.getStringExtra("name");
+        email=intent.getStringExtra("email");
+        usn=intent.getStringExtra("usn");
+        mobile=intent.getStringExtra("mobile");
+        fName=intent.getStringExtra("fName");
+        fMobile=intent.getStringExtra("fMobile");
+        fAddress=intent.getStringExtra("fAddress");
+        gName=intent.getStringExtra("gName");
+        gMobile=intent.getStringExtra("gMobile");
+        gAddress=intent.getStringExtra("gAddress");
+        hostel=intent.getStringExtra("hostel");
         //send update
         Intent intentUpdate = new Intent();
         intentUpdate.setAction(Intent.ACTION_DEFAULT);
@@ -83,27 +115,13 @@ public class AddHostelitesService extends IntentService {
 
 
         Log.d(TAG, "Service Started!");
-        FirebaseDatabase mDatabase=FirebaseDatabase.getInstance();
-        final DatabaseReference mRef=mDatabase.getReference();
-        final Bundle details=intent.getExtras();
-        boolean accoountExists=details.getBoolean("accountExists",false);
-        final int roomNo=details.getInt("roomNo");
-        final String name = intent.getStringExtra("name");
-        final String email=intent.getStringExtra("email");
-        final String usn=intent.getStringExtra("usn");
-        final String mobile=intent.getStringExtra("mobile");
-        final String fName=intent.getStringExtra("fName");
-        final String fMobile=intent.getStringExtra("fMobile");
-        final String fAddress=intent.getStringExtra("fAddress");
-        final String gName=intent.getStringExtra("gName");
-        final String gAddress=intent.getStringExtra("gAddress");
-        final String gMobile=intent.getStringExtra("gMobile");
-        final String hostel=intent.getStringExtra("hostel");
+
+
         Log.d(TAG,"HostelPath:"+hostel+"/"+roomNo+"/hostelites");
         hostelite= Hostelite.create(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
 
         if( accoountExists){
-            FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            mRef.child("users").orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 

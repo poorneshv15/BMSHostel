@@ -30,7 +30,8 @@
         <activity
             android:name=".StudentSignUpActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".HomeActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,6 +53,7 @@
             android:exported="false"/>
         <service android:name="firebaseclasses.AddHostelitesService"
             android:exported="false"/>
+        <service android:name="firebaseclasses.DeleteHosteliteService"/>
     </application>
 
 </manifest>

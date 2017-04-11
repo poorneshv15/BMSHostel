@@ -25,7 +25,7 @@ import io.realm.Realm;
 
 class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter.View_Holder> {
 
-    List<String> emails;
+    static List<String> emails=new ArrayList<>();
     static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
         CheckBox cb;
@@ -97,6 +97,7 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
         });
 
     }
+
 
     @Override
     public int getItemCount() {

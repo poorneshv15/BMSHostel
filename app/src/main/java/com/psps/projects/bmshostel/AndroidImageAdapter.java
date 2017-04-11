@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-public class AndroidImageAdapter extends PagerAdapter {
-    Context mContext;
+class AndroidImageAdapter extends PagerAdapter {
+    private Context mContext;
 
     AndroidImageAdapter(Context context) {
         this.mContext = context;

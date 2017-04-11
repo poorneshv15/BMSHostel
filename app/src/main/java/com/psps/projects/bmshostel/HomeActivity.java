@@ -17,6 +17,10 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
+import firebaseclasses.DeleteHosteliteService;
+
 
 public class HomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
@@ -155,6 +159,12 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 break;
             case R.id.action_done:
                 //Deleete Selected Students...............
+                Intent intent=new Intent(this, DeleteHosteliteService.class);
+                intent.putStringArrayListExtra("emails", (ArrayList<String>) DeleteHosteliteAdapter.emails);
+                startService(intent);
+                DeleteHosteliteAdapter.emails.clear();
+                fragmentManager.popBackStack();
+                bottomNavigationView.setVisibility(View.VISIBLE);
                 break;
 
 

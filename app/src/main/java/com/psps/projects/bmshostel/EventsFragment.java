@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment{
 
 
     public EventsFragment() {
@@ -23,7 +25,12 @@ public class EventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false);
+       View rootView= inflater.inflate(R.layout.fragment_events, container, false);
+
+        ViewPager mViewPager = (ViewPager)rootView.findViewById(R.id.viewPageAndroid);
+        AndroidImageAdapter adapterView = new AndroidImageAdapter(getContext());
+        mViewPager.setAdapter(adapterView);
+        return rootView;
     }
 
 }

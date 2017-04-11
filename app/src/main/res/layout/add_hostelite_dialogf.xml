@@ -60,14 +60,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/sEmailEt"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/editTextHeight"
                     android:layout_weight="1"
-                    android:id="@+id/sEmailEt"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_email_black_24dp"
                     android:hint="@string/username_hint"
                     android:inputType="textEmailAddress"
-                    android:drawableStart="@drawable/ic_email_black_24dp"
-                    android:drawablePadding="@dimen/activity_horizontal_margin" />
+                    android:saveEnabled="true" />
                 <ProgressBar
                     android:id="@+id/loadPb"
                     android:layout_width="16dp"
@@ -77,15 +78,16 @@
                     android:visibility="visible"
                     android:background="@color/transparent"/>
             </LinearLayout>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sUsnEt"
-            android:hint="@string/usn"
-            android:inputType="textCapCharacters"
-            android:drawableStart="@drawable/ic_hostel_room"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            />
+
+            <EditText
+                android:id="@+id/sUsnEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:drawableStart="@drawable/ic_hostel_room"
+                android:hint="@string/usn"
+                android:inputType="textCapCharacters"
+                android:saveEnabled="true" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

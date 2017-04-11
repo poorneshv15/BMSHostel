@@ -9,6 +9,7 @@
     <color name="white2">#c6dcd5d5</color>
     <color name="dark_grey">#535359</color>
     <color name="transparent">#00abc6e6</color>
+    <color name="light_grey">#455A64</color>
     <color name="bg_color">#eeeeee</color>
     <color name="textColor">#464444</color>
     <!-- material style color -->

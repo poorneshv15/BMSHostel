@@ -12,7 +12,7 @@ import io.realm.RealmObject;
  */
 
 public class Hostelite extends RealmObject {
-    String name;
+    public String name;
     String email;
     String usn;
     String mobile;

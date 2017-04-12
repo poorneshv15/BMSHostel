@@ -7,13 +7,17 @@ package com.psps.projects.bmshostel;
 public class newStudent {
     String usn;
     boolean hostelite;
+    String email;
+    String name;
 
     public newStudent() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public newStudent( String usn) {
+    public newStudent(String name,String email, String usn) {
         this.usn = usn;
         this.hostelite=false;
+        this.email=email;
+        this.name=name;
     }
 }

@@ -91,7 +91,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
                                         }
                                     });
                             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                            newStudent student=new newStudent(usnEt.getText().toString());
+                            newStudent student=new newStudent(nameEt.getText().toString(),email,usnEt.getText().toString());
                             myRef.child(user.getUid()).setValue(student);
                             user.sendEmailVerification();
                             mAuth.signOut();

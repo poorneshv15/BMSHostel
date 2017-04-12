@@ -75,6 +75,7 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
             floorsSg.addView(radioButton);
             floorsSg.updateBackground();
         }
+
         gridview= (GridView) findViewById(R.id.gridview);
         roomAdapter=new RoomAdapter(this,Hostel.IH,0,rooms);
         gridview.setAdapter(roomAdapter);

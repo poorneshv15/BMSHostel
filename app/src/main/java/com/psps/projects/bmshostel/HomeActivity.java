@@ -24,6 +24,7 @@ import firebaseclasses.DeleteHosteliteService;
 
 public class HomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
+    static boolean searchExpanded=false;
     public static String USER_TYPE="USER_TYPE";
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -31,11 +32,12 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     Fragment fragment;
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         mAuthListener=new FirebaseAuth.AuthStateListener(){
@@ -79,9 +81,6 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                         fragment=new EventsFragment();
                         break;
                     case R.id.nav_syllabus:
-                        Intent startup=new Intent(HomeActivity.this,WardenStartup.class);
-                        startup.putExtra("uid","TtReZ5GWNverdjEcnsRHfMub2n42");
-                        startService(startup);
                         fragment=new SyllabusFragment();
                         break;
                     case R.id.nav_hostel:
@@ -102,8 +101,12 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(searchExpanded)
+            toolbar.collapseActionView();
+        else
+            super.onBackPressed();
         bottomNavigationView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -144,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 ft.addToBackStack(null);
                 break;
             case R.id.action_search:
-
+                Log.d("HOME","OnMEnu Click ACTION SEARCH");
 
 
 
@@ -156,6 +159,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
         switch (id) {
 
             case R.id.action_search:
+                Log.d("HOME","OnMEnu Click ACTION SEARCH");
                 break;
             case R.id.action_done:
                 //Deleete Selected Students...............
@@ -170,8 +174,5 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
 
 
         }
-    }
-    public void showProfileOf(String email) {
-
     }
 }

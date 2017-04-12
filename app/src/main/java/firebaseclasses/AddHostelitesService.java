@@ -121,7 +121,8 @@ public class AddHostelitesService extends IntentService {
         hostelite= Hostelite.create(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
 
         if( accoountExists){
-            mRef.child("users").orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
+            Log.d(TAG,"Account Exists");
+            FirebaseDatabase.getInstance().getReference().child("users").orderByChild("email").equalTo(email).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 

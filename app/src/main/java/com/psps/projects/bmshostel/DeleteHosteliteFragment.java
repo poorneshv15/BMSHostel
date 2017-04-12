@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,6 +26,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
 
     RecyclerView recyclerView;
     DeleteHosteliteAdapter studentAdapter;
+    SearchView searchView;
 
     public DeleteHosteliteFragment() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
+        recyclerView.setHasFixedSize(true);
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -64,6 +67,9 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.delete_fragment_menu, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
@@ -94,6 +100,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        studentAdapter.setFilter(newText);
+        return true;
     }
 }

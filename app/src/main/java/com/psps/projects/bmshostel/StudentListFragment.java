@@ -2,13 +2,14 @@ package com.psps.projects.bmshostel;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,16 +19,18 @@ import android.view.ViewGroup;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import firebaseclasses.Hostelite;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 
 
-public  class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener{
+public  class StudentListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     RecyclerView recyclerView;
     HosteliteAdapter studentAdapter;
-    MaterialSearchView materialSearchView;
+    SearchView searchView;
 
     public StudentListFragment() {
         // Required empty public constructor
@@ -40,10 +43,9 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        return false;
+        studentAdapter.setFilter(newText);
+        return true;
     }
-
-
 
 
     interface menuItemClick{
@@ -69,15 +71,16 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
-
-        //materialSearchView=(MaterialSearchView)rootView.findViewById(R.id.search_view);
         setHasOptionsMenu(true);
+
         return rootView;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         // Prepare the loader.  Either re-connect with an existing one,
         // or start a new one.
     }
@@ -85,7 +88,10 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         inflater.inflate(R.menu.hostel_menu,menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+        searchItem.setTitle("Enter name");
     }
 
 //    protected abstract MenuInflater getLayoutInflater();
@@ -95,4 +101,5 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         menuSelected.onMenuClick(item.getItemId());
         return super.onOptionsItemSelected(item);
     }
+
 }

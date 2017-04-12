@@ -1,6 +1,7 @@
 package com.psps.projects.bmshostel;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +26,26 @@ import io.realm.Realm;
 
 class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter.View_Holder> {
 
+
+    public void flushFilter(){
+        filteredList=new ArrayList<>();
+        filteredList.addAll(studentList);
+        notifyDataSetChanged();
+    }
+
+    void setFilter(String queryText) {
+
+        filteredList = new ArrayList<>();
+        for (Hostelite item: studentList) {
+            if (item.getName().toLowerCase().contains(queryText))
+                filteredList.add(item);
+        }
+        notifyDataSetChanged();
+    }
+
+
     static List<String> emails=new ArrayList<>();
-    static class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
         CheckBox cb;
         ImageView dp;
@@ -36,20 +55,39 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
             branch=(TextView) itemView.findViewById(R.id.branchTv);
             year=(TextView) itemView.findViewById(R.id.yearTv);
             room=(TextView) itemView.findViewById(R.id.roomTv);
-            cb=(CheckBox)itemView.findViewById(R.id.checkBox);
+            //cb=(CheckBox)itemView.findViewById(R.id.checkBox);
+            /*if(emails.contains(filteredList.get(getAdapterPosition()).getEmail())){
+                itemView.setBackgroundColor(Color.rgb(255,0,0));
+            }*/
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            Log.d("DELETE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition());
+            if(v.isSelected()){
+                Log.d("DHA","Uncheck"+getAdapterPosition());
+                emails.remove(studentList.get(getAdapterPosition()).getEmail());
+                v.setBackgroundColor(Color.WHITE);
+                v.setSelected(false);
+            }
+            else {
+                emails.add(studentList.get(getAdapterPosition()).getEmail());
+                Log.d("DHA","check"+getAdapterPosition());
+                v.setBackgroundColor(Color.rgb(255,0,0));
+                v.setSelected(true);
+            }
 
         }
     }
     private ArrayList<Hostelite> studentList;
+    private ArrayList<Hostelite> filteredList;
     private Context context;
 
     DeleteHosteliteAdapter( Context context){
 
         this.studentList= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
+        this.filteredList=studentList;
         this.context=context;
     }
 
@@ -61,46 +99,21 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
     @Override
     public void onBindViewHolder(final View_Holder holder, final int position) {
-        holder.name.setText(studentList.get(position).getName());
-        holder.branch.setText( studentList.get(position).getBranch());
-        holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).getSem()));
-        Log.d("STUDENTADAPTER : ","Year "+studentList.get(position).getSem());
-        holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).getRoomNo()));
-        holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b)
-
-            {
-                if(b)
-                {
-                    emails.add(studentList.get(position).getEmail());
-                }
-                else
-                {
-                    emails.remove(studentList.get(position).getEmail());
-                }
-
-            }
-        });
-
-
-
-
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(),"Item Clicked",Toast.LENGTH_LONG).show();
-                holder.cb.setChecked(true);
-
-            }
-        });
+        holder.name.setText(filteredList.get(position).getName());
+        holder.branch.setText( filteredList.get(position).getBranch());
+        holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,filteredList.get(position).getSem()));
+        Log.d("STUDENTADAPTER : ","Position "+position);
+        holder.room.setText(context.getString(R.string.roomNo,filteredList.get(position).getRoomNo()));
+        if(emails.contains(filteredList.get(position).getEmail()))
+            holder.itemView.setBackgroundColor(Color.rgb(255,0,0));
+        else
+            holder.itemView.setBackgroundColor(Color.WHITE);
 
     }
 
 
     @Override
     public int getItemCount() {
-        return studentList.size();
+        return filteredList.size();
     }
 }

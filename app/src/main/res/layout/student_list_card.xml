@@ -20,7 +20,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/shortCutIv"
         android:background="@drawable/dot_menu"
         android:visibility="visible"
         android:layout_alignParentTop="true"
@@ -32,7 +32,7 @@
         android:background="#d2cccc"
         android:layout_toEndOf="@id/studentProfileIv"
         android:layout_alignBottom="@id/studentProfileIv"
-        android:layout_alignEnd="@id/imageButton"/>
+        android:layout_alignEnd="@id/shortCutIv"/>
 
 
     <TextView
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/yearTv"
         android:layout_alignBottom="@+id/SplitLine_hor1"
-        android:layout_toStartOf="@+id/imageButton" />
+        android:layout_toStartOf="@+id/shortCutIv" />
 
     <TextView
         android:text="TextView"

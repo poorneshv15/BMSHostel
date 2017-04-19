@@ -1,6 +1,5 @@
 package com.psps.projects.bmshostel;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
@@ -9,7 +8,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
- * Created by Poornesh on 03-04-2017.
+ * Created by Shash on 03-04-2017.
  */
 
 public class BaseApplication extends MultiDexApplication{

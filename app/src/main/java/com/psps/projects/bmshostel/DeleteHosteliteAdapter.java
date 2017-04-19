@@ -7,11 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import firebaseclasses.Hostelite;
 
@@ -47,7 +44,6 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
     static List<String> emails=new ArrayList<>();
     class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
-        CheckBox cb;
         ImageView dp;
         View_Holder(View itemView) {
             super(itemView);
@@ -64,10 +60,11 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
         @Override
         public void onClick(View v) {
+            String email=studentList.get(getAdapterPosition()).getEmail();
             Log.d("DELETE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition());
-            if(v.isSelected()){
+            if(emails.contains(email)){
                 Log.d("DHA","Uncheck"+getAdapterPosition());
-                emails.remove(studentList.get(getAdapterPosition()).getEmail());
+                emails.remove(email);
                 v.setBackgroundColor(Color.WHITE);
                 v.setSelected(false);
             }
@@ -86,7 +83,7 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
     DeleteHosteliteAdapter( Context context){
 
-        this.studentList= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
+        this.studentList= new ArrayList<>(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         this.filteredList=studentList;
         this.context=context;
     }

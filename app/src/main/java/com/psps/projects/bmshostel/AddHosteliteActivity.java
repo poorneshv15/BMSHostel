@@ -21,7 +21,6 @@ import firebaseclasses.Hostelite;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import firebaseclasses.AddHostelitesService;
@@ -41,6 +40,7 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     private ResponseReceiver receiver;
     static int[] currentCapacity;
     static int maxCapacityPerRoom;
+    IntentFilter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +93,9 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
 
             }
         });
-        IntentFilter filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
+        filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         receiver = new ResponseReceiver();
-        registerReceiver(receiver, filter);
 
     }
 
@@ -109,10 +108,15 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
-        realm.close();
     }
 
     @Override

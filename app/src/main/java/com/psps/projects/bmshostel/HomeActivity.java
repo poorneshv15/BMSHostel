@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_home);
+        setContentView(R.layout.activity_home);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();

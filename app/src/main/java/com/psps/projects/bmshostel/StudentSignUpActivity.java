@@ -1,7 +1,11 @@
 package com.psps.projects.bmshostel;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,20 +25,26 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class StudentSignUpActivity extends AppCompatActivity {
 
     EditText nameEt,usnEt,passwordEt;
     Button signupBtn;
     TextView emailTv;
     String email;
+    CircleImageView profilePic;
     final  static String EMAIL="EMAIL";
     final String TAG="StudentSignUpActivity";
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
-    FirebaseAuth.AuthStateListener mAuthStateListener;
+    private final int PICK_IMAGE_REQUEST = 1;
+    private final int RESULT_CROP = 400;
+    Uri contentUri=null;
     // Write a message to the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("users");
+    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +54,21 @@ public class StudentSignUpActivity extends AppCompatActivity {
         Intent intent=getIntent();
         email=intent.getStringExtra(StudentSignUpActivity.EMAIL);
         emailTv.setText(email);
-
         mAuth=FirebaseAuth.getInstance();
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtils.class);
+                startActivityForResult(gallery_Intent, PICK_IMAGE_REQUEST);
+
+            }
+        });
 
     }
 
     protected void initialize_views(){
+        profilePic=(CircleImageView)findViewById(R.id.profilePicIv);
         emailTv=(TextView) findViewById(R.id.emailTv);
         nameEt=(EditText)findViewById(R.id.sNameEt);
         usnEt=(EditText)findViewById(R.id.sUsnEt);
@@ -57,6 +76,62 @@ public class StudentSignUpActivity extends AppCompatActivity {
         signupBtn=(Button)findViewById(R.id.signupBtn);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                //perform Crop on the Image Selected from Gallery
+                performCrop(data.getStringExtra("picturePath"));
+            }
+        }
+
+        if (requestCode == RESULT_CROP ) {
+            if(resultCode == Activity.RESULT_OK){
+                Bundle extras = data.getExtras();
+                Bitmap selectedBitmap = extras.getParcelable("data");
+                // Set The Bitmap Data To ImageView
+                profilePic.setImageBitmap(selectedBitmap);
+//                profilePic.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        }
+    }
+
+    private void performCrop(String picUri) {
+        try {
+            //Start Crop Activity
+
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            // indicate image type and Uri
+            File f = new File(picUri);
+            contentUri= Uri.fromFile(f);
+
+            cropIntent.setDataAndType(contentUri, "image/*");
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 280);
+            cropIntent.putExtra("outputY", 280);
+
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, RESULT_CROP);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            // display an error message
+            String errorMessage = "your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+
+    //Onclick is set in the xml part itself
     public void signUp(View v){
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Creating Account...");
@@ -80,6 +155,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
                             UserProfileChangeRequest request=new UserProfileChangeRequest
                                     .Builder()
                                     .setDisplayName(nameEt.getText().toString())
+                                    .setPhotoUri(contentUri)
                                     .build();
                             user.updateProfile(request)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {

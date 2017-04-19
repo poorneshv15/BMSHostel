@@ -7,11 +7,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bms_hostel_1"
-            android:contentDescription="" />
+            android:contentDescription="@string/hostel" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/t"/>
+            android:background="@drawable/t"
+            android:contentDescription="@string/black_shade"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:src="@drawable/bms_logo"
+                android:contentDescription="@string/logo"
                 android:layout_marginTop="@dimen/activity_vertical_margin"/>
             <Space
                 android:layout_width="match_parent"

@@ -12,7 +12,7 @@
         android:layout_height="@dimen/profilePic"
         android:layout_gravity="center_horizontal"
         android:src="@color/bg_color"
-        android:contentDescription="Profile Pic"/>
+        android:contentDescription="@string/profilePic"/>
 
     <TextView
         android:id="@+id/userNameTv"

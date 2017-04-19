@@ -13,13 +13,13 @@ import io.realm.RealmObject;
  */
 
 public class Hostel extends RealmObject{
-    String hostelName;
-    int floors;
+    private String hostelName;
+    private int floors;
     int roomsPerFloor;
-    String roomsUnderCotrol;
-    int totalRooms;
-    int maxCapacityOfRoom;
-    String currentCapacity;
+    private String roomsUnderCotrol;
+    private int totalRooms;
+    private int maxCapacityOfRoom;
+    private String currentCapacity;
 
     public Hostel(){
         //Empty Constructor
@@ -35,11 +35,11 @@ public class Hostel extends RealmObject{
         }
     }
 
-    public String getHostelName() {
+    String getHostelName() {
         return hostelName;
     }
 
-    public void setHostelName(String hostelName) {
+    void setHostelName(String hostelName) {
         switch (hostelName){
             case "ih":
                 this.floors=5;
@@ -50,7 +50,7 @@ public class Hostel extends RealmObject{
         this.hostelName = hostelName;
     }
 
-    public int getFloors() {
+    int getFloors() {
         return floors;
     }
 
@@ -81,7 +81,7 @@ public class Hostel extends RealmObject{
         return results;
     }
 
-    public void setRoomsUnderCotrol(int[] roomsUnderCotrol) {
+    void setRoomsUnderCotrol(int[] roomsUnderCotrol) {
         this.roomsUnderCotrol=Arrays.toString(roomsUnderCotrol);
 
     }
@@ -114,12 +114,12 @@ public class Hostel extends RealmObject{
         this.totalRooms = totalRooms;
     }
 
-    public int getMaxCapacityOfRoom() {
+    int getMaxCapacityOfRoom() {
         return maxCapacityOfRoom;
     }
 
     public void setMaxCapacityOfRoom(int maxCapacityOfRoom) {
         this.maxCapacityOfRoom = maxCapacityOfRoom;
     }
-    public static Hostel IH=new Hostel("ih");
+    static Hostel IH=new Hostel("ih");
 }

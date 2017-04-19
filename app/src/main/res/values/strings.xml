@@ -10,6 +10,7 @@
     <string name="web_client_id">300969745957-ikoafmdli5m2kt6fqfpb7irkrug862fo.apps.googleusercontent.com</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="syllabus">Syllabus</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -20,14 +21,19 @@
     <string name="emailInput">Email Id </string>
     <string name="fNameInput">Father\'s Name</string>
     <string name="fMobileInput">Father\'s Phone Number</string>
+    <string name="sem">Sem</string>
+    <string name="branch">Branch</string>
 
 
     <string name="gNameInput">Guardian\'s Name</string>
     <string name="gMobileInput">Guardian\'s Phone Number</string>
-    <string name="add_student">Add Students</string>
+    <string name="add_students">Add Students</string>
+    <string name="add_student">ADD</string>
     <string name="del_student">Delete Students</string>
     <string name="edit_student">Edit Details</string>
+    <string name="please_wait">Please Wait…</string>
 
+    <string name="invalid_email">Invalid Email!</string>
 
     <string-array name="floors">
         <item>G</item>
@@ -42,5 +48,14 @@
     <string name="roomNo">Room No :%4d</string>
     <string name="title_activity_add_hostelite">AddHosteliteActivity</string>
     <string name="auth_failed">Authentication failed</string>
+    <string name="title_activity_gallery_utils">GalleryUtils</string>
+
+    <string name="logo">BMSCE Logo</string>
+    <string name="hostel">Hostel</string>
+    <string name="black_shade">Black Shade</string>
+    <string name="left_arrow">Left Arrow</string>
+    <string name="right_arrow">Right Arrow</string>
+    <string name="profilePic">Profile Pic</string>
+    <string name="dot_menu">Dot Menu</string>
 
 </resources>

@@ -18,7 +18,8 @@
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimary"
+            android:contentDescription="@string/left_arrow"/>
         <TextView
             android:id="@+id/roomNoTv"
             android:gravity="center"
@@ -26,7 +27,7 @@
             android:layout_height="60dp"
             android:background="@color/colorPrimary"
             android:textSize="@dimen/student_profile_textSize"
-            android:text="Room Number"
+            android:text="@string/roomNo"
             android:textColor="@color/white1"
             android:layout_weight="1"
             android:drawableEnd="@drawable/ic_info_outline_black_24dp"
@@ -36,7 +37,8 @@
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimary"
+            android:contentDescription="@string/right_arrow"/>
 
     </LinearLayout>
     <EditText
@@ -84,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/activity_horizontal_margin"
-                android:drawableStart="@drawable/ic_hostel_room"
+                android:drawableStart="@drawable/ic_student_usn"
                 android:hint="@string/usn"
                 android:inputType="textCapCharacters"
                 android:saveEnabled="true" />
@@ -167,7 +169,7 @@
         android:id="@+id/addHosteliteBtn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editTextHeight2"
-        android:text="ADD"
+        android:text="@string/add_student"
         android:enabled="true"
         android:textColor="@color/white1"
         android:background="@color/colorPrimary" />

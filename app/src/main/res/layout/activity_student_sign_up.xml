@@ -8,40 +8,30 @@
     <LinearLayout
     android:id="@+id/activity_student_sign_up"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.psps.projects.bmshostel.StudentSignUpActivity">
-
-    <TextView
-        android:id="@+id/emailTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:gravity="center_horizontal"
-        android:text="meshashi00@gmail.com"/>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/sNameTIL"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/editTextHeight"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/ErrorAppearance">
-
-        <EditText
-            android:id="@+id/sNameEt"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilePicIv"
+            android:layout_width="@dimen/profilePic"
+            android:layout_height="@dimen/profilePic"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_account_circle_black_24dp"/>
+        <TextView
+            android:id="@+id/emailTv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/sNameInput"/>
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/emailInput"/>
 
-    </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/sUsnTIL"
+            android:id="@+id/sNameTIL"
             android:layout_width="match_parent"
             android:layout_height="@dimen/editTextHeight"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -49,36 +39,51 @@
             app:errorTextAppearance="@style/ErrorAppearance">
 
             <EditText
-                android:id="@+id/sUsnEt"
+                android:id="@+id/sNameEt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/usn"/>
+                android:hint="@string/sNameInput"/>
 
         </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/sPassTIL"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/editTextHeight"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/ErrorAppearance">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/sUsnTIL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/editTextHeight"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorAppearance">
 
-        <EditText
-            android:id="@+id/sPasswordEt"
-            android:inputType="textPassword"
+                <EditText
+                    android:id="@+id/sUsnEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/usn"/>
+
+            </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/sPassTIL"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/password_hint" />
+            android:layout_height="@dimen/editTextHeight"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/ErrorAppearance">
 
-    </android.support.design.widget.TextInputLayout>
-    <Button
-        android:id="@+id/signupBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded"
-        android:text="@string/sign_up"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:onClick="signUp"
-        android:textColor="@color/white1"/>
-</LinearLayout>
+            <EditText
+                android:id="@+id/sPasswordEt"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/password_hint" />
+
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/signupBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:text="@string/sign_up"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:onClick="signUp"
+            android:textColor="@color/white1"/>
+    </LinearLayout>
 </ScrollView>

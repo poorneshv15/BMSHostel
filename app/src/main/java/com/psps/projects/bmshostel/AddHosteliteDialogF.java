@@ -126,7 +126,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
                 }
                 else {
-                    addHosteliteButton.setText("Invalid Email!!");
+                    addHosteliteButton.setText(R.string.invalid_email);
                     addHosteliteButton.setEnabled(false);
                     loadPb.setVisibility(View.INVISIBLE);
                 }
@@ -317,7 +317,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         @Override
         protected void onPreExecute() {
             addHosteliteButton.setEnabled(false);
-            addHosteliteButton.setText("Please wait...");
+            addHosteliteButton.setText(R.string.please_wait);
             loadPb.setVisibility(View.VISIBLE);
 
         }
@@ -340,7 +340,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
             accountExists=false;
         }
         addHosteliteButton.setEnabled(true);
-        addHosteliteButton.setText("ADD");
+        addHosteliteButton.setText(R.string.add_student);
     }
 
     @Override

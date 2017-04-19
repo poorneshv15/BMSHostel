@@ -30,7 +30,7 @@ class AndroidImageAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View v, Object obj) {
-        return v == ((ImageView) obj);
+        return v == ( obj);
     }
 
     @Override
@@ -38,12 +38,12 @@ class AndroidImageAdapter extends PagerAdapter {
         ImageView mImageView = new ImageView(mContext);
         mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mImageView.setImageResource(sliderImagesId[i]);
-        ((ViewPager) container).addView(mImageView, 0);
+        ( container).addView(mImageView, 0);
         return mImageView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int i, Object obj) {
-        ((ViewPager) container).removeView((ImageView) obj);
+        ( container).removeView((ImageView) obj);
     }
 }

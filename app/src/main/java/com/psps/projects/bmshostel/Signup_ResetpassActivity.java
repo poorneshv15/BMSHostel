@@ -3,14 +3,13 @@ package com.psps.projects.bmshostel;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,12 +30,8 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup__resetpass);
         Intent intent =getIntent();
         final boolean re_or_cr=intent.getBooleanExtra(RESET_OR_CREATE,false);
-        try{
-            getSupportActionBar().setTitle(intent.getStringExtra(TITLE));
-        }catch (NullPointerException e){
-            Log.e("SET TITLE",e.getMessage());
-        }
-
+        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(intent.getStringExtra(TITLE));
         mAuth=FirebaseAuth.getInstance();
         Log.d("Signup_ResetpassActivit","onCreate");
         final ImageButton goIb=(ImageButton)findViewById(R.id.goIb);
@@ -81,6 +76,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                                         Intent intent=new Intent(Signup_ResetpassActivity.this,StudentSignUpActivity.class);
                                         intent.putExtra(StudentSignUpActivity.EMAIL,email);
                                         startActivity(intent);
+                                        progressDailog.dismiss();
                                     }
                                 }
                                 catch(NullPointerException e){

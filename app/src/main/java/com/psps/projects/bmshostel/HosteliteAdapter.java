@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import firebaseclasses.Hostelite;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import io.realm.Realm;
 
@@ -80,7 +77,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
 
     private ArrayList<Hostelite> getFilteredResults(CharSequence constraint) {
         ArrayList<Hostelite> results = new ArrayList<>();
-        ArrayList<Hostelite> allStudents= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
+        ArrayList<Hostelite> allStudents= new ArrayList<>(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         for (Hostelite item : allStudents) {
             if (item.name.toLowerCase().contains(constraint)) {
                 results.add(item);
@@ -145,7 +142,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
     private Context context;
 
     HosteliteAdapter( Context context){
-        this.filteredList= new ArrayList(Realm.getDefaultInstance().where(Hostelite.class).findAll());
+        this.filteredList= new ArrayList<>(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         this.studentList=filteredList;
         this.context=context;
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,6 +26,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
 
     RecyclerView recyclerView;
     HosteliteAdapter studentAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     SearchView searchView;
 
     public StudentListFragment() {
@@ -63,6 +65,14 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         setHasOptionsMenu(true);//Make sure you have this line of code.
         View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
         studentAdapter=new HosteliteAdapter(rootView.getContext());
+        swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.refreshData);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                studentAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);

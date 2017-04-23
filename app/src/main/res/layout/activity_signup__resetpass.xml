@@ -39,7 +39,6 @@
             <android.support.design.widget.CheckableImageButton
                 android:layout_width="@dimen/editTextHeight"
                 android:background="@color/colorPrimary"
-                android:onClick="signUp"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_arrow_forward_black_24dp"
                 android:layout_height="@dimen/editTextHeight"

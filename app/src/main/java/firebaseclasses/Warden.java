@@ -7,15 +7,16 @@ import io.realm.RealmObject;
  */
 
 public class Warden extends RealmObject{
-    public String name,email;
+    public String name,email,mobile;
 
     public Warden() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Warden(String name, String email) {
+    public Warden(String name, String email,String mobile) {
         this.name = name;
         this.email = email;
+        this.mobile=mobile;
     }
 
     @Override

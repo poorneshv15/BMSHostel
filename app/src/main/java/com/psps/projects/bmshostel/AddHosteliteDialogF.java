@@ -104,7 +104,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
         emailEt=(EditText)view.findViewById(R.id.sEmailEt);
         // Get field from view
-        roomNoTv = (TextView) view.findViewById(R.id.roomNoTv);
+        roomNoTv = (TextView) view.findViewById(R.id.emailTv);
         roomNoTv.setText(String.format(Locale.US,"%d",roomsIterator.next()));
         loadPb = (ProgressBar) view.findViewById(R.id.loadPb);
         addHosteliteButton=(Button)view.findViewById(R.id.addHosteliteBtn);
@@ -212,6 +212,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                     }
 
                     addStudentListener.addStudent(putIntoBundle(email));
+                    Toast.makeText(getContext(), "Adding "+userDetails[0].getText().toString()+"\nSee Notification for status", Toast.LENGTH_SHORT).show();
                     clearAllEditTexts();
                     addHosteliteButton.setText(R.string.add_student);
                     if(AddHosteliteActivity.currentCapacity[rooms.indexOf(roomNumber)] >= maxCapacityPerRoom){
@@ -226,7 +227,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 }
 
                 break;
-            case R.id.roomNoTv:
+            case R.id.emailTv:
 
                 break;
             case R.id.loadPb:

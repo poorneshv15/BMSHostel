@@ -1,15 +1,23 @@
 package com.psps.projects.bmshostel;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +58,7 @@ import id.zelory.compressor.FileUtil;
 public class StudentSignUpActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1,CROP_IMAGE=2;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL =1 ;
     EditText nameEt,usnEt,passwordEt;
     Button signupBtn;
     TextView emailTv;
@@ -75,9 +84,45 @@ public class StudentSignUpActivity extends AppCompatActivity {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                // Here, thisActivity is the current activity
+                if (ContextCompat.checkSelfPermission(StudentSignUpActivity.this,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(StudentSignUpActivity.this,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(StudentSignUpActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setMessage("Write calendar permission is necessary to write event!!!");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(StudentSignUpActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+                            }
+                        });
+                        // Show an explanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+
+                        ActivityCompat.requestPermissions(StudentSignUpActivity.this,
+                                new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+                    }
+                }
+                else {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                }
             }
         });
         mAuth=FirebaseAuth.getInstance();
@@ -86,7 +131,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
 
     protected void initialize_views(){
         profilePic=(CircleImageView)findViewById(R.id.profilePicIv);
-        emailTv=(TextView) findViewById(R.id.roomNoTv);
+        emailTv=(TextView) findViewById(R.id.emailTv);
         nameEt=(EditText)findViewById(R.id.sNameEt);
         usnEt=(EditText)findViewById(R.id.sUsnEt);
         passwordEt=(EditText)findViewById(R.id.sPasswordEt);
@@ -141,7 +186,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                         String path = MediaStore.Images.Media.insertImage(StudentSignUpActivity.this.getContentResolver(), photo, null, null);
-                        Log.d(TAG,path);
+                        Log.d(TAG,"path "+path);
                          image = FileUtil.from(StudentSignUpActivity.this,Uri.parse(path));
                         OutputStream os = new BufferedOutputStream(new FileOutputStream(image));
                         photo.compress(Bitmap.CompressFormat.JPEG, 100, os);
@@ -163,6 +208,33 @@ public class StudentSignUpActivity extends AppCompatActivity {
                 }
             }.execute(data);
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+                    Toast.makeText(this, "Couldn't set profile \nPermission Denied", Toast.LENGTH_SHORT).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 

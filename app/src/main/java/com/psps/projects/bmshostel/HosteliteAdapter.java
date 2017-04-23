@@ -2,6 +2,9 @@ package com.psps.projects.bmshostel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,14 +30,11 @@ import io.realm.Realm;
 class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder> implements Filterable {
 
 
-
-
-
     void setFilter(String queryText) {
 
         filteredList = new ArrayList<>();
 //        constraint = constraint.toString().toLowerCase();
-        for (Hostelite item: studentList) {
+        for (Hostelite item : studentList) {
             if (item.getName().toLowerCase().contains(queryText))
                 filteredList.add(item);
         }
@@ -56,7 +55,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                Log.d("QUERY",constraint.toString());
+                Log.d("QUERY", constraint.toString());
                 ArrayList<Hostelite> filteredResults;
                 if (constraint.length() == 0) {
                     filteredResults = studentList;
@@ -74,7 +73,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
 
     private ArrayList<Hostelite> getFilteredResults(CharSequence constraint) {
         ArrayList<Hostelite> results = new ArrayList<>();
-        ArrayList<Hostelite> allStudents= new ArrayList<>(Realm.getDefaultInstance().where(Hostelite.class).findAll());
+        ArrayList<Hostelite> allStudents = new ArrayList<>(Realm.getDefaultInstance().where(Hostelite.class).findAll());
         for (Hostelite item : allStudents) {
             if (item.name.toLowerCase().contains(constraint)) {
                 results.add(item);
@@ -83,25 +82,26 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
         return results;
     }
 
-    class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView name,branch,year,room;
+    class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView name, branch, year, room;
         CircleImageView dp;
         ImageButton shortCut;
+
         View_Holder(View itemView) {
             super(itemView);
-            dp=(CircleImageView) itemView.findViewById(R.id.studentProfileIv);
-            name =(TextView) itemView.findViewById(R.id.nameTv);
-            branch=(TextView) itemView.findViewById(R.id.branchTv);
-            year=(TextView) itemView.findViewById(R.id.yearTv);
-            room=(TextView) itemView.findViewById(R.id.roomTv);
-            shortCut=(ImageButton)itemView.findViewById(R.id.shortCutIv);
+            dp = (CircleImageView) itemView.findViewById(R.id.studentProfileIv);
+            name = (TextView) itemView.findViewById(R.id.nameTv);
+            branch = (TextView) itemView.findViewById(R.id.branchTv);
+            year = (TextView) itemView.findViewById(R.id.yearTv);
+            room = (TextView) itemView.findViewById(R.id.roomTv);
+            shortCut = (ImageButton) itemView.findViewById(R.id.shortCutIv);
             shortCut.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if(v.getId()==shortCut.getId()){
+            if (v.getId() == shortCut.getId()) {
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(v.getContext(), shortCut);
                 //inflating menu from xml resource
@@ -115,14 +115,24 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
                         switch (item.getItemId()) {
                             case R.id.call:
                                 //handle menu1 click
-                                Intent intent=new Intent(Intent.ACTION_CALL);
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + filteredList.get(getAdapterPosition()).getMobile()));
+                                if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    //    ActivityCompat#requestPermissions
+                                    // here to request the missing permissions, and then overriding
+                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                    //                                          int[] grantResults)
+                                    // to handle the case where the user grants the permission. See the documentation
+                                    // for ActivityCompat#requestPermissions for more details.
+                                    context.startActivity(intent);
+                                    return true;
+                                }
 
                                 Log.d("HA","Call");
                                 break;
                             case R.id.message:
-                                //handle menu2 click
-                                break;
-
+                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", filteredList.get(getAdapterPosition()).getMobile(), null)));
+                                return true;
                         }
                         return false;
                     }
@@ -132,7 +142,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
                 return;
             }
             Log.d("HOSTELITE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition());
-            Intent hosteliteProfileIntent=new Intent(context,HosteliteProfile.class);
+            Intent hosteliteProfileIntent=new Intent(context,HosteliteProfileActivity.class);
             hosteliteProfileIntent.putExtra("email",filteredList.get(getLayoutPosition()).getEmail());
             context.startActivity(hosteliteProfileIntent);
             //Toast.makeText(v.getContext(), getLayoutPosition(), Toast.LENGTH_SHORT).show();

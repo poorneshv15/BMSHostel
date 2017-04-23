@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/roomNoTv"
+        android:id="@+id/emailTv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editTextHeight3"
         android:layout_marginTop="10dp"
@@ -15,7 +15,7 @@
         android:id="@+id/sUsn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editTextHeight3"
-        android:layout_below="@id/roomNoTv"
+        android:layout_below="@id/emailTv"
         android:layout_marginTop="10dp"
         android:textIsSelectable="true"
         android:drawablePadding="@dimen/activity_horizontal_margin"

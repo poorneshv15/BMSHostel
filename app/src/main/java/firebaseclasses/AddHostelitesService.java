@@ -108,10 +108,10 @@ public class AddHostelitesService extends IntentService {
         sendBroadcast(intentUpdate);
 
         //generate notification
-        String notificationText = "Adding Student";
+
         myNotification = new NotificationCompat.Builder(getApplicationContext())
-                .setContentTitle("Progress")
-                .setContentText(notificationText)
+                .setContentTitle("Adding Student")
+                .setContentText(name)
                 .setTicker("Notification!")
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_SOUND)

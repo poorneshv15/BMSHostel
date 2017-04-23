@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Arrays;
+
 import firebaseclasses.Hostelite;
 import firebaseclasses.Student;
 import firebaseclasses.Warden;
@@ -104,14 +106,20 @@ public class MyProfileFragment extends Fragment {
         LayoutInflater inflater=LayoutInflater.from(linearLayout.getContext());
         View detailsView=inflater.inflate(R.layout.warden_content,null);
         linearLayout.addView(detailsView,2);
-        TextView dump= (TextView) detailsView.findViewById(R.id.roomNoTv);
+        TextView dump= (TextView) detailsView.findViewById(R.id.emailTv);
         dump.setText(warden.email);
+        dump=(TextView)detailsView.findViewById(R.id.mobileTv);
+        dump.setText(warden.mobile);
+        dump=(TextView)detailsView.findViewById(R.id.roomsTv);
+        Hostel hostel=Realm.getDefaultInstance().where(Hostel.class).findFirst();
+        dump.setText(hostel.getHostelName().toUpperCase()+"\n"+ Arrays.toString(hostel.getRoomsUnderCotrol()));
+
     }
 
     private void addStudentLayout(Student student,LinearLayout linearLayout) {
         View detailsView=getLayoutInflater(null).inflate(R.layout.student_content,null);
         linearLayout.addView(detailsView,2);
-        TextView dump= (TextView) detailsView.findViewById(R.id.roomNoTv);
+        TextView dump= (TextView) detailsView.findViewById(R.id.emailTv);
         dump.setText(student.email);
         dump=(TextView)detailsView.findViewById(R.id.sUsn);
         dump.setText(student.usn);
@@ -121,7 +129,7 @@ public class MyProfileFragment extends Fragment {
     private void addHosteliteLayout(Hostelite hostelite,LinearLayout linearLayout) {
         View detailsView=getLayoutInflater(null).inflate(R.layout.hostelite_content,null);
         linearLayout.addView(detailsView,2);
-        TextView dump= (TextView) detailsView.findViewById(R.id.roomNoTv);
+        TextView dump= (TextView) detailsView.findViewById(R.id.emailTv);
         dump.setText(hostelite.getEmail());
         dump=(TextView)detailsView.findViewById(R.id.sRoomNoTv);
         dump.setText(hostelite.getHostelName()+"  "+hostelite.getRoomNo());

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,12 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import firebaseclasses.Hostelite;
-import firebaseclasses.NewStudentFirebase;
 import firebaseclasses.Student;
 import firebaseclasses.Warden;
 import io.realm.Realm;
@@ -297,8 +293,8 @@ public class LoginActivity extends AppCompatActivity  implements
                 startActivity(createAccIntent);
                 break;
             case R.id.signInBtn:
-                //validate();
-                signInWithPassword(v);
+                if(validate())
+                    signInWithPassword(v);
                 break;
             case R.id.googleSignInBtn:
                 Log.d("LOGIN ACTIVITY", "signInWithGoogle");
@@ -308,5 +304,19 @@ public class LoginActivity extends AppCompatActivity  implements
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
         }
+    }
+
+    private boolean validate() {
+        if(AddHosteliteDialogF.isValidEmail(emailEt.getText().toString())){
+            emailEt.setError(null);
+            if(!(passwordEt.getText().toString().length()<6)){
+                passwordEt.setError(null);
+                return true;
+            }
+            passwordEt.setError("Minimum 6 characters!");
+            return false;
+        }
+        emailEt.setError("Invalid email!");
+        return false;
     }
 }

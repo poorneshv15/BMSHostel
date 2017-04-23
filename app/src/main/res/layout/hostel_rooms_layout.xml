@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AddHosteliteActivity"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/colorPrimary" />
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
@@ -24,7 +30,7 @@
         android:id="@+id/floorsContainerHsv"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#ff33b5e5"
+        android:background="@color/colorPrimary"
         android:scrollbars="horizontal">
         <info.hoang8f.android.segmented.SegmentedGroup
             android:id="@+id/floorSg"
@@ -34,7 +40,7 @@
             android:layout_margin="10dp"
             android:orientation="horizontal"
             segmentedgroup:sc_tint_color="@android:color/white"
-            segmentedgroup:sc_checked_text_color="#ff33b5e5">
+            segmentedgroup:sc_checked_text_color="@color/colorPrimary">
 
         </info.hoang8f.android.segmented.SegmentedGroup>
     </HorizontalScrollView>

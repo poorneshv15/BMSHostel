@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,12 +44,14 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hostel_rooms_layout);
+
+        Toolbar toolbar =(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.add_students);
+        setSupportActionBar(toolbar);
         /* studentsRv=(RecyclerView)findViewById(R.id.addStudentRv);
         studentsRv.setLayoutManager(new LinearLayoutManager(this));
         studentsRv.setAdapter(new AddHosteliteAdapter(150));*/
         Hostel hostel=Realm.getDefaultInstance().where(Hostel.class).findFirst();
-
-
         maxCapacityPerRoom=hostel.getMaxCapacityOfRoom();
         int floors=hostel.getFloors();
         hostelName=hostel.getHostelName();

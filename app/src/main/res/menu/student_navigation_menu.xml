@@ -7,12 +7,12 @@
         android:icon="@drawable/ic_event_black_24dp"
         android:title="events"
         app:showAsAction="ifRoom"/>
-    <item
+    <!--item
         android:id="@+id/nav_syllabus"
         android:enabled="true"
         android:title="syllabus"
         android:icon="@drawable/ic_import_contacts_black_24dp"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/-->
 
     <item
         android:id="@+id/nav_profile"

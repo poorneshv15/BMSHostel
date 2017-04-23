@@ -1,12 +1,21 @@
 package com.psps.projects.bmshostel;
 
+import android.*;
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +35,7 @@ import firebaseclasses.DeleteHosteliteService;
 
 public class HomeActivity extends AppCompatActivity implements MyProfileFragment.OnMenuClickProfileIF,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
+    private static final int MY_PERMISSIONS_REQUEST_CALL = 2;
     static boolean searchExpanded=false;
     public static String USER_TYPE="USER_TYPE";
     public static String userType;
@@ -33,6 +43,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     FirebaseAuth.AuthStateListener mAuthListener;
     static FirebaseUser user;
     Fragment fragment;
+    int lastFragment;
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
@@ -41,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
+        lastFragment=R.id.nav_hostel;
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         mAuthListener=new FirebaseAuth.AuthStateListener(){
@@ -88,15 +100,24 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 switch (item.getItemId()){
 
                     case R.id.nav_tt:
+                        if(lastFragment==R.id.nav_tt)
+                            return false;
+                        lastFragment=R.id.nav_tt;
                         fragment=new EventsFragment();
                         break;
-                    case R.id.nav_syllabus:
+                    /*case R.id.nav_syllabus:
                         fragment=new SyllabusFragment();
-                        break;
+                        break;*/
                     case R.id.nav_hostel:
+                        if(lastFragment==R.id.nav_hostel)
+                            return false;
+                        lastFragment=R.id.nav_hostel;
                         fragment=new StudentListFragment();
                         break;
                     case R.id.nav_profile:
+                        if(lastFragment==R.id.nav_profile)
+                            return false;
+                        lastFragment=R.id.nav_profile;
                         fragment=new MyProfileFragment();
                         break;
                 }
@@ -105,8 +126,44 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 return true;
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.CALL_PHONE)) {
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                alertBuilder.setCancelable(true);
+                alertBuilder.setMessage("Write calendar permission is necessary to write event!!!");
+                alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL);
+                    }
+                });
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.CALL_PHONE},
+                        MY_PERMISSIONS_REQUEST_CALL);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
     }
 
     @Override
@@ -122,6 +179,8 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     @Override
     public void onStart() {
         super.onStart();
+        final FragmentTransaction ft=fragmentManager.beginTransaction();
+        ft.replace(R.id.body_container,new StudentListFragment()).commit();
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -167,7 +226,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 Log.d("HOME","OnMEnu Click ACTION SEARCH");
                 break;
             case R.id.action_done:
-                //Deleete Selected Students...............
+                //Delete Selected Students...............
                 Intent intent=new Intent(this, DeleteHosteliteService.class);
                 intent.putStringArrayListExtra("emails", (ArrayList<String>) DeleteHosteliteAdapter.emails);
                 startService(intent);
@@ -190,9 +249,9 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
                 progress.show();
                 mAuth.signOut();
                 break;
-            case R.id.edit_details:
+            /*case R.id.edit_details:
                 Toast.makeText(this, "Edit Profile\nunder Contruction", Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
         }
     }
 }

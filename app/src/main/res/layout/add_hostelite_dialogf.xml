@@ -21,7 +21,7 @@
             android:background="@color/colorPrimary"
             android:contentDescription="@string/left_arrow"/>
         <TextView
-            android:id="@+id/roomNoTv"
+            android:id="@+id/emailTv"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -46,7 +46,7 @@
         android:layout_height="@dimen/editTextHeight"
         android:id="@+id/sNameEt"
         android:hint="@string/sNameInput"
-        android:inputType="textEmailAddress"
+        android:inputType="textCapSentences"
         android:drawableStart="@drawable/ic_account_circle_black_24dp"
         android:drawablePadding="@dimen/activity_horizontal_margin" />
 
@@ -160,6 +160,7 @@
             android:id="@+id/gAddressEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
             android:maxLines="4"
             android:maxHeight="@dimen/editTextHeight3"
             android:drawablePadding="@dimen/activity_horizontal_margin"

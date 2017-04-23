@@ -1,8 +1,12 @@
 package firebaseclasses;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.psps.projects.bmshostel.Hostel;
+import com.psps.projects.bmshostel.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,13 +38,45 @@ public class DeleteHosteliteService extends IntentService  implements Serializab
      */
     public DeleteHosteliteService() {
         super("Delete Students");
+
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
     int[] currentCapacity;
     int[] roomsUnderControl;
+    int successful=1;
     List<Integer> rooms;
+    NotificationManager notificationManager;
+    Notification myNotification;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        final ArrayList<String> emails;
+        if (intent != null) {
+            emails = intent.getStringArrayListExtra("emails");
+        }
+        else
+        {
+            Log.d(TAG," Couldnt Delete Hostelites");
+            return;
+        }
+        Log.d("DELETE SERVICE", "To Be Deleted" + Arrays.toString(emails.toArray()));
+        myNotification = new NotificationCompat.Builder(getApplicationContext())
+                .setContentTitle("Deleting")
+                .setContentText(emails.size()+" hostelites")
+                .setTicker("Notification!")
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
+
+        notificationManager.notify(7, myNotification);
         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -59,6 +96,9 @@ public class DeleteHosteliteService extends IntentService  implements Serializab
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (final DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     DatabaseReference userRef = userSnapshot.getRef();
+                    if(userSnapshot.child("hostelite").getValue().equals(false)){
+                        return;
+                    }
                     userRef.child("hostelite").setValue(false);
                     userRef.child("hostelName").setValue(null);
                     userRef.child("roomNo").setValue(null);
@@ -70,11 +110,12 @@ public class DeleteHosteliteService extends IntentService  implements Serializab
                             .child(userSnapshot.getKey())
                             .setValue(null);
                     Log.d("DELETE SERVICE",String.valueOf(userSnapshot.child("hostelName").getValue()));
-                    currentCapacity[rooms.indexOf(Integer.parseInt(String.valueOf(userSnapshot.child("roomNo").getValue())))]--;
+
                     try{
                         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
+                                currentCapacity[rooms.indexOf(Integer.parseInt(String.valueOf(userSnapshot.child("roomNo").getValue())))]--;
                                 realm.where(Hostel.class).findFirst().setCurrentCapacity(currentCapacity);
                                 realm.where(Hostelite.class).equalTo("email", String.valueOf(userSnapshot.child("email").getValue())).findFirst().deleteFromRealm();
                             }
@@ -85,7 +126,29 @@ public class DeleteHosteliteService extends IntentService  implements Serializab
                     }
 
                     Log.d(TAG,"Deleted..."+userSnapshot.child("email"));
-                    break;
+                    myNotification = new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("Deleting")
+                            .setContentText((emails.size()-successful)+" hostelites")
+                            .setTicker("Notification!")
+                            .setWhen(System.currentTimeMillis())
+                            .setDefaults(Notification.DEFAULT_SOUND)
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
+                            .build();
+
+                    notificationManager.notify(7, myNotification);
+                    myNotification = new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("Deleted")
+                            .setContentText((successful++)+" hostelites")
+                            .setTicker("Notification!")
+                            .setWhen(System.currentTimeMillis())
+                            .setDefaults(Notification.DEFAULT_SOUND)
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
+                            .build();
+
+                    notificationManager.notify(8, myNotification);
+                    return;
                 }
             }
 
@@ -94,23 +157,12 @@ public class DeleteHosteliteService extends IntentService  implements Serializab
                 Log.e(TAG, "onCancelled", databaseError.toException());
             }
         };
-        final ArrayList<String> emails;
-        if (intent != null) {
-            emails = intent.getStringArrayListExtra("emails");
-        }
-        else
-        {
-            Log.d(TAG," Couldnt Delete Hostelites");
-            return;
-        }
-        Log.d("DELETE SERVICE", "To Be Deleted" + Arrays.toString(emails.toArray()));
+
 
         for (String email : emails) {
             Query applesQuery = ref.child("users").orderByChild("email").equalTo(email);
             applesQuery.addValueEventListener(valueEventListener);
             Log.d(TAG,"Deleting..."+email);
-
-
         }
     }
 }

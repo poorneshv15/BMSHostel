@@ -5,7 +5,7 @@
     android:id="@+id/warden_root"
     android:layout_weight="1">
     <TextView
-        android:id="@+id/roomNoTv"
+        android:id="@+id/emailTv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/editTextHeight3"
         android:layout_marginTop="10dp"
@@ -23,6 +23,15 @@
         android:drawableStart="@drawable/ic_mobile"
         android:text="7026210672"
         android:textSize="@dimen/student_profile_textSize" />
-
+    <TextView
+        android:id="@+id/roomsTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/editTextHeight3"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:drawableStart="@drawable/ic_hostel_room"
+        android:text="IH 3,4,5"
+        android:textSize="@dimen/student_profile_textSize" />
 
 </LinearLayout>

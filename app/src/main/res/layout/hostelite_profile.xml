@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/sProfileIv"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_account_circle_black_24dp"
+            android:src="@drawable/image_dp"
             android:contentDescription="Student profile"/>
         <LinearLayout
             android:id="@+id/controls"
@@ -61,14 +61,24 @@
             android:layout_marginRight="@dimen/card_padding"
             android:layout_marginLeft="@dimen/card_padding"
             card_view:cardCornerRadius="4dp">
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
                 <TextView
-                    android:id="@+id/sRoomNoTv"
+                    android:id="@+id/emailTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/editTextHeight3"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_email_black_24dp"
+                    android:textSize="@dimen/student_profile_textSize"
+                    android:text="meshashi00@gmail.com"/>
+                <TextView
+                    android:id="@+id/roomNoTv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
                     android:layout_marginTop="10dp"
@@ -80,7 +90,7 @@
                     android:id="@+id/sUsn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
-                    android:layout_below="@id/sRoomNoTv"
+                    android:layout_below="@id/roomNoTv"
                     android:layout_marginTop="10dp"
                     android:textIsSelectable="true"
                     android:drawablePadding="@dimen/activity_horizontal_margin"
@@ -98,7 +108,7 @@
                     android:textSize="@dimen/student_profile_textSize"
                     android:text="7026210672"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
@@ -125,7 +135,7 @@
                 android:textSize="@dimen/student_profile_textSize"
                 android:text="Father"/>
             <TextView
-                android:id="@+id/fNameEt"
+                android:id="@+id/fNameTv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/editTextHeight3"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -136,10 +146,10 @@
                 android:textSize="@dimen/student_profile_textSize"
                 android:text="Suryakant"/>
             <TextView
-                android:id="@+id/fMobileEt"
+                android:id="@+id/fMobileTv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/editTextHeight3"
-                android:layout_below="@id/fNameEt"
+                android:layout_below="@id/fNameTv"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -151,8 +161,9 @@
             <TextView
                 android:id="@+id/fAddressTv"
                 android:layout_width="match_parent"
-                android:layout_below="@id/fMobileEt"
-                android:layout_height="@dimen/editTextHeight3"
+                android:layout_below="@id/fMobileTv"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/editTextHeight3"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -188,7 +199,7 @@
                     android:textSize="@dimen/student_profile_textSize"
                     android:text="Guardian"/>
                 <TextView
-                    android:id="@+id/gNameEt"
+                    android:id="@+id/gNameTv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
                     android:layout_marginTop="@dimen/editTextHeight2"
@@ -199,10 +210,10 @@
                     android:textSize="@dimen/student_profile_textSize"
                     android:text="Suryakant"/>
                 <TextView
-                    android:id="@+id/gMobileEt"
+                    android:id="@+id/gMobileTv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
-                    android:layout_below="@id/gNameEt"
+                    android:layout_below="@id/gNameTv"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -214,8 +225,9 @@
                 <TextView
                     android:id="@+id/gAddressTv"
                     android:layout_width="match_parent"
-                    android:layout_below="@id/gMobileEt"
-                    android:layout_height="@dimen/editTextHeight3"
+                    android:layout_below="@id/gMobileTv"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/editTextHeight3"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"

@@ -6,13 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Poornesh on 03-04-2017.
  */
 
 public class Hostelite extends RealmObject {
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    String uid;
     public String name;
+    @PrimaryKey
     String email;
     String usn;
     String mobile;
@@ -23,6 +34,7 @@ public class Hostelite extends RealmObject {
     String guardianAddress;
     String guardianMobile;
     String hostelName;
+    String uriPhoto;
     boolean hostelite;
     int roomNo;
     String branch;
@@ -48,9 +60,18 @@ public class Hostelite extends RealmObject {
         this.sem = sem;
     }
 
-    public static Hostelite create(String name, String email, String hostel, int roomNo, String usn, String mobile, String fatherName, String fatherAddress, String fatherMobile, String guardianName, String guardianAddress, String guardianMobile) {
-        Hostelite hostelite=new Hostelite();
+    public String getUriPhoto() {
+        return uriPhoto;
+    }
 
+    public void setUriPhoto(String uriPhoto) {
+        this.uriPhoto = uriPhoto;
+    }
+
+    public static Hostelite create(String uid,String name, String email, String hostel, int roomNo, String usn,int sem, String mobile, String fatherName, String fatherAddress, String fatherMobile, String guardianName, String guardianAddress, String guardianMobile, String uriPhoto) {
+        Hostelite hostelite=new Hostelite();
+        hostelite.uid=uid;
+        hostelite.uriPhoto=uriPhoto;
         hostelite.name = name;
         hostelite.email = email;
         hostelite.usn = usn;
@@ -65,7 +86,7 @@ public class Hostelite extends RealmObject {
         hostelite.hostelite = true;
         hostelite.roomNo=roomNo;
         hostelite.branch= Branches.getBranch(usn);
-        hostelite.sem=6;
+        hostelite.sem=sem;
 
         return hostelite;
     }
@@ -88,6 +109,7 @@ public class Hostelite extends RealmObject {
         result.put("hostelName",hostelName);
         result.put("sem",sem);
         result.put("branch",branch);
+        result.put("uriPhoto",uriPhoto);
         //result.put("hostelName/"+hostelName+"/"+roomNo, true);
 
         return result;

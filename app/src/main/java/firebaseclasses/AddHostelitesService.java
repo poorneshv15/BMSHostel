@@ -23,11 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.psps.projects.bmshostel.AddHosteliteActivity;
+import com.psps.projects.bmshostel.Hostel;
 import com.psps.projects.bmshostel.R;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import io.realm.Realm;
 
 /**
  * Created by Poornesh on 29-03-2017.
@@ -61,7 +64,8 @@ public class AddHostelitesService extends IntentService {
      DatabaseReference mRef;
      Bundle details;
     boolean accoountExists;
-     int roomNo;
+    int roomNo;
+    int sem;
      String name ;
      String email;
      String usn;
@@ -73,6 +77,7 @@ public class AddHostelitesService extends IntentService {
      String gAddress;
      String gMobile;
      String hostel;
+    int[] currentCapacity;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -82,17 +87,20 @@ public class AddHostelitesService extends IntentService {
         details=intent.getExtras();
         accoountExists=details.getBoolean("accountExists",false);
         roomNo=details.getInt("roomNo");
-        name = intent.getStringExtra("name");
-        email=intent.getStringExtra("email");
-        usn=intent.getStringExtra("usn");
-        mobile=intent.getStringExtra("mobile");
-        fName=intent.getStringExtra("fName");
-        fMobile=intent.getStringExtra("fMobile");
-        fAddress=intent.getStringExtra("fAddress");
-        gName=intent.getStringExtra("gName");
-        gMobile=intent.getStringExtra("gMobile");
-        gAddress=intent.getStringExtra("gAddress");
-        hostel=intent.getStringExtra("hostel");
+        name = details.getString("name");
+        email=details.getString("email");
+        usn=details.getString("usn");
+        mobile=details.getString("mobile");
+        fName=details.getString("fName");
+        fMobile=details.getString("fMobile");
+        fAddress=details.getString("fAddress");
+        gName=details.getString("gName");
+        gMobile=details.getString("gMobile");
+        gAddress=details.getString("gAddress");
+        hostel=details.getString("hostel");
+        sem=details.getInt("sem");
+        currentCapacity=details.getIntArray("currentCapacity");
+
         //send update
         Intent intentUpdate = new Intent();
         intentUpdate.setAction(Intent.ACTION_DEFAULT);
@@ -118,7 +126,7 @@ public class AddHostelitesService extends IntentService {
 
 
         Log.d(TAG,"HostelPath:"+hostel+"/"+roomNo+"/hostelites");
-        hostelite= Hostelite.create(name,email,hostel,roomNo,usn,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile);
+
 
         if( accoountExists){
             Log.d(TAG,"Account Exists");
@@ -130,8 +138,14 @@ public class AddHostelitesService extends IntentService {
                         Log.d("GET DATA", "PARENT: " + childDataSnapshot.getKey());
                         Log.d("GET DATA", "" + childDataSnapshot.child("name").getValue());
                         String uid=childDataSnapshot.getKey();
+                        if(childDataSnapshot.hasChild("uriPhoto")){
+                            hostelite= Hostelite.create(childDataSnapshot.getKey(),name,email,hostel,roomNo,usn,sem,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile,childDataSnapshot.child("uriPhoto").getValue().toString());
+                        }
+                        else {
+                            hostelite= Hostelite.create(childDataSnapshot.getKey(),name,email,hostel,roomNo,usn,sem,mobile,fName,fAddress,fMobile,gName,gAddress,gMobile, null);
+                        }
 
-                        Map<String,Object> hosteliteValue=hostelite.toMap();
+                        final Map<String,Object> hosteliteValue=hostelite.toMap();
                         HosteliteUid hosteliteUid=new HosteliteUid(uid);
                         Map<String,Object> uidValue=hosteliteUid.toMap();
                         Map<String, Object> childUpdates = new HashMap<>();
@@ -141,6 +155,23 @@ public class AddHostelitesService extends IntentService {
                         //childUpdates.put("/user-posts/" + params[2] + "/" + key, uidValue);
                         Log.d("onHandleIntent", "2" + "UID=" + uid);
                         mRef.updateChildren(childUpdates);
+                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.copyToRealmOrUpdate(hostelite);
+                                realm.where(Hostel.class).findFirst().setCurrentCapacity(currentCapacity);
+                            }
+                        });
+                        myNotification = new NotificationCompat.Builder(getApplicationContext())
+                                .setContentTitle("Add Hostelite Successful")
+                                .setContentText(name+", Room Number-"+roomNo)
+                                .setTicker("Notification!")
+                                .setWhen(System.currentTimeMillis())
+                                .setDefaults(Notification.DEFAULT_SOUND)
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
+                                .build();
+                        notificationManager.notify(7, myNotification);
                         Log.d("onHandleIntent", "3");
 
                     }
@@ -180,20 +211,10 @@ public class AddHostelitesService extends IntentService {
             });
 
 
-            notificationManager.cancel(7);
+
         }
-
-
-        //ADD TO LOCAL DATABASE
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(AddHosteliteActivity.ResponseReceiver.ACTION_RESP);
-        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        broadcastIntent.putExtras(details);
-        sendBroadcast(broadcastIntent);
-        Log.d(TAG, "Service Stopping!");
+        notificationManager.cancel(7);
         this.stopSelf();
-
-
     }
 
 }

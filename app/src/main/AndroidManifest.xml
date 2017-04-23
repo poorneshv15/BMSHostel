@@ -7,6 +7,7 @@
         android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
@@ -27,7 +28,9 @@
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".StudentSignUpActivity"
-            android:windowSoftInputMode="adjustResize|stateVisible" />
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+
+        </activity>
         <activity
             android:name=".HomeActivity"
             android:windowSoftInputMode="adjustPan">
@@ -54,11 +57,6 @@
             android:name="firebaseclasses.AddHostelitesService"
             android:exported="false" />
         <service android:name="firebaseclasses.DeleteHosteliteService" />
-
-        <activity
-            android:name=".GalleryUtils"
-            android:label="@string/title_activity_gallery_utils"
-            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

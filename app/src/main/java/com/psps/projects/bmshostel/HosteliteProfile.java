@@ -2,14 +2,12 @@ package com.psps.projects.bmshostel;
 
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import firebaseclasses.Hostelite;
 import io.realm.Realm;
@@ -37,25 +35,30 @@ public class HosteliteProfile extends AppCompatActivity {
             });
         }
         setContentView(R.layout.hostelite_profile);
+        ImageView dp=(ImageView)findViewById(R.id.sProfileIv) ;
+        if(hostelite.getUriPhoto()!=null)
+            Glide.with(this).load(hostelite.getUriPhoto()).into(dp);
         TextView textView=(TextView)findViewById(R.id.nameTv);
         textView.setText(hostelite.getName());
-        textView=(TextView)findViewById(R.id.sRoomNoTv);
-        textView.setText(""+hostelite.getRoomNo());
+        textView=(TextView)findViewById(R.id.emailTv);
+        textView.setText(hostelite.getEmail());
+        textView=(TextView)findViewById(R.id.roomNoTv);
+        textView.setText(hostelite.getHostelName().toUpperCase()+" "+hostelite.getRoomNo());
         textView=(TextView)findViewById(R.id.branchSemTv);
         textView.setText(hostelite.getBranch()+"   Sem: "+hostelite.getSem());
         textView=(TextView)findViewById(R.id.sUsn);
         textView.setText(hostelite.getUsn());
         textView=(TextView)findViewById(R.id.sMobileTv);
         textView.setText(""+hostelite.getMobile());
-        textView=(TextView)findViewById(R.id.fNameEt);
+        textView=(TextView)findViewById(R.id.fNameTv);
         textView.setText(hostelite.getFatherName());
-        textView=(TextView)findViewById(R.id.fMobileEt);
+        textView=(TextView)findViewById(R.id.fMobileTv);
         textView.setText(""+hostelite.getFatherMobile());
         textView=(TextView)findViewById(R.id.fAddressTv);
         textView.setText(hostelite.getFatherAddress());
-        textView=(TextView)findViewById(R.id.gNameEt);
+        textView=(TextView)findViewById(R.id.gNameTv);
         textView.setText(hostelite.getGuardianName());
-        textView=(TextView)findViewById(R.id.gMobileEt);
+        textView=(TextView)findViewById(R.id.gMobileTv);
         textView.setText(""+hostelite.getGuardianMobile());
         textView=(TextView)findViewById(R.id.gAddressTv);
         textView.setText(hostelite.getGuardianAddress());

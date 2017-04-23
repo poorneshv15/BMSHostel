@@ -3,6 +3,7 @@
     <string name="username_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="sign_out">Sign out</string>
     <string name="google_login">GOOGLE SIGN IN</string>
     <string name="no_account">Create a new Account</string>
     <string name="sign_up">Sign up</string>
@@ -44,6 +45,18 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+    </string-array>
+    <string-array name="sem">
+        <item>--Select Sem--</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+
     </string-array>
     <string name="roomNo">Room No :%4d</string>
     <string name="title_activity_add_hostelite">AddHosteliteActivity</string>

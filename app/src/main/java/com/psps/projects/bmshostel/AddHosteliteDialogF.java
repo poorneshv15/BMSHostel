@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +30,18 @@ import com.google.firebase.auth.ProviderQueryResult;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import firebaseclasses.Branches;
+import firebaseclasses.Hostelite;
+import io.realm.Realm;
+
+import static com.psps.projects.bmshostel.AddHosteliteActivity.maxCapacityPerRoom;
+import static com.psps.projects.bmshostel.AddHosteliteActivity.rooms;
 
 
 /**
@@ -48,6 +55,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     static boolean accountExists;
     EditText emailEt;
     EditText[] userDetails=new EditText[9];
+    Spinner sem;
     TextView roomNoTv;
     ProgressBar loadPb;
     Button addHosteliteButton;
@@ -103,12 +111,13 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         userDetails[0]=(EditText)view.findViewById(R.id.sNameEt);
         userDetails[1]=(EditText)view.findViewById(R.id.sUsnEt);
         userDetails[2]=(EditText)view.findViewById(R.id.sMobileEt);
-        userDetails[3]=(EditText)view.findViewById(R.id.fNameEt);
-        userDetails[4]=(EditText)view.findViewById(R.id.fMobileEt);
+        userDetails[3]=(EditText)view.findViewById(R.id.fNameTv);
+        userDetails[4]=(EditText)view.findViewById(R.id.fMobileTv);
         userDetails[5]=(EditText)view.findViewById(R.id.fAddressEt);
-        userDetails[6]=(EditText)view.findViewById(R.id.gNameEt);
-        userDetails[7]=(EditText)view.findViewById(R.id.gMobileEt);
+        userDetails[6]=(EditText)view.findViewById(R.id.gNameTv);
+        userDetails[7]=(EditText)view.findViewById(R.id.gMobileTv);
         userDetails[8]=(EditText)view.findViewById(R.id.gAddressEt);
+        sem=(Spinner)view.findViewById(R.id.sSemEt);
         emailEt.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -126,8 +135,6 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
 
                 }
                 else {
-                    addHosteliteButton.setText(R.string.invalid_email);
-                    addHosteliteButton.setEnabled(false);
                     loadPb.setVisibility(View.INVISIBLE);
                 }
             }
@@ -158,8 +165,8 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        roomsIterator=AddHosteliteActivity.rooms.listIterator(currentIndex=AddHosteliteActivity.rooms.indexOf(roomNumber));
-        Log.d("ADD H F ","Room Number"+roomNumber+" index"+AddHosteliteActivity.rooms.indexOf(roomNumber));
+        roomsIterator= rooms.listIterator(currentIndex= rooms.indexOf(roomNumber));
+        Log.d("ADD H F ","Room Number"+roomNumber+" index"+ rooms.indexOf(roomNumber));
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -205,6 +212,17 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                     }
 
                     addStudentListener.addStudent(putIntoBundle(email));
+                    clearAllEditTexts();
+                    addHosteliteButton.setText(R.string.add_student);
+                    if(AddHosteliteActivity.currentCapacity[rooms.indexOf(roomNumber)] >= maxCapacityPerRoom){
+                        if(roomsIterator.hasNext()){
+                            roomNoTv.setText(String.format(Locale.US, "%d", roomsIterator.next()));
+                            userDetails[0].requestFocus();
+                        }
+
+                        else
+                            dismiss();
+                    }
                 }
 
                 break;
@@ -236,6 +254,8 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         bundle.putString("hostel",AddHosteliteActivity.hostelName);
         bundle.putBoolean("accountExists",accountExists);
         bundle.putInt("roomNo",roomNumber);
+        bundle.putInt("sem",sem.getSelectedItemPosition());
+        bundle.putString("branch", Branches.getBranch(userDetails[1].getText().toString()));
         return bundle;
     }
 
@@ -252,6 +272,12 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
             return false;
         }
         emailEt.setError(null);
+        if(Realm.getDefaultInstance().where(Hostelite.class).equalTo("email",emailEt.getText().toString().trim()).findAll().size()!=0){
+            emailEt.setError("A student exists with this email!");
+            emailEt.requestFocus();
+            return false;
+        }
+        emailEt.setError(null);
         if(  (userDetails[1].getText().toString().trim().length()!=10 )  )
         {
             //our failure of checking to start with 1BM....
@@ -260,6 +286,13 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
             return false;
         }
         userDetails[1].setError(null);
+        if(  sem.getSelectedItemPosition() ==0  )
+        {
+            //our failure of checking to start with 1BM....
+            sem.performClick();
+            sem.requestFocus();
+            return false;
+        }
         if(  (userDetails[2].getText().toString().trim().length()!=10 )  )
         {
 

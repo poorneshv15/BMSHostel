@@ -24,14 +24,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:contentDescription="@string/dot_menu"/>
-    <View
-        android:id="@+id/SplitLine_hor1"
-        android:layout_width="match_parent"
-        android:layout_height= "0.5dp"
-        android:background="#d2cccc"
-        android:layout_toEndOf="@id/studentProfileIv"
-        android:layout_alignBottom="@id/studentProfileIv"
-        android:layout_alignEnd="@id/shortCutIv"/>
 
 
     <TextView
@@ -42,34 +34,41 @@
         android:id="@+id/nameTv"
         android:textColor="@color/textColor"
         android:textStyle="normal|bold"
-        android:layout_above="@+id/branchTv"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_alignStart="@+id/SplitLine_hor1" />
+        android:layout_alignBottom="@+id/shortCutIv"
+        android:layout_alignStart="@+id/roomTv" />
 
     <TextView
         android:text="@string/roomNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/roomTv"
-        android:layout_below="@+id/nameTv"
-        android:layout_alignStart="@+id/SplitLine_hor1" />
+        android:layout_alignBottom="@+id/studentProfileIv"
+        android:layout_toEndOf="@+id/studentProfileIv"
+        android:layout_marginStart="17dp" />
+    <TextView
+        android:text="@string/branch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/branchTv"
+        android:layout_marginStart="33dp"
+        android:layout_alignBaseline="@+id/roomTv"
+        android:layout_alignBottom="@+id/roomTv"
+        android:layout_toEndOf="@+id/roomTv" />
 
     <TextView
         android:text="@string/sem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/yearTv"
-        android:layout_alignBottom="@+id/SplitLine_hor1"
-        android:layout_toStartOf="@+id/shortCutIv" />
+        android:gravity="end"
+        android:layout_marginEnd="13dp"
+        android:layout_alignBaseline="@id/branchTv"
+        android:layout_alignBottom="@id/branchTv"
+        android:layout_toEndOf="@id/branchTv"
+        android:layout_toStartOf="@id/shortCutIv"
+        />
 
-    <TextView
-        android:text="@string/branch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/branchTv"
-        android:layout_alignBottom="@+id/SplitLine_hor1"
-        android:layout_toEndOf="@+id/roomTv"
-        android:layout_marginStart="32dp" />
+
 
 
 </RelativeLayout>

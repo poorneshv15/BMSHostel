@@ -1,5 +1,6 @@
 package com.psps.projects.bmshostel;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,13 +24,14 @@ import java.util.ArrayList;
 import firebaseclasses.DeleteHosteliteService;
 
 
-public class HomeActivity extends AppCompatActivity implements MyProfileFragment.signOutListener,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
+public class HomeActivity extends AppCompatActivity implements MyProfileFragment.OnMenuClickProfileIF,StudentListFragment.menuItemClick,DeleteHosteliteFragment.menuItemClickOfDHS {
 
     static boolean searchExpanded=false;
     public static String USER_TYPE="USER_TYPE";
+    public static String userType;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
-    FirebaseUser user;
+    static FirebaseUser user;
     Fragment fragment;
     FragmentManager fragmentManager;
     BottomNavigationView bottomNavigationView;
@@ -64,13 +67,20 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
         Log.d("STUDENT HOME", " After setContent view");
         fragmentManager=getSupportFragmentManager();
         bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottom_nav_view);
-
-        if(getSharedPreferences("user",MODE_PRIVATE).getString(USER_TYPE,"STUDENT").equals("WARDEN")){
-            //Add Hostel Fragment
-            bottomNavigationView.inflateMenu(R.menu.warden_navigation_menu);
-        }
-        else{
-            bottomNavigationView.inflateMenu(R.menu.student_navigation_menu);
+        userType=getSharedPreferences("user",MODE_PRIVATE).getString(USER_TYPE,"STUDENT");
+        switch (userType) {
+            case "WARDEN": {
+                //Add Hostel Fragment
+                bottomNavigationView.inflateMenu(R.menu.warden_navigation_menu);
+                break;
+            }
+            case "HOSTELITE":
+                bottomNavigationView.inflateMenu(R.menu.student_navigation_menu);
+                break;
+            default: {
+                bottomNavigationView.inflateMenu(R.menu.student_navigation_menu);
+                break;
+            }
         }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -124,11 +134,6 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     }
 
 
-    @Override
-    public void signOut() {
-        Log.d("STUDENT HOME : ","SIGNOUT");
-        mAuth.signOut();
-    }
 
     @Override
     public void onMenuClick(int id) {
@@ -173,6 +178,21 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
 
 
 
+        }
+    }
+
+    @Override
+    public void onMenuClickOfProfileFragment(int id) {
+        switch (id){
+            case R.id.sign_out:
+                ProgressDialog progress=new ProgressDialog(this);
+                progress.setMessage("Signing Out...");
+                progress.show();
+                mAuth.signOut();
+                break;
+            case R.id.edit_details:
+                Toast.makeText(this, "Edit Profile\nunder Contruction", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 }

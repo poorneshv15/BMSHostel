@@ -12,28 +12,24 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import firebaseclasses.Hostelite;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
 
-/**
- * Created by ${Shashikant} on 21-02-2017.
- */
 
 class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder> implements Filterable {
 
 
 
 
-    public void flushFilter(){
-        filteredList=new ArrayList<>();
-        filteredList.addAll(studentList);
-        notifyDataSetChanged();
-    }
 
     void setFilter(String queryText) {
 
@@ -46,6 +42,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
 
         notifyDataSetChanged();
     }
+
 
     @Override
     public Filter getFilter() {
@@ -60,7 +57,7 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 Log.d("QUERY",constraint.toString());
-                ArrayList<Hostelite> filteredResults = null;
+                ArrayList<Hostelite> filteredResults;
                 if (constraint.length() == 0) {
                     filteredResults = studentList;
                 } else {
@@ -88,9 +85,11 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
 
     class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
+        CircleImageView dp;
         ImageButton shortCut;
         View_Holder(View itemView) {
             super(itemView);
+            dp=(CircleImageView) itemView.findViewById(R.id.studentProfileIv);
             name =(TextView) itemView.findViewById(R.id.nameTv);
             branch=(TextView) itemView.findViewById(R.id.branchTv);
             year=(TextView) itemView.findViewById(R.id.yearTv);
@@ -116,6 +115,8 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
                         switch (item.getItemId()) {
                             case R.id.call:
                                 //handle menu1 click
+                                Intent intent=new Intent(Intent.ACTION_CALL);
+
                                 Log.d("HA","Call");
                                 break;
                             case R.id.message:
@@ -158,6 +159,10 @@ class HosteliteAdapter extends RecyclerView.Adapter<HosteliteAdapter.View_Holder
         holder.name.setText(filteredList.get(position).getName());
         holder.branch.setText( filteredList.get(position).getBranch());
         holder.year.setText(context.getResources().getQuantityString(R.plurals.semester,0,studentList.get(position).getSem()));
+        if(filteredList.get(position).getUriPhoto()!=null)
+            Glide.with(context).load(filteredList.get(position).getUriPhoto()).into(holder.dp);
+        else
+            holder.dp.setImageResource(R.drawable.image_dp);
         Log.d("STUDENTADAPTER : ","Year "+filteredList.get(position).getSem());
         holder.room.setText(context.getString(R.string.roomNo,studentList.get(position).getRoomNo()));
 

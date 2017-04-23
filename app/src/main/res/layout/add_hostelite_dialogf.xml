@@ -81,15 +81,22 @@
                     android:background="@color/transparent"/>
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/sUsnEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/activity_horizontal_margin"
-                android:drawableStart="@drawable/ic_student_usn"
-                android:hint="@string/usn"
-                android:inputType="textCapCharacters"
-                android:saveEnabled="true" />
+        <EditText
+            android:id="@+id/sUsnEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_student_usn"
+            android:hint="@string/usn"
+            android:inputType="textCapCharacters"
+            android:saveEnabled="true" />
+        <Spinner
+            android:id="@+id/sSemEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/editTextHeight2"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_student_usn"
+            android:entries="@array/sem" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +107,7 @@
             android:drawablePadding="@dimen/activity_horizontal_margin"
             />
         <EditText
-            android:id="@+id/fNameEt"
+            android:id="@+id/fNameTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -109,7 +116,7 @@
             android:drawableStart="@drawable/ic_guardian2"
             android:textSize="@dimen/student_profile_textSize" />
         <EditText
-            android:id="@+id/fMobileEt"
+            android:id="@+id/fMobileTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fMobileInput"
@@ -130,7 +137,7 @@
             android:hint="@string/sAddressInput"
             android:textSize="@dimen/student_profile_textSize" />
         <EditText
-            android:id="@+id/gNameEt"
+            android:id="@+id/gNameTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -139,7 +146,7 @@
             android:drawableStart="@drawable/ic_guardian2"
             android:textSize="@dimen/student_profile_textSize" />
         <EditText
-            android:id="@+id/gMobileEt"
+            android:id="@+id/gMobileTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/gMobileInput"

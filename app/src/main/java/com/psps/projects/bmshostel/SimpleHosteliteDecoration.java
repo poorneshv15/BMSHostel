@@ -1,25 +1,25 @@
 package com.psps.projects.bmshostel;
 
-/**
- * Created by Poornesh on 08-03-2017.
- */
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
+/**
+ * Created by Poornesh on 21-04-2017.
+ */
+
+class SimpleHosteliteDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 
-    public SimpleDividerItemDecoration(Context context) {
-        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+    SimpleHosteliteDecoration(Context context) {
+        mDivider = context.getResources().getDrawable(R.drawable.line_divider);
     }
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        int left = parent.getPaddingLeft();
+        int left = parent.getPaddingLeft()+150;
         int right = parent.getWidth() - parent.getPaddingRight();
 
         int childCount = parent.getChildCount();

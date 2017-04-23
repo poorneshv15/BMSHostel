@@ -31,6 +31,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import firebaseclasses.Hostelite;
+import firebaseclasses.NewStudentFirebase;
+import firebaseclasses.Student;
+import firebaseclasses.Warden;
+import io.realm.Realm;
+
 public class LoginActivity extends AppCompatActivity  implements
         GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
 
@@ -64,16 +70,75 @@ public class LoginActivity extends AppCompatActivity  implements
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user=firebaseAuth.getCurrentUser();
-                if(user!=null){
-                    DatabaseReference checkwarden= FirebaseDatabase.getInstance().getReference("wardens");
-                    checkwarden.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                if (user != null) {
+                    FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            progressDailog.setMessage("Signing in...");
-                            Log.d(TAG, "User name: " + user.getDisplayName() + ", email " + user.getEmail());
-                            //Check if the user is warden or not
+                            if(dataSnapshot.hasChild("hostelite")){
+                                DataSnapshot hosteliteDS=dataSnapshot.child("hostelite");
+                                if(Boolean.parseBoolean(hosteliteDS.getValue().toString())){                //User is Hostetlite
+                                    final Hostelite hostelite=dataSnapshot.getValue(Hostelite.class);
+                                    Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            realm.delete(Hostelite.class);
+                                            realm.copyToRealmOrUpdate(hostelite);
+                                        }
+                                    });
+                                    Log.d(TAG,"Hostelite "+hostelite.toString());
+                                    new AsyncTask<String,String,String>(){
 
-                            if(dataSnapshot.exists()){
+                                        @Override
+                                        protected String doInBackground(String... params) {
+                                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                            preferences.edit().putString(HomeActivity.USER_TYPE,params[0]).apply();
+                                            return null;
+                                        }
+
+                                    }.execute("HOSTELITE");
+                                    //preferences.edit().putBoolean("isStudent",true).apply();
+                                    Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                                    //intent.putExtra(HomeActivity.USER_TYPE,"STUDENT");
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else {                                                                         //User  is just Student
+                                    final Student student=dataSnapshot.getValue(Student.class);
+                                    Log.d(TAG,"Student "+student.toString());
+                                    Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            realm.delete(Hostelite.class);
+                                            realm.copyToRealm(student);
+                                        }
+                                    });
+                                    new AsyncTask<String,String,String>(){
+
+                                        @Override
+                                        protected String doInBackground(String... params) {
+                                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
+                                            preferences.edit().putString(HomeActivity.USER_TYPE,params[0]).apply();
+                                            return null;
+                                        }
+
+                                    }.execute("STUDENT");
+                                    //preferences.edit().putBoolean("isStudent",true).apply();
+                                    Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                                    //intent.putExtra(HomeActivity.USER_TYPE,"STUDENT");
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                            else {                                                                              //User is Warden
+                                final Warden warden=dataSnapshot.getValue(Warden.class);
+                                Log.d(TAG,"Warden "+warden.toString());
+                                Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        realm.delete(Warden.class);
+                                        realm.copyToRealm(warden);
+                                    }
+                                });
                                 new AsyncTask<String,String,String>(){
 
                                     @Override
@@ -92,38 +157,12 @@ public class LoginActivity extends AppCompatActivity  implements
                                 //intent.putExtra(HomeActivity.USER_TYPE,"WARDEN");
                                 startActivity(intent);
                                 finish();
-                                return;
                             }
-                            else{
-                                Log.d(TAG," The user is student");
-                                if(true){
-                                    new AsyncTask<String,String,String>(){
-
-                                        @Override
-                                        protected String doInBackground(String... params) {
-                                            SharedPreferences preferences=getSharedPreferences("user",MODE_PRIVATE);
-                                            preferences.edit().putString(HomeActivity.USER_TYPE,params[0]).apply();
-                                            return null;
-                                        }
-
-                                    }.execute("STUDENT");
-                                    //preferences.edit().putBoolean("student",true).apply();
-                                    Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
-                                    //intent.putExtra(HomeActivity.USER_TYPE,"STUDENT");
-                                    startActivity(intent);
-                                    finish();
-                                    return;
-                                }
-                                else
-                                    Toast.makeText(LoginActivity.this, "Please verify your email and come back!", Toast.LENGTH_SHORT).show();
-                            }
-                            progressDailog.dismiss();
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Log.w(TAG, "Failed to read value.", databaseError.toException());
-                            progressDailog.dismiss();
+
                         }
                     });
                 }

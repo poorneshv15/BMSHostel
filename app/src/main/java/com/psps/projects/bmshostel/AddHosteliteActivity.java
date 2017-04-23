@@ -34,13 +34,10 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     RoomAdapter roomAdapter;
     GridView gridview;
     FragmentManager fm;
-    Realm realm;
     static FirebaseAuth mAuth=FirebaseAuth.getInstance();
     static String hostelName;
-    private ResponseReceiver receiver;
     static int[] currentCapacity;
     static int maxCapacityPerRoom;
-    IntentFilter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +46,8 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
         /* studentsRv=(RecyclerView)findViewById(R.id.addStudentRv);
         studentsRv.setLayoutManager(new LinearLayoutManager(this));
         studentsRv.setAdapter(new AddHosteliteAdapter(150));*/
-        realm=Realm.getDefaultInstance();
-        Hostel hostel=realm.where(Hostel.class).findFirst();
+        Hostel hostel=Realm.getDefaultInstance().where(Hostel.class).findFirst();
+
 
         maxCapacityPerRoom=hostel.getMaxCapacityOfRoom();
         int floors=hostel.getFloors();
@@ -93,10 +90,6 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
 
             }
         });
-        filter = new IntentFilter(ResponseReceiver.ACTION_RESP);
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        receiver = new ResponseReceiver();
-
     }
 
 
@@ -110,13 +103,11 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(receiver, filter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(receiver);
     }
 
     @Override
@@ -128,61 +119,13 @@ public class AddHosteliteActivity extends AppCompatActivity implements RadioGrou
     @Override
     public void addStudent(Bundle bundle) {
         Log.d(TAG,"addStudent");
+        currentCapacity[rooms.indexOf(bundle.getInt("roomNo"))]++;
+        bundle.putIntArray("currentCapacity",currentCapacity);
         Intent intent=new Intent(this, AddHostelitesService.class);
         intent.putExtras(bundle);
         startService(intent);
-
-
+        roomAdapter.notifyDataSetChanged();
     }
 
-    public class ResponseReceiver extends BroadcastReceiver{
-        public static final String ACTION_RESP =
-                "com.psps.projects.bmshostel.STUDENT ADDED";
-        Bundle hostelite;
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            hostelite=intent.getExtras();
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm bgRealm) {
-                    Hostelite user = bgRealm.createObject(Hostelite.class);
-                    user.setName(hostelite.getString("name"));
-                    user.setEmail(hostelite.getString("email"));
-                    user.setUsn(hostelite.getString("usn"));
-                    user.setMobile(hostelite.getString("mobile"));
-                    user.setFatherName(hostelite.getString("fName"));
-                    user.setFatherMobile(hostelite.getString("fMobile"));
-                    user.setFatherAddress(hostelite.getString("fAddress"));
-                    user.setGuardianName(hostelite.getString("gName"));
-                    user.setGuardianMobile(hostelite.getString("gMobile"));
-                    user.setGuardianAddress(hostelite.getString("gAddress"));
-                    user.setHostelName(hostelite.getString("hostel"));
-                    user.setRoomNo(hostelite.getInt("roomNo"));
-                    user.setSem(6);
-                    user.setBranch("CSE");
-                    user.setHostelite(true);
-                    currentCapacity[rooms.indexOf(hostelite.getInt("roomNo"))]++;
-                    bgRealm.where(Hostel.class).findFirst().setCurrentCapacity(currentCapacity);
 
-                }
-            }, new Realm.Transaction.OnSuccess() {
-                @Override
-                public void onSuccess() {
-                    // Transaction was a success.
-
-                    Log.d("REALM ADD HOSTELITE ","Success");
-                    Log.d("CURRENT CAPACITY["+hostelite.getInt("roomNo")+"]"," = " +currentCapacity[rooms.indexOf(hostelite.getInt("roomNo"))]);
-                    //Toast.makeText(AddHosteliteActivity.this, "Student Added", Toast.LENGTH_SHORT).show();
-                }
-            }, new Realm.Transaction.OnError() {
-                @Override
-                public void onError(Throwable error) {
-                    // Transaction failed and was automatically canceled.
-                    Log.e("REALM ADD HOSTELITE ",error.getMessage());
-                }
-            });
-
-
-        }
-    }
 }

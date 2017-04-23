@@ -16,11 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import firebaseclasses.Hostelite;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -71,6 +66,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);
+        recyclerView.addItemDecoration(new SimpleHosteliteDecoration(getContext()));
         setHasOptionsMenu(true);
 
         return rootView;

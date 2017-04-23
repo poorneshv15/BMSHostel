@@ -14,4 +14,5 @@
     <color name="textColor">#464444</color>
     <!-- material style color -->
     <color name="textColorError">#FFD50000</color>
+    <color name="delete_student">#cef18989</color>
 </resources>

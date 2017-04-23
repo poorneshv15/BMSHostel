@@ -131,7 +131,7 @@ public class WardenStartup extends IntentService {
 
             }
 
-            private void getHosteliteDetails(String uid) {
+            private void getHosteliteDetails(final String uid) {
                 Log.d("STARTUP","Get Hostelite Details"+uid);
                 FirebaseDatabase.getInstance().getReference("users/"+uid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -144,9 +144,9 @@ public class WardenStartup extends IntentService {
                             realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    Hostelite hostelite=realm.createObject(Hostelite.class);
+                                    Hostelite hostelite=realm.createObject(Hostelite.class,hosteliteFirebase.email);
+                                   // hostelite.setEmail(hosteliteFirebase.email);
                                     hostelite.setBranch(hosteliteFirebase.branch);
-                                    hostelite.setEmail(hosteliteFirebase.email);
                                     hostelite.setName(hosteliteFirebase.name);
                                     hostelite.setMobile(hosteliteFirebase.mobile);
                                     hostelite.setUsn(hosteliteFirebase.usn);
@@ -160,12 +160,13 @@ public class WardenStartup extends IntentService {
                                     hostelite.setHostelite(hosteliteFirebase.hostelite);
                                     hostelite.setRoomNo(hosteliteFirebase.roomNo);
                                     hostelite.setSem(hosteliteFirebase.sem);
-
-                                       }
-
-
-                                    });
+                                    hostelite.setUriPhoto(hosteliteFirebase.uriPhoto);
+                                    hostelite.setUid(uid);
                                 }
+
+
+                            });
+                        }
                         catch (Exception e) {
                             Log.d("STARTUP", "REalm Exception : " + e.getMessage());
                         }

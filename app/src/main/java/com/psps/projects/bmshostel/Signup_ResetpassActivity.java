@@ -43,6 +43,10 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                 progressDailog.setMessage("Verifying Email...");
                 progressDailog.show();
                 final String email=emailEt.getText().toString();
+                if(!AddHosteliteDialogF.isValidEmail(email)){
+                    Toast.makeText(Signup_ResetpassActivity.this, R.string.invalid_email, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(re_or_cr){
                     mAuth.sendPasswordResetEmail(email)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -62,6 +66,7 @@ public class Signup_ResetpassActivity extends AppCompatActivity {
                     //Toast.makeText(Signup_ResetpassActivity.this,"Reset mail sent to\n"+email,Toast.LENGTH_SHORT).show();
                 }
                 else {
+
                     mAuth.fetchProvidersForEmail(email).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
                         @Override
                         public void onComplete(@NonNull Task<ProviderQueryResult> task) {

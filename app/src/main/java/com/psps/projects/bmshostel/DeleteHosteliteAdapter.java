@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import firebaseclasses.Hostelite;
 
 import java.util.ArrayList;
@@ -44,9 +47,10 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
     static List<String> emails=new ArrayList<>();
     class View_Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name,branch,year,room;
-        ImageView dp;
+        CircleImageView dp;
         View_Holder(View itemView) {
             super(itemView);
+            dp=(CircleImageView)itemView.findViewById(R.id.studentProfileIv);
             name =(TextView) itemView.findViewById(R.id.nameTv);
             branch=(TextView) itemView.findViewById(R.id.branchTv);
             year=(TextView) itemView.findViewById(R.id.yearTv);
@@ -71,7 +75,7 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
             else {
                 emails.add(studentList.get(getAdapterPosition()).getEmail());
                 Log.d("DHA","check"+getAdapterPosition());
-                v.setBackgroundColor(Color.rgb(255,0,0));
+                v.setBackgroundColor(Color.argb(206,241,137,137));
                 v.setSelected(true);
             }
 
@@ -90,6 +94,8 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
     @Override
     public View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(!emails.isEmpty())
+            emails.clear();
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_del_student,parent,false);
         return new View_Holder(v);
     }
@@ -102,9 +108,13 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
         Log.d("STUDENTADAPTER : ","Position "+position);
         holder.room.setText(context.getString(R.string.roomNo,filteredList.get(position).getRoomNo()));
         if(emails.contains(filteredList.get(position).getEmail()))
-            holder.itemView.setBackgroundColor(Color.rgb(255,0,0));
+            holder.itemView.setBackgroundColor(Color.argb(206,241,137,137));
         else
             holder.itemView.setBackgroundColor(Color.WHITE);
+        if(filteredList.get(position).getUriPhoto()!=null)
+            Glide.with(context).load(filteredList.get(position).getUriPhoto()).into(holder.dp);
+        else
+            holder.dp.setImageResource(R.drawable.image_dp);
 
     }
 

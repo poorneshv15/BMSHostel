@@ -18,6 +18,7 @@ public class HosteliteFirebase {
     public String guardianAddress;
     public String guardianMobile;
     public String hostelName;
+    public String uriPhoto;
     public boolean hostelite;
     public int roomNo;
     public String branch;

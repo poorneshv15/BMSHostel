@@ -64,17 +64,17 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
         @Override
         public void onClick(View v) {
-            String email=studentList.get(getAdapterPosition()).getEmail();
-            Log.d("DELETE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition());
+            String email=filteredList.get(getAdapterPosition()).getEmail();
+            Log.d("DELETE ADAPTER","LayoutPosition "+getLayoutPosition()+"  ItemId"+getItemId()+"  AdapterPosition"+getAdapterPosition()+" email"+email);
             if(emails.contains(email)){
-                Log.d("DHA","Uncheck"+getAdapterPosition());
+                Log.d("DHA","Uncheck"+getLayoutPosition());
                 emails.remove(email);
                 v.setBackgroundColor(Color.WHITE);
                 v.setSelected(false);
             }
             else {
-                emails.add(studentList.get(getAdapterPosition()).getEmail());
-                Log.d("DHA","check"+getAdapterPosition());
+                emails.add(email);
+                Log.d("DHA","check"+getLayoutPosition());
                 v.setBackgroundColor(Color.argb(206,241,137,137));
                 v.setSelected(true);
             }
@@ -94,8 +94,7 @@ class DeleteHosteliteAdapter extends RecyclerView.Adapter<DeleteHosteliteAdapter
 
     @Override
     public View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(!emails.isEmpty())
-            emails.clear();
+        Log.d("DHA","onCreteViewHolder");
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_del_student,parent,false);
         return new View_Holder(v);
     }

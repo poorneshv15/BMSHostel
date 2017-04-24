@@ -21,7 +21,7 @@
             android:background="@color/colorPrimary"
             android:contentDescription="@string/left_arrow"/>
         <TextView
-            android:id="@+id/emailTv"
+            android:id="@+id/roomNoTv"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="60dp"

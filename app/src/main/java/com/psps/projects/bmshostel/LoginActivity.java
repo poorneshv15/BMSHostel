@@ -47,14 +47,14 @@ public class LoginActivity extends AppCompatActivity  implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login2);
 
         emailEt=(EditText)findViewById(R.id.emailEt);
         passwordEt=(EditText)findViewById(R.id.passwordEt);
         findViewById(R.id.forgotPassTv).setOnClickListener(this);
         findViewById(R.id.createAccTv).setOnClickListener(this);
         findViewById(R.id.signInBtn).setOnClickListener(this);
-        findViewById(R.id.googleSignInBtn).setOnClickListener(this);
+//        findViewById(R.id.googleSignInBtn).setOnClickListener(this);
         progressDailog=new ProgressDialog(this);
 
 
@@ -296,13 +296,13 @@ public class LoginActivity extends AppCompatActivity  implements
                 if(validate())
                     signInWithPassword(v);
                 break;
-            case R.id.googleSignInBtn:
+            /*case R.id.googleSignInBtn:
                 Log.d("LOGIN ACTIVITY", "signInWithGoogle");
                 progressDailog.setMessage("Loading...");
                 progressDailog.show();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-                break;
+                break;*/
         }
     }
 

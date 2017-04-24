@@ -119,7 +119,7 @@ public class AddHostelitesService extends IntentService {
                 .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
                 .build();
 
-        notificationManager.notify(7, myNotification);
+        notificationManager.notify(4, myNotification);
 
 
         Log.d(TAG, "Service Started!");
@@ -171,7 +171,7 @@ public class AddHostelitesService extends IntentService {
                                 .setAutoCancel(true)
                                 .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
                                 .build();
-                        notificationManager.notify(7, myNotification);
+                        notificationManager.notify(4, myNotification);
                         Log.d("onHandleIntent", "3");
 
                     }

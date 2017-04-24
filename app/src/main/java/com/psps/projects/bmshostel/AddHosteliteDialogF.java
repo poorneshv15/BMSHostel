@@ -104,7 +104,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
         emailEt=(EditText)view.findViewById(R.id.sEmailEt);
         // Get field from view
-        roomNoTv = (TextView) view.findViewById(R.id.emailTv);
+        roomNoTv = (TextView) view.findViewById(R.id.roomNoTv);
         roomNoTv.setText(String.format(Locale.US,"%d",roomsIterator.next()));
         loadPb = (ProgressBar) view.findViewById(R.id.loadPb);
         addHosteliteButton=(Button)view.findViewById(R.id.addHosteliteBtn);
@@ -227,7 +227,7 @@ public class AddHosteliteDialogF extends DialogFragment implements View.OnClickL
                 }
 
                 break;
-            case R.id.emailTv:
+            case R.id.roomNoTv:
 
                 break;
             case R.id.loadPb:

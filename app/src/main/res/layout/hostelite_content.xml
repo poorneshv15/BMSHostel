@@ -27,7 +27,7 @@
 
 
                 <TextView
-                    android:id="@+id/emailTv"
+                    android:id="@+id/roomNoTv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/editTextHeight3"
                     android:layout_marginTop="10dp"

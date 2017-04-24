@@ -80,6 +80,7 @@
                         android:paddingBottom="@dimen/activity_horizontal_margin"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin">
+
                         <TextView
                             android:id="@+id/emailTv"
                             android:layout_width="match_parent"
@@ -87,10 +88,10 @@
                             android:layout_marginTop="10dp"
                             android:drawablePadding="@dimen/activity_horizontal_margin"
                             android:drawableStart="@drawable/ic_email_black_24dp"
-                            android:textSize="@dimen/student_profile_textSize"
-                            android:text="meshashi00@gmail.com"/>
+                            android:text="meshashi00@gmail.com"
+                            android:textSize="@dimen/student_profile_textSize" />
                         <TextView
-                            android:id="@+id/emailTv"
+                            android:id="@+id/roomNoTv"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/editTextHeight3"
                             android:layout_marginTop="10dp"
@@ -102,7 +103,7 @@
                             android:id="@+id/sUsn"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/editTextHeight3"
-                            android:layout_below="@id/emailTv"
+                            android:layout_below="@id/roomNoTv"
                             android:layout_marginTop="10dp"
                             android:textIsSelectable="true"
                             android:drawablePadding="@dimen/activity_horizontal_margin"

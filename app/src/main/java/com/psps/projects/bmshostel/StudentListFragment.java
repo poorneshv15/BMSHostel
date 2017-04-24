@@ -33,6 +33,7 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         // Required empty public constructor
     }
 
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -69,7 +70,8 @@ public  class StudentListFragment extends Fragment implements SearchView.OnQuery
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                studentAdapter.notifyDataSetChanged();
+                studentAdapter=new HosteliteAdapter(getContext());
+                recyclerView.setAdapter(studentAdapter);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

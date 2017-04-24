@@ -3,6 +3,7 @@ package com.psps.projects.bmshostel;
 import android.*;
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     public static String USER_TYPE="USER_TYPE";
     public static String userType;
     FirebaseAuth mAuth;
+    boolean firstTime=true;
     FirebaseAuth.AuthStateListener mAuthListener;
     static FirebaseUser user;
     Fragment fragment;
@@ -52,7 +54,7 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
-        lastFragment=R.id.nav_hostel;
+        lastFragment=R.id.nav_tt;
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         mAuthListener=new FirebaseAuth.AuthStateListener(){
@@ -179,9 +181,19 @@ public class HomeActivity extends AppCompatActivity implements MyProfileFragment
     @Override
     public void onStart() {
         super.onStart();
-        final FragmentTransaction ft=fragmentManager.beginTransaction();
-        ft.replace(R.id.body_container,new StudentListFragment()).commit();
         mAuth.addAuthStateListener(mAuthListener);
+        if(firstTime){
+            final FragmentTransaction ft=fragmentManager.beginTransaction();
+            ft.replace(R.id.body_container,new EventsFragment()).commit();
+            firstTime=false;
+        }
+        else{
+            final FragmentTransaction ft=fragmentManager.beginTransaction();
+            ft.replace(R.id.body_container,new StudentListFragment()).commit();
+        }
+
+
+
     }
 
     @Override

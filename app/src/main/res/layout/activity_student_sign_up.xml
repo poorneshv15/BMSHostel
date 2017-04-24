@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_account_circle_black_24dp"/>
         <TextView
-            android:id="@+id/emailTv"
+            android:id="@+id/roomNoTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/activity_vertical_margin"
@@ -40,6 +40,7 @@
 
             <EditText
                 android:id="@+id/sNameEt"
+                android:inputType="textCapSentences"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/sNameInput"/>
@@ -55,6 +56,7 @@
 
                 <EditText
                     android:id="@+id/sUsnEt"
+                    android:inputType="textCapCharacters"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="@string/usn"/>

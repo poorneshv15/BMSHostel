@@ -131,7 +131,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
 
     protected void initialize_views(){
         profilePic=(CircleImageView)findViewById(R.id.profilePicIv);
-        emailTv=(TextView) findViewById(R.id.emailTv);
+        emailTv=(TextView) findViewById(R.id.roomNoTv);
         nameEt=(EditText)findViewById(R.id.sNameEt);
         usnEt=(EditText)findViewById(R.id.sUsnEt);
         passwordEt=(EditText)findViewById(R.id.sPasswordEt);
@@ -239,6 +239,8 @@ public class StudentSignUpActivity extends AppCompatActivity {
     }
 
     public void signUp(View v){
+        if(!valid())
+            return;
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -335,6 +337,7 @@ public class StudentSignUpActivity extends AppCompatActivity {
 
                                                     myRef.child(user.getUid()).setValue(student);
                                                     user.sendEmailVerification();
+                                                    mAuth.signOut();
                                                     Intent intent=new Intent(StudentSignUpActivity.this,LoginActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                     startActivity(intent);
@@ -349,6 +352,22 @@ public class StudentSignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private boolean valid() {
+        if(nameEt.getText().toString().trim().length()<3){
+            nameEt.setError("Minimum 3 characters!");
+            nameEt.requestFocus();
+            return false;
+        }
+        nameEt.setError(null);
+        if(passwordEt.getText().toString().trim().length()<6){
+            passwordEt.setError("Minimum 6 characters!");
+            passwordEt.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     public String getReadableFileSize(long size) {
         if (size <= 0) {
             return "0";

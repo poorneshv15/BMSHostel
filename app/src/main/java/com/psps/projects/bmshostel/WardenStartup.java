@@ -34,7 +34,7 @@ public class WardenStartup extends IntentService {
     static int[] capacity;
     int j;
     public WardenStartup() {
-        super("STARTUP");
+        super("com.psps.projects.wardrenstartup");
     }
 
     @Override

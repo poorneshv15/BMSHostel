@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -27,6 +28,7 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
     RecyclerView recyclerView;
     DeleteHosteliteAdapter studentAdapter;
     SearchView searchView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public DeleteHosteliteFragment() {
         // Required empty public constructor
@@ -48,6 +50,13 @@ public class DeleteHosteliteFragment extends Fragment implements SearchView.OnQu
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_student_list, container, false);
         studentAdapter=new DeleteHosteliteAdapter(rootView.getContext());
+        swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.refreshData);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(studentAdapter);

@@ -55,7 +55,7 @@ public class HosteliteProfileActivity extends AppCompatActivity {
         textView.setText(hostelite.getName());
         textView=(TextView)findViewById(R.id.emailTv);
         textView.setText(hostelite.getEmail());
-        textView=(TextView)findViewById(R.id.emailTv);
+        textView=(TextView)findViewById(R.id.roomNoTv);
         textView.setText(hostelite.getHostelName().toUpperCase()+" "+hostelite.getRoomNo());
         textView=(TextView)findViewById(R.id.branchSemTv);
         textView.setText(hostelite.getBranch()+"   Sem: "+hostelite.getSem());
